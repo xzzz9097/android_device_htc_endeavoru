@@ -62,6 +62,7 @@ BOARD_HAVE_BLUETOOTH := true
 
 # libhtc_ril compatability
 BOARD_USE_NEW_LIBRIL_HTC := true
+TARGET_PROVIDES_LIBRIL := vendor/htc/endeavoru/proprietary/lib/libhtc-ril.so
 
 # Wifi
 USES_TI_MAC80211 := true
