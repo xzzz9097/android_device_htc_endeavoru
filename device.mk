@@ -100,10 +100,6 @@ PRODUCT_COPY_FILES += \
 PRODUCT_COPY_FILES += \
 	$(LOCAL_PATH)/vold.fstab:system/etc/vold.fstab
 
-# Lights
-PRODUCT_PACKAGES += \
-	lights.tegra
-
 # Keyboard
 PRODUCT_COPY_FILES += \
 	$(LOCAL_PATH)/prebuilt/usr/keylayout/qwerty.kl:system/usr/keylayout/qwerty.kl
@@ -133,12 +129,6 @@ PRODUCT_PACKAGES += \
 # NFC firmware
 PRODUCT_COPY_FILES += \
 	$(LOCAL_PATH)/prebuilt/lib/libpn544_fw.so:system/vendor/firmware/libpn544_fw.so
-
-# TripNRaver's libmedia + libaudioflinger
-# Part of the echo fix (stops camera from breaking)
-PRODUCT_COPY_FILES += \
-	$(LOCAL_PATH)/prebuilt/lib/libmedia.so:system/lib/libmedia.so \
-	$(LOCAL_PATH)/prebuilt/lib/libaudioflinger.so:system/lib/libaudioflinger.so
 
 # Filesystem management tools
 PRODUCT_PACKAGES += \
