@@ -153,6 +153,7 @@ etc/firmware/ti-connectivity/wl128x-fw-4-mr.bin
 etc/firmware/ti-connectivity/wl128x-fw-4-sr.bin
 etc/firmware/ti-connectivity/wl128x-fw-mr.bin.r4
 etc/firmware/ti-connectivity/wl128x-fw-mr.bin.r5
+bin/calibrator
 
 # stagefright
 lib/libstagefrighthw.so
@@ -265,8 +266,6 @@ lib/libmpl_jni.so
 lib/hw/camera.tegra.so
 lib/hw/gralloc.tegra.so
 lib/hw/hwcomposer.tegra.so
-lib/hw/audio.primary.tegra.so
-lib/hw/audio_policy.tegra.so
 lib/hw/gps.tegra.so
 lib/hw/hwcomposer.tegra.so
 lib/hw/nfc.endeavoru.so
