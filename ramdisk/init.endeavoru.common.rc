@@ -20,9 +20,10 @@ on emmc-fs
     mkdir /rfs 0755 radio radio
     mount ext4 /dev/block/mmcblk0p18 /rfs wait noatime rw
     chmod 0660 /rfs
-	mkdir /devlog 0700 root root
-	mount ext4 /dev/block/mmcblk0p19 /devlog nosuid nodev
-    /system/bin/poweron_modem_fls.sh /data/modem_work/
+    mkdir /devlog 0700 root root
+    mount ext4 /dev/block/mmcblk0p19 /devlog nosuid nodev
+    start poweron_modem
+
 loglevel 8
 
 on post-fs-data
@@ -32,12 +33,12 @@ on post-fs-data
 
 on boot
     # Setup paths used for socket communication with the dhcp daemon(dhcpd)
-    	mkdir /data/nvcam 0777 system system
-	mkdir /data/misc/wifi 0777 wifi wifi
-	mkdir /data/misc/wifi/sockets 0777 wifi wifi
-        mkdir /data/misc/wifi/hostapd 0777 wifi wifi
-   	mkdir /data/misc/dhcp 0777 dhcp dhcp
-    	chown dhcp dhcp /data/misc/dhcp
+    mkdir /data/nvcam 0777 system system
+    mkdir /data/misc/wifi 0777 wifi wifi
+    mkdir /data/misc/wifi/sockets 0777 wifi wifi
+    mkdir /data/misc/wifi/hostapd 0777 wifi wifi
+    mkdir /data/misc/dhcp 0777 dhcp dhcp
+    chown dhcp dhcp /data/misc/dhcp
 
     # bluetooth power up/down interface
     chown bluetooth bluetooth /sys/class/rfkill/rfkill0/type
@@ -267,6 +268,13 @@ service init-acmx0 /system/bin/mknod /dev/ttyACMX0 c 66 0
 service init-acmx2 /system/bin/chmod 777 /dev/ttyACMX0
     class core
     oneshot
+
+service poweron_modem /system/bin/poweron_modem_fls.sh /data/modem_work/
+    class main
+    user root
+    group root
+    oneshot
+    disabled
 
 service uim /system/bin/uim-sysfs
     class core
