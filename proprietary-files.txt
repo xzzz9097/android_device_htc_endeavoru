@@ -263,6 +263,7 @@ lib/libmlplatform.so
 lib/libmpl.so
 lib/libmpl_jni.so
 
+lib/hw/lights.tegra.so
 lib/hw/camera.tegra.so
 lib/hw/gralloc.tegra.so
 lib/hw/hwcomposer.tegra.so
