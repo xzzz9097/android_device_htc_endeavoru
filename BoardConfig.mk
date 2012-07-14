@@ -60,9 +60,10 @@ USE_OPENGL_RENDERER := true
 # Bluetooth
 BOARD_HAVE_BLUETOOTH := true
 
-# libhtc_ril compatability
+# HTC ril compatability
 BOARD_USE_NEW_LIBRIL_HTC := true
 TARGET_PROVIDES_LIBRIL := vendor/htc/endeavoru/proprietary/lib/libhtc-ril.so
+BOARD_FORCE_RILD_AS_ROOT := true
 
 # Wifi
 USES_TI_MAC80211 := true
