@@ -1,8 +1,6 @@
 # ril
 lib/librilpos.so
 lib/libhtc_ril.so
-lib/libril.so
-bin/rild
 
 # nfc
 etc/nfcee_access.xml
