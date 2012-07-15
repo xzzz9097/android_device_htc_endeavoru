@@ -173,8 +173,8 @@ PRODUCT_PROPERTY_OVERRIDES += \
 	wifi.interface=wlan0 \
 	wifi.softap.interface=wlan1 \
 	wifi.softapconcurrent.interface=wlan1 \
-	persist.sys.usb.config=mass_storage,adb
-
+	persist.sys.usb.config=mass_storage,adb \
+	ro.telephony.ril_class=HTCQualcommRIL
 $(call inherit-product-if-exists, hardware/ti/wan/mac80211/Android.mk)
 $(call inherit-product, $(SRC_TARGET_DIR)/product/full_base_telephony.mk)
 $(call inherit-product-if-exists, vendor/htc/endeavoru/endeavoru-vendor.mk)
