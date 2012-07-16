@@ -20,4 +20,4 @@ $(call inherit-product, device/htc/endeavoru/device.mk)
 PRODUCT_NAME := full_endeavoru
 PRODUCT_DEVICE := endeavoru
 PRODUCT_BRAND := Android
-PRODUCT_MODEL := Full Android on Endeavoru
+PRODUCT_MODEL := HTC One X
