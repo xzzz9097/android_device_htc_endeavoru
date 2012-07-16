@@ -100,6 +100,10 @@ PRODUCT_COPY_FILES += \
 PRODUCT_COPY_FILES += \
 	$(LOCAL_PATH)/vold.fstab:system/etc/vold.fstab
 
+# Lights
+PRODUCT_PACKAGES += \
+	lights.tegra
+
 # Keyboard
 PRODUCT_COPY_FILES += \
 	$(LOCAL_PATH)/prebuilt/usr/keylayout/qwerty.kl:system/usr/keylayout/qwerty.kl
