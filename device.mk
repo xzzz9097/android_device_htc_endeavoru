@@ -131,6 +131,9 @@ PRODUCT_PACKAGES += \
 	libaudioutils \
 	libtinyalsa	
 
+PRODUCT_COPY_FILES += \
+	$(LOCAL_PATH)/audio/audio.legacy.endeavoru.so:system/lib/hw/audio.legacy.endeavoru.so
+
 # NFC firmware
 PRODUCT_COPY_FILES += \
 	$(LOCAL_PATH)/prebuilt/lib/libpn544_fw.so:system/vendor/firmware/libpn544_fw.so
@@ -171,7 +174,8 @@ PRODUCT_COPY_FILES += \
 
 # Custom media config for HTC camera
 PRODUCT_COPY_FILES += \
-	$(LOCAL_PATH)/configs/media_profiles.xml:system/etc/media_profiles.xml
+	$(LOCAL_PATH)/configs/media_profiles.xml:system/etc/media_profiles.xml \
+	$(LOCAL_PATH)/configs/media_codecs.xml:system/etc/media_codecs.xml
 
 PRODUCT_PROPERTY_OVERRIDES += \
 	ro.sf.lcd_density=320 \
