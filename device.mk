@@ -124,8 +124,9 @@ PRODUCT_PACKAGES += \
 	VisualizationWallpapers \
 	librs_jni
 
-# a2dp
+# audio
 PRODUCT_PACKAGES += \
+	audio.primary.endeavoru \
 	audio.a2dp.default \
 	libaudioutils \
 	libtinyalsa	
