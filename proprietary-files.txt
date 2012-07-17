@@ -2,6 +2,12 @@
 lib/librilpos.so
 lib/libhtc_ril.so
 
+# WVM
+lib/libWVStreamControlAPI_L1.so
+lib/libwvm.so
+lib/libwvdrm_L1.so
+lib/drm/libdrmwvmplugin.so
+
 # nfc
 etc/nfcee_access.xml
 lib/libpn544_fw.so
