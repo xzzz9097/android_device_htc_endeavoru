@@ -471,10 +471,11 @@ static int adev_close(hw_device_t *device)
 {
 	ALOGD("adev_close -> %s", LEGACY_HAL);
 	
-/*
-	free?
-*/
-	return 0;
+    	struct audio_device *adev = (struct audio_device *)device;
+	
+        free(adev->legacy_device);
+        free(device);
+        return 0;
 }
 
 static uint32_t adev_get_supported_devices(const struct audio_hw_device *dev)
