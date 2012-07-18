@@ -68,7 +68,7 @@ BOARD_FORCE_RILD_AS_ROOT := true
 TARGET_PROVIDES_LIBRIL := vendor/htc/endeavoru/proprietary/lib/libhtc-ril.so
 
 # Audio
-AUDIO_DISABLE_MIXER_TIMESTAMP_CHECK := true
+AUDIO_LEGACY_COMPAT_TEMP := true
 
 # Wifi
 USES_TI_MAC80211 := true
