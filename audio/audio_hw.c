@@ -40,8 +40,8 @@
 #define HAL_LIBRARY_PATH1 "/system/lib/hw"
 #define HAL_LIBRARY_PATH2 "/vendor/lib/hw"
 
-#define LEGACY		"legacy"
-#define LEGACY_HAL	"/system/lib/hw/android.legacy.endeavoru.so"
+#define LEGACY      "legacy"
+#define LEGACY_HAL  "/system/lib/hw/android.legacy.endeavoru.so"
 
 /* legacy ( ICS ) audio structure */
 struct legacy_audio_hw_device {
@@ -105,7 +105,7 @@ static const char *variant_keys[] = {
 };
 
 static const int HAL_VARIANT_KEYS_COUNT =
-    (sizeof(variant_keys)/sizeof(variant_keys[0]));
+    (sizeof(variant_keys) / sizeof(variant_keys[0]));
 
 /**
  * Load the file defined by the variant and if successful
@@ -113,8 +113,8 @@ static const int HAL_VARIANT_KEYS_COUNT =
  * @return 0 = success, !0 = failure.
  */
 static int load(const char *id,
-        const char *path,
-        const struct hw_module_t **pHmi)
+                const char *path,
+                const struct hw_module_t **pHmi)
 {
     int status;
     void *handle;
@@ -128,14 +128,14 @@ static int load(const char *id,
     handle = dlopen(path, RTLD_NOW);
     if (handle == NULL) {
         char const *err_str = dlerror();
-        ALOGE("load: module=%s\n%s", path, err_str?err_str:"unknown");
+        ALOGE("load: module=%s\n%s", path, err_str ? err_str : "unknown");
         status = -EINVAL;
         goto done;
     }
 
     /* Get the address of the struct hal_module_info. */
     const char *sym = HAL_MODULE_INFO_SYM_AS_STR;
-    hmi = (struct hw_module_t *)dlsym(handle, sym);
+    hmi = (struct hw_module_t*)dlsym(handle, sym);
     if (hmi == NULL) {
         ALOGE("load: couldn't find symbol %s", sym);
         status = -EINVAL;
@@ -154,7 +154,7 @@ static int load(const char *id,
     /* success */
     status = 0;
 
-    done:
+ done:
     if (status != 0) {
         hmi = NULL;
         if (handle != NULL) {
@@ -163,7 +163,7 @@ static int load(const char *id,
         }
     } else {
         ALOGV("loaded HAL id=%s path=%s hmi=%p handle=%p",
-                id, path, *pHmi, handle);
+              id, path, *pHmi, handle);
     }
 
     *pHmi = hmi;
@@ -194,7 +194,7 @@ int hw_get_module_by_class(const char *class_id, const char *inst,
      */
 
     /* Loop through the configuration variants looking for a module */
-    for (i=0 ; i<HAL_VARIANT_KEYS_COUNT+1 ; i++) {
+    for (i = 0; i < HAL_VARIANT_KEYS_COUNT + 1; i++) {
         if (i < HAL_VARIANT_KEYS_COUNT) {
             if (property_get(variant_keys[i], prop, NULL) == 0) {
                 continue;
@@ -214,7 +214,7 @@ int hw_get_module_by_class(const char *class_id, const char *inst,
     }
 
     status = -ENOENT;
-    if (i < HAL_VARIANT_KEYS_COUNT+1) {
+    if (i < HAL_VARIANT_KEYS_COUNT + 1) {
         /* load the module, if this fails, we're doomed, and we should not try
          * to load a different variant. */
         status = load(class_id, path, module);
@@ -237,21 +237,21 @@ static int load_audio_interface(const char *if_name, audio_hw_device_t **dev)
 
     rc = hw_get_module_by_class(AUDIO_HARDWARE_MODULE_ID, if_name, &mod);
     ALOGE_IF(rc, "%s couldn't load audio hw module %s.%s (%s)", __func__,
-                 AUDIO_HARDWARE_MODULE_ID, if_name, strerror(-rc));
+             AUDIO_HARDWARE_MODULE_ID, if_name, strerror(-rc));
     if (rc) {
         goto out;
     }
 
     rc = audio_hw_device_open(mod, dev);
     ALOGE_IF(rc, "%s couldn't open audio hw device in %s.%s (%s)", __func__,
-                 AUDIO_HARDWARE_MODULE_ID, if_name, strerror(-rc));
+             AUDIO_HARDWARE_MODULE_ID, if_name, strerror(-rc));
     if (rc) {
         goto out;
     }
 
     return 0;
 
-out:
+ out:
     *dev = NULL;
     return rc;
 }
@@ -263,164 +263,164 @@ static int adev_open_output_stream(struct audio_hw_device *dev,
                                    struct audio_config *config,
                                    struct audio_stream_out **stream_out)
 {
-	ALOGD("adev_open_output_stream -> %s", LEGACY_HAL);
+    ALOGD("adev_open_output_stream -> %s", LEGACY_HAL);
 
-	/*
-	audio_stream_out will have to get modified because of missing
-	get_next_write_timestamp in ICS.
+    /*
+       audio_stream_out will have to get modified because of missing
+       get_next_write_timestamp in ICS.
 
-	problem is that we dont know the size of stream_out as its allocated
-	in the legacy HAL and probably stores more data.
+       problem is that we dont know the size of stream_out as its allocated
+       in the legacy HAL and probably stores more data.
 
-	So we cant just send the new audio_stream_out and add the method afterwards
-	as it will probably have memory allocated in that area.
+       So we cant just send the new audio_stream_out and add the method afterwards
+       as it will probably have memory allocated in that area.
 
-	Possible fix:
-	
-	change the definition in audio.h to have enough free space before following method:
+       Possible fix:
 
-	int (*get_next_write_timestamp)(const struct audio_stream_out *stream,
+       change the definition in audio.h to have enough free space before following method:
+
+       int (*get_next_write_timestamp)(const struct audio_stream_out *stream,
                                  int64_t *timestamp);
 
-	then we can set get_next_write_timestamp our selves after open_output_stream without
-	corrupting its structure.
+       then we can set get_next_write_timestamp our selves after open_output_stream without
+       corrupting its structure.
 
-	currently get_next_write_timestamp is removed from audio.h and functions relying on it
-	have been modified:
+       currently get_next_write_timestamp is removed from audio.h and functions relying on it
+       have been modified:
 
-	* Audioflinger.cpp ( AudioFlinger::MixerThread::threadLoop_mix() )
-	* libhardware/modules/audio/audio_hw.c
+     * Audioflinger.cpp ( AudioFlinger::MixerThread::threadLoop_mix() )
+     * libhardware/modules/audio/audio_hw.c
 
-	*/
+     */
 
-	struct audio_device *adev = (struct audio_device *)dev;
-	int retVal = adev->legacy_device->open_output_stream(
-				adev->legacy_device, 
-				devices, 
-			        (int*)&config->format,
-              			(uint32_t*)&config->channel_mask,
-              			(uint32_t*)&config->sample_rate,
-				stream_out);
+    struct audio_device *adev = (struct audio_device*)dev;
+    int retVal = adev->legacy_device->open_output_stream(
+        adev->legacy_device,
+        devices,
+        (int*)&config->format,
+        (uint32_t*)&config->channel_mask,
+        (uint32_t*)&config->sample_rate,
+        stream_out);
 
-	ALOGD("retVal = %d", retVal);
-	return retVal;
+    ALOGD("retVal = %d", retVal);
+    return retVal;
 }
 
 static void adev_close_output_stream(struct audio_hw_device *dev,
                                      struct audio_stream_out *stream)
 {
-	ALOGD("adev_close_output_stream -> %s", LEGACY_HAL);
+    ALOGD("adev_close_output_stream -> %s", LEGACY_HAL);
 
-	struct audio_device *adev = (struct audio_device *)dev;
-	adev->legacy_device->close_output_stream(adev->legacy_device, stream);
+    struct audio_device *adev = (struct audio_device*)dev;
+    adev->legacy_device->close_output_stream(adev->legacy_device, stream);
 }
 
 static int adev_set_parameters(struct audio_hw_device *dev, const char *kvpairs)
 {
-	ALOGD("adev_set_parameters -> %s", LEGACY_HAL);
+    ALOGD("adev_set_parameters -> %s", LEGACY_HAL);
 
-	struct audio_device *adev = (struct audio_device *)dev;
-	int retVal = adev->legacy_device->get_parameters(adev->legacy_device, kvpairs);
+    struct audio_device *adev = (struct audio_device*)dev;
+    int retVal = adev->legacy_device->get_parameters(adev->legacy_device, kvpairs);
 
-	ALOGD("retVal = %d", retVal);
-	return retVal;
+    ALOGD("retVal = %d", retVal);
+    return retVal;
 }
 
 static char * adev_get_parameters(const struct audio_hw_device *dev,
                                   const char *keys)
 {
-	ALOGD("adev_get_parameters -> %s", LEGACY_HAL);
+    ALOGD("adev_get_parameters -> %s", LEGACY_HAL);
 
-	struct audio_device *adev = (struct audio_device *)dev;
-	char* retVal = adev->legacy_device->get_parameters(adev->legacy_device, keys);
+    struct audio_device *adev = (struct audio_device*)dev;
+    char* retVal = adev->legacy_device->get_parameters(adev->legacy_device, keys);
 
-	ALOGD("retVal = %s", retVal);
-	return retVal;
+    ALOGD("retVal = %s", retVal);
+    return retVal;
 }
 
 static int adev_init_check(const struct audio_hw_device *dev)
 {
-	ALOGD("adev_init_check -> %s", LEGACY_HAL);
+    ALOGD("adev_init_check -> %s", LEGACY_HAL);
 
-    	struct audio_device *adev = (struct audio_device *)dev;
-    	int retVal = adev->legacy_device->init_check(adev->legacy_device);
+    struct audio_device *adev = (struct audio_device*)dev;
+    int retVal = adev->legacy_device->init_check(adev->legacy_device);
 
-	ALOGD("retVal = %d", retVal);
-	return retVal;
+    ALOGD("retVal = %d", retVal);
+    return retVal;
 }
 
 static int adev_set_voice_volume(struct audio_hw_device *dev, float volume)
 {
-	ALOGD("adev_set_voice_volume -> %s", LEGACY_HAL);
+    ALOGD("adev_set_voice_volume -> %s", LEGACY_HAL);
 
-    	struct audio_device *adev = (struct audio_device *)dev;
-    	int retVal = adev->legacy_device->set_voice_volume(adev->legacy_device, volume);
+    struct audio_device *adev = (struct audio_device*)dev;
+    int retVal = adev->legacy_device->set_voice_volume(adev->legacy_device, volume);
 
-	ALOGD("retVal = %d", retVal);
-	return retVal;
+    ALOGD("retVal = %d", retVal);
+    return retVal;
 }
 
 static int adev_set_master_volume(struct audio_hw_device *dev, float volume)
 {
-	ALOGD("adev_set_master_volume -> %s", LEGACY_HAL);
+    ALOGD("adev_set_master_volume -> %s", LEGACY_HAL);
 
-    	struct audio_device *adev = (struct audio_device *)dev;
-    	int retVal = adev->legacy_device->set_master_volume(adev->legacy_device, volume);
+    struct audio_device *adev = (struct audio_device*)dev;
+    int retVal = adev->legacy_device->set_master_volume(adev->legacy_device, volume);
 
-	ALOGD("retVal = %d", retVal);
-	return retVal;
+    ALOGD("retVal = %d", retVal);
+    return retVal;
 }
 
 static int adev_set_mode(struct audio_hw_device *dev, audio_mode_t mode)
 {
-	ALOGD("adev_set_mode -> %s", LEGACY_HAL);
+    ALOGD("adev_set_mode -> %s", LEGACY_HAL);
 
-    	struct audio_device *adev = (struct audio_device *)dev;
-    	int retVal = adev->legacy_device->set_mode(adev->legacy_device, mode);
+    struct audio_device *adev = (struct audio_device*)dev;
+    int retVal = adev->legacy_device->set_mode(adev->legacy_device, mode);
 
-	ALOGD("retVal = %d", retVal);
-	return retVal;
+    ALOGD("retVal = %d", retVal);
+    return retVal;
 }
 
 static int adev_set_mic_mute(struct audio_hw_device *dev, bool state)
 {
-	ALOGD("adev_set_mic_mute -> %s", LEGACY_HAL);
+    ALOGD("adev_set_mic_mute -> %s", LEGACY_HAL);
 
-    	struct audio_device *adev = (struct audio_device *)dev;
-    	int retVal = adev->legacy_device->set_mic_mute(adev->legacy_device, state);
+    struct audio_device *adev = (struct audio_device*)dev;
+    int retVal = adev->legacy_device->set_mic_mute(adev->legacy_device, state);
 
-	ALOGD("retVal = %d", retVal);
-	return retVal;
+    ALOGD("retVal = %d", retVal);
+    return retVal;
 }
 
 static int adev_get_mic_mute(const struct audio_hw_device *dev, bool *state)
 {
-	ALOGD("adev_get_mic_mute -> %s", LEGACY_HAL);
+    ALOGD("adev_get_mic_mute -> %s", LEGACY_HAL);
 
-    	struct audio_device *adev = (struct audio_device *)dev;
-    	int retVal = adev->legacy_device->get_mic_mute(adev->legacy_device, state);
+    struct audio_device *adev = (struct audio_device*)dev;
+    int retVal = adev->legacy_device->get_mic_mute(adev->legacy_device, state);
 
-	ALOGD("retVal = %d", retVal);
-	return retVal;
+    ALOGD("retVal = %d", retVal);
+    return retVal;
 }
 
 static size_t adev_get_input_buffer_size(const struct audio_hw_device *dev,
                                          const struct audio_config *config)
 {
-	ALOGD("adev_get_input_buffer_size -> %s", LEGACY_HAL);
+    ALOGD("adev_get_input_buffer_size -> %s", LEGACY_HAL);
 
-	/* use popcount to get nr of channels from the mask */
-	uint16_t channel_count = (uint16_t)popcount(config->channel_mask);
-	ALOGD("channel count: %d", channel_count);
+    /* use popcount to get nr of channels from the mask */
+    uint16_t channel_count = (uint16_t)popcount(config->channel_mask);
+    ALOGD("channel count: %d", channel_count);
 
-	struct audio_device *adev = (struct audio_device *)dev;
-	size_t retVal = adev->legacy_device->get_input_buffer_size(
-				adev->legacy_device, 
-              			config->sample_rate,
-			        config->format,
-              			channel_count);
+    struct audio_device *adev = (struct audio_device*)dev;
+    size_t retVal = adev->legacy_device->get_input_buffer_size(
+        adev->legacy_device,
+        config->sample_rate,
+        config->format,
+        channel_count);
 
-	return retVal;
+    return retVal;
 }
 
 static int adev_open_input_stream(struct audio_hw_device *dev,
@@ -429,70 +429,70 @@ static int adev_open_input_stream(struct audio_hw_device *dev,
                                   struct audio_config *config,
                                   struct audio_stream_in **stream_in)
 {
-	ALOGD("adev_open_input_stream -> %s", LEGACY_HAL);
+    ALOGD("adev_open_input_stream -> %s", LEGACY_HAL);
 
-	struct audio_device *adev = (struct audio_device *)dev;
-	int retVal = adev->legacy_device->open_input_stream(
-				adev->legacy_device, 
-				devices, 
-			        (int*)&config->format,
-              			(uint32_t*)&config->channel_mask,
-              			(uint32_t*)&config->sample_rate,
-				0, /* JB no longer has acoustics */
-				stream_in);
+    struct audio_device *adev = (struct audio_device*)dev;
+    int retVal = adev->legacy_device->open_input_stream(
+        adev->legacy_device,
+        devices,
+        (int*)&config->format,
+        (uint32_t*)&config->channel_mask,
+        (uint32_t*)&config->sample_rate,
+        0,         /* JB no longer has acoustics */
+        stream_in);
 
-	ALOGD("retVal = %d", retVal);
-	return retVal;
+    ALOGD("retVal = %d", retVal);
+    return retVal;
 }
 
 static void adev_close_input_stream(struct audio_hw_device *dev,
-                                   struct audio_stream_in *stream)
+                                    struct audio_stream_in *stream)
 {
-	ALOGD("adev_close_input_stream -> %s", LEGACY_HAL);
+    ALOGD("adev_close_input_stream -> %s", LEGACY_HAL);
 
-	struct audio_device *adev = (struct audio_device *)dev;
-	adev->legacy_device->close_input_stream(
-				adev->legacy_device, 
-				stream);
+    struct audio_device *adev = (struct audio_device*)dev;
+    adev->legacy_device->close_input_stream(
+        adev->legacy_device,
+        stream);
 }
 
 static int adev_dump(const audio_hw_device_t *device, int fd)
 {
-	ALOGD("adev_dump -> %s", LEGACY_HAL);
+    ALOGD("adev_dump -> %s", LEGACY_HAL);
 
-    	struct audio_device *adev = (struct audio_device *)device;
-    	int retVal = adev->legacy_device->dump(adev->legacy_device, fd);
+    struct audio_device *adev = (struct audio_device*)device;
+    int retVal = adev->legacy_device->dump(adev->legacy_device, fd);
 
-	ALOGD("retVal = %d", retVal);
-	return retVal;
+    ALOGD("retVal = %d", retVal);
+    return retVal;
 }
 
 static int adev_close(hw_device_t *device)
 {
-	ALOGD("adev_close -> %s", LEGACY_HAL);
-	
-    	struct audio_device *adev = (struct audio_device *)device;
-	
-        free(adev->legacy_device);
-        free(device);
-        return 0;
+    ALOGD("adev_close -> %s", LEGACY_HAL);
+
+    struct audio_device *adev = (struct audio_device*)device;
+
+    free(adev->legacy_device);
+    free(device);
+    return 0;
 }
 
 static uint32_t adev_get_supported_devices(const struct audio_hw_device *dev)
 {
-	ALOGD("adev_get_supported_devices -> %s", LEGACY_HAL);
+    ALOGD("adev_get_supported_devices -> %s", LEGACY_HAL);
 
-    	struct audio_device *adev = (struct audio_device *)dev;
-    	uint32_t retVal = adev->legacy_device->get_supported_devices(adev->legacy_device);
+    struct audio_device *adev = (struct audio_device*)dev;
+    uint32_t retVal = adev->legacy_device->get_supported_devices(adev->legacy_device);
 
-	ALOGD("retVal = %d", retVal);
-	return retVal;
+    ALOGD("retVal = %d", retVal);
+    return retVal;
 }
 
 static int adev_open(const hw_module_t* module, const char* name,
                      hw_device_t** device)
 {
-	ALOGD("adev_open (start) -> %s", LEGACY_HAL);
+    ALOGD("adev_open (start) -> %s", LEGACY_HAL);
 
     struct audio_device *adev;
     int ret;
@@ -506,7 +506,7 @@ static int adev_open(const hw_module_t* module, const char* name,
 
     adev->hw_device.common.tag = HARDWARE_DEVICE_TAG;
     adev->hw_device.common.version = AUDIO_DEVICE_API_VERSION_1_0;
-    adev->hw_device.common.module = (struct hw_module_t *) module;
+    adev->hw_device.common.module = (struct hw_module_t*)module;
     adev->hw_device.common.close = adev_close;
 
     adev->hw_device.get_supported_devices = adev_get_supported_devices;
@@ -527,10 +527,10 @@ static int adev_open(const hw_module_t* module, const char* name,
 
     ALOGD("adev_open (end) -> %s", LEGACY_HAL);
 
-    /* 
-	load_audio_interface based on AudioFlinger 
-	responsible for load audio.legacy.endeavoru which used to be audio.primary.tegra
-    */
+    /*
+       load_audio_interface based on AudioFlinger
+       responsible for load audio.legacy.endeavoru which used to be audio.primary.tegra
+     */
 
     int rc = load_audio_interface(LEGACY, &adev->legacy_device);
     if (rc) {
