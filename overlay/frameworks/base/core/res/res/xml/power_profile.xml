@@ -42,6 +42,7 @@
   <!-- Different CPU speeds as reported in
        /sys/devices/system/cpu/cpu0/cpufreq/stats/time_in_state -->
   <array name="cpu.speeds">
+    <value>51000</value>
     <value>102000</value>
     <value>204000</value>
     <value>340000</value>
