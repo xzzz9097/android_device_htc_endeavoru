@@ -130,10 +130,6 @@ PRODUCT_PACKAGES += \
 	libaudioutils \
 	libtinyalsa	
 
-PRODUCT_COPY_FILES += \
-	$(LOCAL_PATH)/audio/audio.legacy.endeavoru.so:system/lib/hw/audio.legacy.endeavoru.so \
-	$(LOCAL_PATH)/audio_policy/audio_policy_legacy.endeavoru.so:system/lib/hw/audio_policy_legacy.endeavoru.so
-
 # NFC firmware
 PRODUCT_COPY_FILES += \
 	$(LOCAL_PATH)/prebuilt/lib/libpn544_fw.so:system/vendor/firmware/libpn544_fw.so
