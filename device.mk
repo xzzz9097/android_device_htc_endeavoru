@@ -126,8 +126,6 @@ PRODUCT_PACKAGES += \
 
 # audio
 PRODUCT_PACKAGES += \
-	audio_policy.endeavoru \
-	audio.primary.endeavoru \
 	audio.a2dp.default \
 	libaudioutils \
 	libtinyalsa	
