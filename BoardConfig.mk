@@ -93,3 +93,5 @@ COMMON_GLOBAL_CFLAGS += -DUSES_TI_MAC80211
 # Kernel building
 TARGET_KERNEL_SOURCE := kernel/htc/endeavor
 TARGET_KERNEL_CONFIG :=  endeavoru_android_defconfig
+
+BOARD_USE_LEGACY_TOUCHSCREEN := true
