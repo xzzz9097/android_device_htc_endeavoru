@@ -245,6 +245,7 @@ bin/htcbatt
 lib/libnvcontrol_jni.so
 lib/libnvcpud.so
 lib/libnvcpud_client.so
+lib/libsurfaceflinger_client.so
 
 # image stabilization
 lib/libhtc_dis.so

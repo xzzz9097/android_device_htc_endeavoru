@@ -67,6 +67,7 @@ TARGET_PROVIDES_LIBRIL := vendor/htc/endeavoru/proprietary/lib/libhtc-ril.so
 
 # Camera
 USE_CAMERA_STUB := false
+BOARD_NEEDS_MEMORYHEAPPMEM := true
 COMMON_GLOBAL_CFLAGS += -DICS_CAMERA_BLOB
 
 # Audio
