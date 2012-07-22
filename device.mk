@@ -141,7 +141,11 @@ PRODUCT_PACKAGES += \
 
 # Torch
 PRODUCT_PACKAGES += \
-	Torch		
+	Torch
+
+# Power
+PRODUCT_PACKAGES += \
+        power.endeavoru
 		
 # Permissions
 PRODUCT_COPY_FILES += \
