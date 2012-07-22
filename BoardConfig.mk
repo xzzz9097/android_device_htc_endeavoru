@@ -14,12 +14,12 @@
 # limitations under the License.
 #
 
-# Bootloader
-TARGET_BOOTLOADER_BOARD_NAME := 
-TARGET_NO_BOOTLOADER := true
-
+# Skip droiddoc build to save build time
+BOARD_SKIP_ANDROID_DOC_BUILD := true
 
 # cpu info
+BOARD_HAS_LOCKED_BOOTLOADER := true
+TARGET_NO_BOOTLOADER := true
 TARGET_CPU_ABI := armeabi-v7a
 TARGET_CPU_ABI2 := armeabi
 TARGET_CPU_SMP := true
@@ -48,8 +48,14 @@ BOARD_SYSTEMIMAGE_PARTITION_SIZE := 1342177280
 BOARD_USERDATAIMAGE_PARTITION_SIZE := 2302672896
 BOARD_FLASH_BLOCK_SIZE := 4096
 
-# tegra platform
+# Board nameing
+TARGET_NO_RADIOIMAGE := true
+TARGET_BOOTLOADER_BOARD_NAME := 
 TARGET_BOARD_PLATFORM := tegra
+TARGET_TEGRA_VERSION := t30
+
+# Avoid the generation of ldrcc instructions
+NEED_WORKAROUND_CORTEX_A9_745320 := true
 
 # Enable WEBGL in WebKit
 ENABLE_WEBGL := true
