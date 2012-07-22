@@ -102,3 +102,10 @@ persist.htc.audio.pcm.samplerate=48000
 persist.htc.audio.pcm.channels=2
 # Temporary MHL rotation fix
 persist.demo.hdmirotation=portrait
+
+# Addidional info for Settings/About/Hardware
+ro.device.cpu=nVidia Tegra 3, Quad-core 1.5 GHz
+ro.device.gpu=ULP GeForce
+ro.device.front_cam=1.3MP, 720p
+ro.device.rear_cam=8MP, 1080p
+ro.device.screen_res=720 x 1280 pixels, 4.7"
