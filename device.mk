@@ -141,7 +141,9 @@ PRODUCT_PACKAGES += \
 
 # Torch
 PRODUCT_PACKAGES += \
-	Torch
+	Torch \
+        ROMControl \
+        su
 
 # Power
 PRODUCT_PACKAGES += \
