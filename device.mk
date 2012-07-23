@@ -143,8 +143,8 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
 	Torch \
         ROMControl \
-        su \
-        SwagPapers
+        SwagPapers \
+        Stk
 
 # Power
 PRODUCT_PACKAGES += \
