@@ -78,14 +78,13 @@ on boot
     chmod 0660 /sys/class/power_supply/battery/phone_call
 
     chown media system /dev/mux9
-#HTC SSD Camera
+
 # For Flashlight Restriction
     chown radio system /sys/camera_led_status/led_ril_status
     chown system system /sys/camera_led_status/led_wimax_status
     chown system system /sys/camera_led_status/led_hotspot_status
-#HTC CPU poke
-    chown media system /sys/htc/media_boost_freq
-    chown media system /sys/htc/cpu_temp
+    chown system camera /sys/class/leds/flashlight/brightness
+    chmod 0660          /sys/class/leds/flashlight/brightness
 
 # Define DATA USAGE CTRL file permission
     chown system system /proc/net/xt_qtaguid/ctrl
@@ -165,9 +164,6 @@ on boot
     chown system system /sys/bus/iio/devices/device0/als_ir_mode
     chown system system /sys/bus/iio/devices/device0/proximity_enable
 
-# BB UART settings
-#    chown radio system /dev/ttyHS0
-
 # BB remote file system
     mkdir /data/rfs
     mkdir /data/rfs/data
@@ -196,7 +192,7 @@ on boot
     write /sys/devices/system/cpu/cpufreq/interactive/boost_factor 2
     write /sys/devices/system/cpu/cpufreq/interactive/input_boost 1
     write /sys/devices/system/cpu/cpufreq/interactive/sustain_load 80
-    write /sys/module/cpuidle/parameters/lp2_in_idle 0
+    write /sys/module/cpuidle/parameters/lp2_in_idle 1
     write /sys/kernel/debug/tegra_hotplug/max_cpus 4
     write /sys/module/cpu_tegra3/parameters/auto_hotplug 1
 
@@ -223,9 +219,8 @@ on boot
     chmod 555 /data/DxDrm
     mkdir /sdcard/download
     copy /etc/DxDrmConfig_Server.txt /data/DxDrm/DxDrmConfig_Server.txt
-    # Discretix DRM change end
 
-#AUD
+# AUDIO
     mkdir /data/audio
     chmod 755 /data/audio
     chown media audio /data/audio
@@ -338,7 +333,7 @@ service dhcpcd_eth0 /system/bin/dhcpcd -ABKL
 
 service hostapd_bin /system/bin/logwrapper /system/bin/hostapd -dd /data/misc/wifi/hostapd.conf
     class main
-    socket wpa_wlan1 dgram 660 wifi wifi
+    socket wpa_wlan1 dgram 0660 wifi wifi
     disabled
     oneshot
 
@@ -385,7 +380,6 @@ on property:tf.enable=y
 # Discretix DRM change start
 service dx_drm_server /system/bin/DxDrmServerIpc -f -o allow_other /data/DxDrm/fuse
     class main
-# Discretix DRM change end
 
 # OMA DRM change start
 service fusermount /system/bin/fusermount -u /data/htcfs
