@@ -180,9 +180,6 @@ PRODUCT_COPY_FILES += \
 
 PRODUCT_PROPERTY_OVERRIDES += \
 	ro.sf.lcd_density=320 \
-	wifi.interface=wlan0 \
-	wifi.softap.interface=wlan1 \
-	wifi.softapconcurrent.interface=wlan1 \
 	persist.sys.usb.config=mass_storage,adb \
 	ro.telephony.ril_class=QualcommSharedRIL
 
