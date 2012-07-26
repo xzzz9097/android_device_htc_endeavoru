@@ -100,5 +100,3 @@ endif
 # Kernel building
 TARGET_KERNEL_SOURCE := kernel/htc/endeavor
 TARGET_KERNEL_CONFIG :=  endeavoru_android_defconfig
-
-BOARD_USE_LEGACY_TOUCHSCREEN := true
