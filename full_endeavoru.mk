@@ -146,8 +146,7 @@ PRODUCT_PACKAGES += \
 
 # Torch
 PRODUCT_PACKAGES += \
-	Torch \
-        Stk
+	Torch
 
 # Power
 PRODUCT_PACKAGES += \
