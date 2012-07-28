@@ -130,8 +130,10 @@ PRODUCT_PACKAGES += \
 	libaudioutils \
 	libtinyalsa
 
-PRODUCT_COPY_FILES += \
-	$(LOCAL_PATH)/prebuilt/bin/pollyd:system/bin/pollyd
+# pollyd
+PRODUCT_PACKAGES += \
+	pollyd \
+	Polly
 
 # NFC firmware
 PRODUCT_COPY_FILES += \
