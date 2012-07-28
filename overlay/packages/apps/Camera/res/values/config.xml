@@ -21,5 +21,7 @@
     <bool name="config_noFaceDetect">true</bool>
     <!-- HTC Compat -->
     <bool name="config_htcCompat">true</bool>
+    <!-- HTC Camcorder Mode -->
+    <bool name="needsHTCCamMode">true</bool>
 </resources>
 
