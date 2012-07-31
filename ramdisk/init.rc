@@ -6,7 +6,6 @@
 
 import /init.${ro.hardware}.rc
 import /init.usb.rc
-import /init.trace.rc
 
 on early-init
     # Set init and its forked children's oom_adj.
@@ -520,19 +519,7 @@ service mdnsd /system/bin/mdnsd
     disabled
     oneshot
 
-service L2PE /system/bin/l2_profile_exchange handset wlan1
-    user root
-    group root
-    disabled
-    oneshot
-
 service charging /system/bin/charging
-    user root
-    group root
-    disabled
-    oneshot
-
-service netHDencode /system/bin/netHDencode wlan0 3655
     user root
     group root
     disabled
