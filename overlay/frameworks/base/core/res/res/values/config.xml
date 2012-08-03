@@ -293,9 +293,6 @@
          capability can provide power savings when wifi needs to be always kept on. -->
     <bool translatable="false" name="config_wifi_background_scan_support">false</bool>
 
-    <!-- Integer indicating wpa_supplicant scan interval in milliseconds -->
-    <integer translatable="false" name="config_wifi_supplicant_scan_interval">15000</integer>
-
     <!-- Integer indicating the framework scan interval in milliseconds. This is used in the scenario
          where the chipset does not support background scanning (config_wifi_background_scan_suport
          is false) to set up a periodic wake up scan so that the device can connect to a new access
