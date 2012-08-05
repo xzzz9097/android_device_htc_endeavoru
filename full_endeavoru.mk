@@ -61,9 +61,11 @@ PRODUCT_COPY_FILES += \
 
 # Wifi
 PRODUCT_PACKAGES += \
-	dhcpcd.conf \
 	TQS_D_1.7.ini \
-	calibrator
+	calibrator \
+        hostapd \
+        hostapd_cli \
+        iw
 
 # Modules
 PRODUCT_COPY_FILES += \
