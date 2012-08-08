@@ -30,7 +30,7 @@ ADDITIONAL_DEFAULT_PROPERTIES += \
 	ro.secure=0
 endif
 
-# # This device is xhdpi.
+# This device is xhdpi.
 PRODUCT_AAPT_CONFIG := normal hdpi xhdpi
 PRODUCT_AAPT_PREF_CONFIG := xhdpi
 PRODUCT_LOCALES += en_US xhdpi
@@ -138,6 +138,11 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
 	pollyd \
 	Polly
+
+# Camera
+PRODUCT_PACKAGES := \
+    Camera \
+    camera.tegra
 
 # NFC firmware
 PRODUCT_COPY_FILES += \
