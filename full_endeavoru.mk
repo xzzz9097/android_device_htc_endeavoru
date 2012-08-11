@@ -140,7 +140,7 @@ PRODUCT_PACKAGES += \
 	Polly
 
 # Camera
-PRODUCT_PACKAGES := \
+PRODUCT_PACKAGES += \
     Camera \
     camera.tegra
 
