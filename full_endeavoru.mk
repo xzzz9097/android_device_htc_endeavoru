@@ -153,10 +153,6 @@ PRODUCT_PACKAGES += \
 	make_ext4fs \
 	setup_fs
 
-# Torch
-PRODUCT_PACKAGES += \
-	Torch
-
 # Power
 #PRODUCT_PACKAGES += \
 #        power.endeavoru
