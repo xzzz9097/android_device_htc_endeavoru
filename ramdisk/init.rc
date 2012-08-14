@@ -534,6 +534,13 @@ service charging /system/bin/charging
     oneshot
 
 service memlock /system/bin/memlock
-   class main
-   user root
-   group root
+    class main
+    user root
+    group root
+
+# Execute files in /etc/init.d before booting
+    service userinit /system/xbin/busybox run-parts /system/etc/init.d
+    oneshot
+    class late_start
+    user root
+    group root
