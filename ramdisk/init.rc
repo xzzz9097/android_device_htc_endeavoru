@@ -75,8 +75,10 @@ loglevel 8
     write /proc/sys/kernel/hung_task_timeout_secs 0
     write /proc/cpu/alignment 4
     write /proc/sys/kernel/sched_latency_ns 600000
-    write /proc/sys/kernel/sched_min_granularity_ns 400000
-    write /proc/sys/kernel/sched_wakeup_granularity_ns 400000
+    write /proc/sys/kernel/sched_min_granularity_ns 1200000
+    write /proc/sys/kernel/sched_wakeup_granularity_ns 1200000
+    write /proc/sys/kernel/sched_nr_migrate 34
+    write /proc/sys/kernel/sched_migration_cost 300000
     write /proc/sys/kernel/sched_compat_yield 1
     write /proc/sys/kernel/sched_child_runs_first 0
     write /proc/sys/kernel/randomize_va_space 2
@@ -235,11 +237,9 @@ on boot
     chmod 0664 /sys/module/lowmemorykiller/parameters/minfree
 
     # Tweak background writeout
-    write /proc/sys/vm/dirty_expire_centisecs 200
-    write /proc/sys/vm/dirty_background_ratio  65
-    write /proc/sys/vm/dirty_ratio  90
-    write /proc/sys/vm/vfs_cache_pressure  25
-    write /proc/sys/vm/swappiness  30
+    write /proc/sys/vm/dirty_expire_centisecs 500
+    write /proc/sys/vm/min_free_kbytes 30720
+    write /proc/sys/vm/dirty_background_ratio  5
 
     # Permissions for System Server and daemons.
     chown radio system /sys/android_power/state
