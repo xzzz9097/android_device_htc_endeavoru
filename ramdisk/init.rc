@@ -505,7 +505,7 @@ service ril-daemon /system/bin/rild
     socket rild-htc-coredump stream 660 radio system
     socket rild-agps stream 660 radio system
     user root
-    group radio cache inet misc audio sdcard_rw log
+    group radio cache inet misc audio sdcard_r sdcard_rw qcom_oncrpc qcom_diag log
 
 service surfaceflinger /system/bin/surfaceflinger
     class main
