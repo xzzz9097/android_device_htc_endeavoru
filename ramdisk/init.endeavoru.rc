@@ -477,6 +477,14 @@ service post_boot /system/bin/sh /system/etc/post_boot.sh
 	disabled
 	oneshot
 
+# Adb over Network
+on property:service.adb.tcp.port=5555
+    stop adbd
+    start adbd
+on property:service.adb.tcp.port=-1
+    stop adbd
+    start adbd
+
 on property:init.svc.bootanim=stopped
    write /sys/kernel/debug/tegra_hotplug/max_cpus 4
    write /sys/module/cpu_tegra3/parameters/auto_hotplug 1
