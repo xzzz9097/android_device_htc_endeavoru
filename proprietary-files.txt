@@ -75,6 +75,7 @@ bin/IMCdownload
 lib/modules/cdc-acm.ko
 bin/gsm0710muxd
 bin/mknod
+bin/patch-X.0.ce
 etc/Flash_Loader.conf
 etc/QUO_6260.fls.clean
 
