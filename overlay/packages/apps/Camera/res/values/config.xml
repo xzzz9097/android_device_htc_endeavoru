@@ -35,7 +35,7 @@
     <bool name="usePreferredPreviewSizeForEffects">false</bool>
     <!-- Ignore preferred preview size and use best value from supported preview sizes   
          Setting both this and the above option true will always use values from preview sizes for both -->
-    <bool name="ignorePreferredPreviewSizeForVideo">true</bool>
+    <bool name="ignorePreferredPreviewSizeForVideo">false</bool>
     <!-- Restart the preview on picture taken -->
     <bool name="restartPreviewOnPictureTaken">false</bool>
     <!-- Disable face detection on the front camera -->
