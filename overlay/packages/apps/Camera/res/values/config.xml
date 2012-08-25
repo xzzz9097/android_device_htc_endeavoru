@@ -45,5 +45,5 @@
     <!-- Use ZSL mode -->
     <bool name="enableZSL">true</bool>
     <!-- Reset rotation parameter in video camera -->
-    <bool name="resetVideoRotationParameter">false</bool>
+    <bool name="resetVideoRotationParameter">true</bool>
 </resources>
