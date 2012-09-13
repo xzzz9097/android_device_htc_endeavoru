@@ -119,7 +119,8 @@ PRODUCT_PACKAGES += \
 	Nfc \
 	Tag \
 	com.android.nfc_extras \
-	com.android.future.usb.accessory
+	com.android.future.usb.accessory \
+        Music
 
 # Live Wallpapers
 PRODUCT_PACKAGES += \
