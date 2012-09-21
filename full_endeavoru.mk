@@ -120,8 +120,7 @@ PRODUCT_PACKAGES += \
 	Tag \
 	com.android.nfc_extras \
 	com.android.future.usb.accessory \
-        Music \
-        Torch
+        Music
 
 # Live Wallpapers
 PRODUCT_PACKAGES += \
