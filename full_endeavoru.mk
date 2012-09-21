@@ -120,7 +120,8 @@ PRODUCT_PACKAGES += \
 	Tag \
 	com.android.nfc_extras \
 	com.android.future.usb.accessory \
-        Music
+        Music \
+        Torch
 
 # Live Wallpapers
 PRODUCT_PACKAGES += \
@@ -133,7 +134,10 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
 	audio.a2dp.default \
 	libaudioutils \
-	libtinyalsa
+	libtinyalsa \
+        tinymix \
+        tinyplay \
+        tinycap
 
 # pollyd
 PRODUCT_PACKAGES += \
