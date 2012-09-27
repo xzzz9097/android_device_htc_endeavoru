@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2012 The Android Open Source Project
+ * Copyright (C) 2012 The CyanogenMod Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,17 +26,9 @@
 #include <hardware/hardware.h>
 #include <hardware/power.h>
 
-#define SCALINGMAXFREQ_PATH "/sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq"
-#define SCREENOFFMAXFREQ_PATH "/sys/devices/system/cpu/cpu0/cpufreq/screen_off_max_freq"
 #define BOOST_PATH      "/sys/devices/system/cpu/cpufreq/interactive/boost"
 static int boost_fd = -1;
 static int boost_warned;
-
-#define MAX_BUF_SZ  10
-
-/* initialize to something safe */
-static char screen_off_max_freq[MAX_BUF_SZ] = "475000";
-static char scaling_max_freq[MAX_BUF_SZ] = "1200000";
 
 static void sysfs_write(char *path, char *s)
 {
@@ -58,30 +51,13 @@ static void sysfs_write(char *path, char *s)
     close(fd);
 }
 
-int sysfs_read(const char *path, char *buf, size_t size)
-{
-  int fd, len;
-
-  fd = open(path, O_RDONLY);
-  if (fd < 0)
-    return -1;
-
-  do {
-    len = read(fd, buf, size);
-  } while (len < 0 && errno == EINTR);
-
-  close(fd);
-
-  return len;
-}
-
 static void endeavoru_power_init(struct power_module *module)
 {
     /*
      * cpufreq interactive governor: timer 20ms, min sample 100ms,
      * hispeed 700MHz at load 40%
      */
-
+    /* handle this in the new init.tegra.post_boot.sh
     sysfs_write("/sys/devices/system/cpu/cpufreq/interactive/timer_rate",
                 "20000");
     sysfs_write("/sys/devices/system/cpu/cpufreq/interactive/min_sample_time",
@@ -92,52 +68,24 @@ static void endeavoru_power_init(struct power_module *module)
 		"0");
     sysfs_write("/sys/devices/system/cpu/cpufreq/interactive/input_boost",
 		"1");
+    */
 }
 
 static void endeavoru_power_set_interactive(struct power_module *module, int on)
 {
-    int len;
-
-    char buf[MAX_BUF_SZ];
-
-    /*
-     * Lower maximum frequency when screen is off.  CPU 0 and 1 share a
-     * cpufreq policy.
-     */
-
-    if (!on) {
-        /* read the current scaling max freq and save it before updating */
-        len = sysfs_read(SCALINGMAXFREQ_PATH, buf, sizeof(buf));
-
-        if (len != -1)
-            memcpy(scaling_max_freq, buf, sizeof(buf));
-
-    sysfs_write("/sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq",
-                    on ? scaling_max_freq : screen_off_max_freq);
-    }
-    else
-        sysfs_write("/sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq",
-                    on ? scaling_max_freq : screen_off_max_freq);
-
     sysfs_write("/sys/devices/system/cpu/cpufreq/interactive/input_boost",
                 on ? "1" : "0");
 
     sysfs_write("/sys/devices/system/cpu/cpufreq/interactive/boost_factor",
                 on ? "0" : "2");
 
-    sysfs_write("/sys/module/cpu_tegra/parameters/cpu_user_cap",
-                on ? "0" : "1200000");	
-    
-    sysfs_write("/sys/kernel/tegra_cap/core_cap_level",
-                on ? "1300" : "1200");	
-
-    sysfs_write("/sys/kernel/tegra_cap/core_cap_state", "1");	
-    
-    sysfs_write("/sys/devices/system/cpu/cpufreq/interactive/max_boost",
-                on ? "0" : "250000");	
-
-    sysfs_write("/sys/devices/system/cpu/cpufreq/interactive/go_maxspeed_load",
-                on ? "85" : "95");	
+    /*
+     * The new interactive governor (grouper) calls this value "boost"
+     * Set this value too for highest compatibility. (in case of backports)
+     * That interactive version only distincts between 0 and 1.
+     */
+    sysfs_write("/sys/devices/system/cpu/cpufreq/interactive/boost_val",
+                on ? "0" : "1");
 }
 
 static void endeavoru_power_hint(struct power_module *module, power_hint_t hint,

@@ -20,40 +20,12 @@
 <!-- These resources are around just to allow their values to be customized
      for different hardware and product builds.  Do not translate. -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <!-- Do not translate. Defines the slots for the right-hand side icons.  That is to say, the
-         icons in the status bar that are not notifications. -->
-    <string-array name="config_statusBarIcons">
-       <item><xliff:g id="id">ime</xliff:g></item>
-       <item><xliff:g id="id">sync_failing</xliff:g></item>
-       <item><xliff:g id="id">sync_active</xliff:g></item>
-       <item><xliff:g id="id">gps</xliff:g></item>
-       <item><xliff:g id="id">bluetooth</xliff:g></item>
-       <item><xliff:g id="id">nfc</xliff:g></item>
-       <item><xliff:g id="id">tty</xliff:g></item>
-       <item><xliff:g id="id">speakerphone</xliff:g></item>
-       <item><xliff:g id="id">mute</xliff:g></item>
-       <item><xliff:g id="id">volume</xliff:g></item>
-       <item><xliff:g id="id">wifi</xliff:g></item>
-       <item><xliff:g id="id">cdma_eri</xliff:g></item>
-       <item><xliff:g id="id">data_connection</xliff:g></item>
-       <item><xliff:g id="id">phone_evdo_signal</xliff:g></item>
-       <item><xliff:g id="id">phone_signal</xliff:g></item>
-       <item><xliff:g id="id">battery</xliff:g></item>
-       <item><xliff:g id="id">alarm_clock</xliff:g></item>
-       <item><xliff:g id="id">secure</xliff:g></item>
-       <item><xliff:g id="id">clock</xliff:g></item>
-    </string-array>
 
     <!-- Flag indicating whether the surface flinger has limited
          alpha compositing functionality in hardware.  If set, the window
          manager will disable alpha trasformation in animations where not
          strictly needed. -->
     <bool name="config_sf_limitedAlpha">false</bool>
-
-    <!-- Default value used to block data calls if ims is not
-         connected.  If you use the ims apn DCT will block
-         any other apn from connecting until ims apn is connected-->
-    <bool name="ImsConnectedDefaultValue">false</bool>
 
     <!-- Flag indicating whether the surface flinger is inefficient
          at performing a blur.  Used by parts of the UI to turn off
@@ -117,21 +89,14 @@
         <item>"mobile,0,0,0,-1,true"</item>
         <item>"mobile_mms,2,0,2,60000,true"</item>
         <item>"mobile_supl,3,0,2,60000,true"</item>
+        <item>"mobile_dun,4,0,4,60000,true"</item>
         <item>"mobile_hipri,5,0,3,60000,true"</item>
+        <item>"mobile_bluetooth,7,7,1,-1,true"</item>
         <item>"mobile_fota,10,0,2,60000,true"</item>
         <item>"mobile_ims,11,0,2,60000,true"</item>
         <item>"mobile_cbs,12,0,2,60000,true"</item>
-        <item>"mobile_bluetooth,7,7,1,-1,true"</item>
         <item>"wifi_p2p,13,1,0,-1,true"</item>
     </string-array>
-
-    <!-- Array of ConnectivityManager.TYPE_xxxx constants for networks that may only
-         be controlled by systemOrSignature apps.  -->
-    <integer-array translatable="false" name="config_protectedNetworks">
-        <item>10</item>
-        <item>11</item>
-        <item>12</item>
-    </integer-array>
 
     <!-- This string array should be overridden by the device to present a list of radio
          attributes.  This is used by the connectivity manager to decide which networks can coexist
@@ -182,14 +147,6 @@
         <item>"bnep\\d"</item>
     </string-array>
 
-    <!-- Max number of Bluetooth tethering connections allowed. If this is
-         updated config_tether_dhcp_range has to be updated appropriately. -->
-    <integer translateable="false" name="config_max_pan_devices">5</integer>
-
-    <!-- Dhcp range (min, max) to use for tethering purposes -->
-    <string-array translatable="false" name="config_tether_dhcp_range">
-    </string-array>
-
     <!-- Regex of wired ethernet ifaces -->
     <string translatable="false" name="config_ethernet_iface_regex">eth\\d</string>
 
@@ -234,28 +191,11 @@
         <item>7</item>
     </integer-array>
 
-    <!-- If the DUN connection for this CDMA device supports more than just DUN -->
-    <!-- traffic you should list them here. -->
-    <!-- If this device is not CDMA this is ignored.  If this list is empty on -->
-    <!-- a DUN-requiring CDMA device, the DUN APN will just support just DUN. -->
-    <string-array translatable="false" name="config_cdma_dun_supported_types">
-    </string-array>
-
-    <!-- String containing the apn value for tethering.  May be overriden by secure settings
-         TETHER_DUN_APN.  Value is a comma separated series of strings:
-         "name,apn,proxy,port,username,password,server,mmsc,mmsproxy,mmsport,mcc,mnc,auth,type"
-         note that empty fields can be ommitted: "name,apn,,,,,,,,,310,260,,DUN" -->
-    <string translatable="false" name="config_tether_apndata"></string>
-
     <!-- Boolean indicating whether the wifi chipset has dual frequency band support -->
     <bool translatable="false" name="config_wifi_dual_band_support">true</bool>
 
     <!-- Boolean indicating whether the wifi chipset has p2p support -->
     <bool translatable="false" name="config_wifi_p2p_support">false</bool>
-
-    <!-- Device type information conforming to Annex B format in WiFi Direct specification.
-         The default represents a dual-mode smartphone -->
-    <string translatable="false" name="config_wifi_p2p_device_type">10-0050F204-5</string>
 
     <!-- Boolean indicating whether the wifi chipset supports background scanning mechanism.
          This mechanism allows the host to remain in suspend state and the dongle to actively
@@ -361,25 +301,11 @@
     <!-- Indicate whether the SD card is accessible without removing the battery. -->
     <bool name="config_batterySdCardAccessibility">false</bool>
 
-    <!-- List of file paths for USB host busses to exclude from USB host support.
-         For example, if the first USB bus on the device is used to communicate
-         with the modem or some other restricted hardware, add "/dev/bus/usb/001/"
-         to this list.  If this is empty, no parts of the host USB bus will be excluded.
-    -->
-    <string-array name="config_usbHostBlacklist" translatable="false">
-    </string-array>
-
-    <!-- List of paths to serial ports that are available to the serial manager.
-         for example, /dev/ttyUSB0
-    -->
-    <string-array translatable="false" name="config_serialPorts">
-    </string-array>
-
     <!-- Vibrator pattern for feedback about a long screen/key press -->
     <integer-array name="config_longPressVibePattern">
         <item>0</item>
         <item>1</item>
-        <item>20</item>
+        <item>17</item>
         <item>21</item>
     </integer-array>
 
@@ -400,7 +326,7 @@
     <integer-array name="config_safeModeDisabledVibePattern">
         <item>0</item>
         <item>1</item>
-        <item>20</item>
+        <item>17</item>
         <item>21</item>
     </integer-array>
 
@@ -540,8 +466,8 @@
         <item>60</item>
         <item>60</item>
         <item>60</item>
-        <item>0</item>
-        <item>0</item>
+        <item>60</item>
+        <item>60</item>
         <item>0</item>
         <item>0</item>
         <item>0</item>
@@ -593,14 +519,6 @@
     <!-- Package name providing geocoder API support. -->
     <string name="config_geocodeProviderPackageName" translatable="false">com.google.android.location</string>
 
-    <!-- Boolean indicating if current platform supports bluetooth SCO for off call
-    use cases -->
-    <bool name="config_bluetooth_sco_off_call">true</bool>
-
-    <!-- Boolean indicating if current platform supports bluetooth wide band
-         speech -->
-    <bool name="config_bluetooth_wide_band_speech">true</bool>
-
     <!-- Boolean indicating if current platform supports quick switch-on/off of
          Bluetooth Module -->
     <!-- <bool name="config_bluetooth_adapter_quick_switch">true</bool> -->
@@ -613,9 +531,6 @@
 
     <!-- The default reduced-datarate value in kilobits per sec -->
     <integer name="config_datause_throttle_kbitsps">300</integer>
-
-    <!-- The default iface on which to monitor data use -->
-    <string name="config_datause_iface" translatable="false">rmnet0</string>
 
     <!-- The default reduced-datarate notification mask -->
     <!-- 2 means give warning -->
@@ -643,10 +558,6 @@
          Note: Disable SMS also disable voicemail waiting sms,
                cell broadcasting sms, and MMS. -->
     <bool name="config_sms_capable">true</bool>
-
-    <!-- Enable/disable default bluetooth profiles:
-        HSP_AG, ObexObjectPush, Audio, NAP -->
-    <bool name="config_bluetooth_default_profiles">true</bool>
 
     <!-- IP address of the dns server to use if nobody else suggests one -->
     <string name="config_default_dns_server" translatable="false">8.8.8.8</string>
@@ -858,13 +769,6 @@
     <!-- Maximum number of grid columns permitted in the ResolverActivity
          used for picking activities to handle an intent. -->
     <integer name="config_maxResolverActivityColumns">2</integer>
-
-    <!-- Array of OEM specific USB mode override config.
-         OEM can override a certain USB mode depending on ro.bootmode.
-         Specify an array of below items to set override rule.
-         [bootmode]:[original USB mode]:[USB mode used]-->
-    <integer-array translatable="false" name="config_oemUsbModeOverride">
-    </integer-array>
 
     <!-- Set to true to add links to Cell Broadcast app from Settings and MMS app. -->
     <bool name="config_cellBroadcastAppLinks">false</bool>

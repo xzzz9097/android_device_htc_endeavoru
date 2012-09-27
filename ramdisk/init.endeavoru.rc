@@ -9,12 +9,6 @@ on early-init
     mkdir /mnt/sdcard 0775 system system
     symlink /mnt/sdcard /sdcard
 
-on early-boot
-    write /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor ondemand
-    write /sys/devices/system/cpu/cpu1/cpufreq/scaling_governor ondemand
-    write /sys/devices/system/cpu/cpu2/cpufreq/scaling_governor ondemand
-    write /sys/devices/system/cpu/cpu3/cpufreq/scaling_governor ondemand
-
 on emmc-fs
     mount ext4 /dev/block/mmcblk0p12 /system wait rw
     mount ext4 /dev/block/mmcblk0p15 /data wait rw noatime nosuid nodev noauto_da_alloc
@@ -47,16 +41,19 @@ on boot
     mkdir /data/misc/dhcp 0777 dhcp dhcp
     chown dhcp dhcp /data/misc/dhcp
 
-    # bluetooth power up/down interface
+# bluetooth power up/down interface
     chown bluetooth bluetooth /sys/class/rfkill/rfkill0/type
     chown bluetooth bluetooth /sys/class/rfkill/rfkill0/state
     chmod 0660                /sys/class/rfkill/rfkill0/state
 
     chown system /sys/module/edp/parameters/edp_ap_limit
+    chown system /sys/block/mmcblk0/queue/scheduler
     chown system /sys/devices/system/cpu/cpufreq/ondemand/touch_poke
     chown system /sys/devices/system/cpu/cpu_on
     chown system /sys/kernel/debug/tegra_hotplug/min_cpus
     chown system /sys/kernel/debug/tegra_hotplug/max_cpus
+    chown system /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq
+    chown system /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq
     chown system /sys/module/cpu_tegra3/parameters/auto_hotplug
     chown system /sys/devices/system/cpu/cpu1/online
     chown system /sys/devices/system/cpu/cpu2/online
@@ -101,13 +98,13 @@ on boot
     chmod 0660 /dev/ttyHS2
     chown bluetooth bluetooth /dev/ttyHS2
 
-    # power up/down interface
+# power up/down interface
     chmod 0660 /sys/class/rfkill/rfkill0/state
     chmod 0660 /sys/class/rfkill/rfkill0/type
     chown bluetooth bluetooth /sys/class/rfkill/rfkill0/state
     chown bluetooth bluetooth /sys/class/rfkill/rfkill0/type
 
-    # bluetooth MAC address programming
+# bluetooth MAC address programming
     chown bluetooth bluetooth ro.bt.bdaddr_path
     chown bluetooth bluetooth /system/etc/bluetooth
     setprop ro.bt.bdaddr_path "/system/etc/bluetooth/bdaddr"
@@ -188,12 +185,16 @@ on boot
 
 # Power management settings
     write /sys/module/cpu_tegra3/parameters/no_lp 0
-    #write /sys/module/tegra3_emc/parameters/emc_enable 0
-    #write /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq 1000000
-    write /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor ondemand
-    write /sys/devices/system/cpu/cpu1/cpufreq/scaling_governor ondemand
-    write /sys/devices/system/cpu/cpu2/cpufreq/scaling_governor ondemand
-    write /sys/devices/system/cpu/cpu3/cpufreq/scaling_governor ondemand
+    write /sys/devices/system/cpu/cpufreq/interactive/boost_factor 2
+    write /sys/devices/system/cpu/cpufreq/interactive/input_boost 1
+    write /sys/devices/system/cpu/cpufreq/interactive/sustain_load 80
+    write /sys/devices/system/cpu/cpu1/online 0
+    write /sys/devices/system/cpu/cpu2/online 0
+    write /sys/devices/system/cpu/cpu3/online 0
+    write /sys/kernel/debug/tegra_hotplug/max_cpus 1
+    write /sys/module/cpuidle/parameters/lp2_in_idle 1
+
+
     chown system /sys/devices/system/cpu/cpufreq/ondemand/sampling_rate_min
     chown system /sys/devices/system/cpu/cpufreq/ondemand/sampling_rate
     chown system /sys/devices/system/cpu/cpufreq/ondemand/sampling_rate_max
@@ -201,29 +202,12 @@ on boot
     chown system /sys/devices/system/cpu/cpufreq/ondemand/io_is_busy
     chown system /sys/devices/system/cpu/cpufreq/ondemand/up_threshold
     chown system /sys/devices/system/cpu/cpufreq/ondemand/touch_poke
-    chown system /sys/htc/power_save
+
     write /sys/devices/system/cpu/cpufreq/ondemand/sampling_rate_min 10000
     write /sys/devices/system/cpu/cpufreq/ondemand/sampling_rate 50000
     write /sys/devices/system/cpu/cpufreq/ondemand/sampling_down_factor 1
     write /sys/devices/system/cpu/cpufreq/ondemand/io_is_busy 1
     write /sys/devices/system/cpu/cpufreq/ondemand/up_threshold 85
-
-    #write /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor interactive
-    #write /sys/devices/system/cpu/cpu1/cpufreq/scaling_governor interactive
-    #write /sys/devices/system/cpu/cpu2/cpufreq/scaling_governor interactive
-    #write /sys/devices/system/cpu/cpu3/cpufreq/scaling_governor interactive
-   #write /sys/devices/system/cpu/cpufreq/interactive/boost_factor 2
-    #write /sys/devices/system/cpu/cpufreq/interactive/input_boost 1
-    #write /sys/devices/system/cpu/cpufreq/interactive/sustain_load 80
-    #write /sys/devices/system/cpu/cpufreq/interactive/timer_rate 20000
-    #write /sys/devices/system/cpu/cpufreq/interactive/min_sample_time 30000
-    #write /sys/devices/system/cpu/cpufreq/interactive/go_hispeed_load 80
-
-    write /sys/devices/system/cpu/cpu1/online 0
-    write /sys/devices/system/cpu/cpu2/online 0
-    write /sys/devices/system/cpu/cpu3/online 0
-    write /sys/kernel/debug/tegra_hotplug/max_cpus 1
-    write /sys/module/cpuidle/parameters/lp2_in_idle 1
 
 # Interactive governor settings
     chown system system /sys/devices/system/cpu/cpufreq/interactive/boost_factor
@@ -259,6 +243,12 @@ service akmd /system/bin/akmd
     class main
     user compass
     group compass misc input
+
+service tegra-post-boot /system/bin/sh /system/etc/init.tegra.post_boot.sh
+        class main
+        user root
+        disabled
+        oneshot
 
 service pollyd /system/bin/pollyd
     class main
@@ -494,3 +484,4 @@ on property:init.svc.bootanim=stopped
    write /sys/kernel/debug/tegra_hotplug/max_cpus 4
    write /sys/module/cpu_tegra3/parameters/auto_hotplug 1
     start post_boot
+    start tegra-post-boot
