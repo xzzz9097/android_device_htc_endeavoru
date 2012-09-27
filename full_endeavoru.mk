@@ -162,8 +162,8 @@ PRODUCT_PACKAGES += \
 	setup_fs
 
 # Power
-#PRODUCT_PACKAGES += \
-#        power.endeavoru
+PRODUCT_PACKAGES += \
+        power.endeavoru
 		
 # Permissions
 PRODUCT_COPY_FILES += \
