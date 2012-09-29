@@ -50,12 +50,18 @@ BOARD_FLASH_BLOCK_SIZE := 4096
 
 # Board nameing
 TARGET_NO_RADIOIMAGE := true
-TARGET_BOOTLOADER_BOARD_NAME := 
+TARGET_BOOTLOADER_BOARD_NAME := endeavoru
 TARGET_BOARD_PLATFORM := tegra
 TARGET_TEGRA_VERSION := t30
 BASE_CFLAGS := -mfpu=neon -mfloat-abi=softfp
 TARGET_GLOBAL_CFLAGS += $(BASE_CFLAGS)
 TARGET_GLOBAL_CPPFLAGS += $(BASE_CFLAGS)
+
+# Assert
+TARGET_OTA_ASSERT_DEVICE := endeavoru
+
+# Suspend while charging
+BOARD_ALLOW_SUSPEND_IN_CHARGER := true
 
 # Avoid the generation of ldrcc instructions
 NEED_WORKAROUND_CORTEX_A9_745320 := true
