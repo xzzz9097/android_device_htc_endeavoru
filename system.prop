@@ -140,3 +140,6 @@ ro.device.screen_res=720 x 1280 pixels, 4.7"
 
 # RC: cahrging LED always ON
 persist.sys.enable-charging-led=1
+
+# Allow more hidden apps apps (defalut is 15)
+sys.mem.max_hidden_apps=30
