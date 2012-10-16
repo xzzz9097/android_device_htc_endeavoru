@@ -51,6 +51,8 @@ PRODUCT_COPY_FILES += \
 	$(LOCAL_PATH)/configs/hostapd.conf:system/etc/wifi/hostapd.conf \
 	$(LOCAL_PATH)/configs/nvcamera.conf:system/etc/nvcamera.conf \
 	$(LOCAL_PATH)/configs/asound.conf:system/etc/asound.conf \
+	$(LOCAL_PATH)/configs/enctune.conf:system/etc/enctune.conf \
+	$(LOCAL_PATH)/configs/DSP_number.txt:system/etc/DSP_number.txt \
 	$(LOCAL_PATH)/configs/AIC3008_REG_DualMic_XC.csv:system/etc/AIC3008_REG_DualMic_XC.csv \
 	$(LOCAL_PATH)/configs/AIC3008_REG_DualMic.csv:system/etc/AIC3008_REG_DualMic.csv \
 	$(LOCAL_PATH)/configs/alsa.conf:system/usr/share/alsa/alsa.conf
