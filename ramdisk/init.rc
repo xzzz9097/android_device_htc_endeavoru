@@ -270,20 +270,21 @@ on boot
     chmod 0660 /sys/power/wake_unlock
 
     chown system system /sys/devices/system/cpu/cpufreq/interactive/timer_rate
-    chmod 0660 /sys/devices/system/cpu/cpufreq/interactive/timer_rate
+    chmod 0664 /sys/devices/system/cpu/cpufreq/interactive/timer_rate
     chown system system /sys/devices/system/cpu/cpufreq/interactive/min_sample_time
-    chmod 0660 /sys/devices/system/cpu/cpufreq/interactive/min_sample_time
+    chmod 0664 /sys/devices/system/cpu/cpufreq/interactive/min_sample_time
     chown system system /sys/devices/system/cpu/cpufreq/interactive/hispeed_freq
-    chmod 0660 /sys/devices/system/cpu/cpufreq/interactive/hispeed_freq
+    chmod 0664 /sys/devices/system/cpu/cpufreq/interactive/hispeed_freq
     chown system system /sys/devices/system/cpu/cpufreq/interactive/go_hispeed_load
-    chmod 0660 /sys/devices/system/cpu/cpufreq/interactive/go_hispeed_load
+    chmod 0664 /sys/devices/system/cpu/cpufreq/interactive/go_hispeed_load
     chown system system /sys/devices/system/cpu/cpufreq/interactive/above_hispeed_delay
-    chmod 0660 /sys/devices/system/cpu/cpufreq/interactive/above_hispeed_delay
+    chmod 0664 /sys/devices/system/cpu/cpufreq/interactive/above_hispeed_delay
     chown system system /sys/devices/system/cpu/cpufreq/interactive/boost
-    chmod 0660 /sys/devices/system/cpu/cpufreq/interactive/boost
+    chmod 0664 /sys/devices/system/cpu/cpufreq/interactive/boost
     chown system system /sys/devices/system/cpu/cpufreq/interactive/boostpulse
+    chmod 0664 /sys/devices/system/cpu/cpufreq/interactive/bootpulse
     chown system system /sys/devices/system/cpu/cpufreq/interactive/input_boost
-    chmod 0660 /sys/devices/system/cpu/cpufreq/interactive/input_boost
+    chmod 0664 /sys/devices/system/cpu/cpufreq/interactive/input_boost
 
     # Assume SMP uses shared cpufreq policy for all CPUs
     chown system system /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
@@ -328,6 +329,15 @@ chown system system /sys/class/timed_output/vibrator/enable
     chown system system /sys/kernel/ipv4/tcp_rmem_max
     chown root radio /proc/cmdline
     chown media system /dev/mux9
+
+#HTC SSD Camera
+# For Flashlight Restriction
+    chown radio system /sys/camera_led_status/led_ril_status
+    chown system system /sys/camera_led_status/led_wimax_status
+    chown system system /sys/camera_led_status/led_hotspot_status
+#HTC CPU poke
+    chown media system /sys/htc/media_boost_freq
+    chown media system /sys/htc/cpu_temp
 
 # Define TCP buffer sizes for various networks
 #   ReadMin, ReadInitial, ReadMax, WriteMin, WriteInitial, WriteMax,
@@ -608,11 +618,6 @@ service charging /system/bin/charging
     group root
     disabled
     oneshot
-
-service memlock /system/bin/memlock
-    class main
-    user root
-    group root
 
 # Execute files in /etc/init.d before booting
     service userinit /system/xbin/busybox run-parts /system/etc/init.d
