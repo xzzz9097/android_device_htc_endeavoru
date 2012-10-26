@@ -158,10 +158,6 @@ PRODUCT_PACKAGES += \
     Camera \
     camera.tegra
 
-# BT config
-PRODUCT_COPY_FILES += \
-  system/bluetooth/data/main.conf:system/etc/bluetooth/main.conf
-
 # NFC firmware
 PRODUCT_COPY_FILES += \
 	$(LOCAL_PATH)/prebuilt/lib/libpn544_fw.so:system/vendor/firmware/libpn544_fw.so
