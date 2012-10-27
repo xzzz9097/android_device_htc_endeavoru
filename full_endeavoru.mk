@@ -57,10 +57,6 @@ PRODUCT_COPY_FILES += \
 	$(LOCAL_PATH)/configs/AIC3008_REG_DualMic.csv:system/etc/AIC3008_REG_DualMic.csv \
 	$(LOCAL_PATH)/configs/alsa.conf:system/usr/share/alsa/alsa.conf
 
-# add post-boot which moves hardcoded stuff to user side from now on
-PRODUCT_COPY_FILES += \
-        device/htc/endeavoru/init.tegra.post_boot.sh:system/etc/init.tegra.post_boot.sh
-
 # GPS Certificate
 PRODUCT_COPY_FILES += \
 	$(LOCAL_PATH)/prebuilt/etc/SuplRootCert:system/etc/SuplRootCert
@@ -168,8 +164,8 @@ PRODUCT_PACKAGES += \
 	setup_fs
 
 # Power
-PRODUCT_PACKAGES += \
-        power.endeavoru
+#PRODUCT_PACKAGES += \
+#        power.endeavoru
 		
 # Permissions
 PRODUCT_COPY_FILES += \
