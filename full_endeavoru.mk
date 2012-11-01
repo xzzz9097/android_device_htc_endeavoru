@@ -154,6 +154,10 @@ PRODUCT_PACKAGES += \
     Camera \
     camera.tegra
 
+# CM File Manager
+PRODUCT_PACKAGES += \
+    CMFileManager
+
 # NFC firmware
 PRODUCT_COPY_FILES += \
 	$(LOCAL_PATH)/prebuilt/lib/libpn544_fw.so:system/vendor/firmware/libpn544_fw.so
