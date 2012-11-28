@@ -1,4 +1,0 @@
-add_lunch_combo cm_endeavoru-eng
-add_lunch_combo cm_endeavoru-userdebug
-add_lunch_combo cm_endeavoru-user
-
