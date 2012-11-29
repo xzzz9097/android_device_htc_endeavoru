@@ -76,11 +76,15 @@ USE_OPENGL_RENDERER := true
 
 # Bluetooth
 BOARD_HAVE_BLUETOOTH := true
+BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := device/htc/endeavoru/bluetooth
 
 # HTC ril compatability
 BOARD_FORCE_RILD_AS_ROOT := true
 TARGET_PROVIDES_LIBRIL := vendor/htc/endeavoru/proprietary/lib/libhtc-ril.so
 BOARD_USE_NEW_LIBRIL_HTC := true
+
+# HTCLOG
+COMMON_GLOBAL_CFLAGS += -DHTCLOG
 
 # Camera
 USE_CAMERA_STUB := false
