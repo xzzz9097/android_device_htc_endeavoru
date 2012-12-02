@@ -176,7 +176,8 @@ PRODUCT_COPY_FILES += \
 PRODUCT_PROPERTY_OVERRIDES += \
 	ro.sf.lcd_density=320 \
 	persist.sys.usb.config=mtp,adb \
-	ro.telephony.ril_class=QualcommSharedRIL
+	ro.telephony.ril_class=QualcommSharedRIL \
+        ro.product.manufacturer=HTC
 
 $(call inherit-product-if-exists, hardware/ti/wan/mac80211/Android.mk)
 $(call inherit-product, $(SRC_TARGET_DIR)/product/full_base_telephony.mk)
