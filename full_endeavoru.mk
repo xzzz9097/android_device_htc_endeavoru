@@ -119,6 +119,10 @@ PRODUCT_PACKAGES += \
 	pollyd \
 	Polly
 
+# ugexec from hox_tools
+PRODUCT_PACKAGES += \
+	ugexec
+
 # Camera
 PRODUCT_PACKAGES += \
     Camera \
