@@ -1,7 +1,7 @@
 
 on early-init
     mount debugfs debugfs /sys/kernel/debug
-    write /sys/class/firmware/timeout 5
+    write /sys/class/firmware/timeout 2
 
 on init
     # See storage config details at http://source.android.com/tech/storage/
@@ -223,7 +223,10 @@ on boot
 # GPIO BB access for user radio
     chown radio system /sys/class/gpio/gpio32/value
 
-    # allow interfaces to get v6 address when tethering is enabled
+# allow interfaces to get v6 address when tethering is enabled
+    chown system system /proc/sys/net/ipv6/conf/rmnet0/accept_ra
+    chown system system /proc/sys/net/ipv6/conf/rmnet1/accept_ra
+    chown system system /proc/sys/net/ipv6/conf/rmnet2/accept_ra
     write /proc/sys/net/ipv6/conf/rmnet0/accept_ra 2
     write /proc/sys/net/ipv6/conf/rmnet1/accept_ra 2
     write /proc/sys/net/ipv6/conf/rmnet2/accept_ra 2
@@ -262,12 +265,6 @@ service ewtzmud /system/bin/ewtzmud
     class main
     user system
     group system misc input
-
-# bugreport is triggered by the VOLUME-DOWN and VOLUME-UP keys/
-service bugreport /system/bin/dumpstate -d -v -o /sdcard/bugreports/bugreport
-    disabled
-    oneshot
-    keycodes 115 114
 
 service nvm-server /system/bin/nvm_server
     class core
@@ -386,11 +383,11 @@ service sdcard /system/bin/sdcard /data/media /mnt/shell/emulated 1023 1023
     group root
 
 # bugreport is triggered by the VOLUME-DOWN and VOLUME-UP keys
-service bugreport /system/bin/bugmailer.sh -b /system/media/audio/ui/Dock.ogg -e /system/media/audio/ui/Undock.ogg
-    class main
-    disabled
-    oneshot
-    keycodes 115 114
+#service bugreport /system/bin/bugmailer.sh -b /system/media/audio/ui/Dock.ogg -e /system/media/audio/ui/#Undock.ogg
+#    class main
+#    disabled
+#    oneshot
+#    keycodes 115 114
 
 service hostapd_bin /system/bin/logwrapper /system/bin/hostapd -dd /data/misc/wifi/hostapd.conf
     class main

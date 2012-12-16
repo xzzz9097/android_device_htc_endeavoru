@@ -125,8 +125,8 @@ PRODUCT_PACKAGES += \
 
 # Camera
 PRODUCT_PACKAGES += \
-    Camera \
-    camera.tegra
+        Camera \
+        camera.tegra
 
 # NFC firmware
 PRODUCT_COPY_FILES += \
@@ -141,6 +141,11 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
         Music \
         CMFileManager
+
+# Increase the HWUI font cache
+PRODUCT_PROPERTY_OVERRIDES += \
+        ro.hwui.text_cache_width=2048 \
+        ro.hwui.text_cache_height=256
 
 # Power
 #PRODUCT_PACKAGES += \
