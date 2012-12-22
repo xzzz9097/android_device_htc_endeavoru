@@ -13,7 +13,7 @@
 # This is extracted from icetool overlay option,
 # available on https://github.com/alienmind-org/BlackICE/blob/master/system/bin/icetool
 #
-OVERLAY_DIR=/sdcard/overlay
+OVERLAY_DIR=/storage/emulated/0/overlay
 
 # FIXME Device dependent paths
 # These works only on DesireHD / Inspire4G
