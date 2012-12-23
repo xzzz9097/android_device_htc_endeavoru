@@ -570,8 +570,11 @@
         <item>161</item>
         <item>226</item>
         <item>321</item>
+        <item>481</item>
         <item>641</item>
+        <item>961</item>
         <item>1281</item>
+        <item>1941</item>
         <item>2601</item>
     </integer-array>
 
@@ -605,8 +608,11 @@
         <item>48</item>
         <item>55</item>
         <item>80</item>
+        <item>115</item>
         <item>150</item>
+        <item>175</item>
         <item>200</item>
+        <item>227</item>
         <item>255</item>
     </integer-array>
 
@@ -622,6 +628,9 @@
         <item>60</item>
         <item>60</item>
         <item>60</item>
+        <item>0</item>
+        <item>0</item>
+        <item>0</item>
         <item>0</item>
         <item>0</item>
         <item>0</item>
