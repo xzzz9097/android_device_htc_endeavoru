@@ -52,7 +52,7 @@ ro.telephony.ril.v3=signalstrength,skipbrokendatacall
 
 # Wi-Fi
 wifi.interface=wlan0
-wifi.supplicant_scan_interval=100
+wifi.supplicant_scan_interval=240
 
 init.svc.wpa_supplicant=
 init.svc.dhcpcd_wlan0=
