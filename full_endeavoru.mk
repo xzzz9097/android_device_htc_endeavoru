@@ -127,7 +127,6 @@ PRODUCT_PACKAGES += \
 
 # Camera
 PRODUCT_PACKAGES += \
-        Camera \
         camera.tegra
 
 # NFC firmware
