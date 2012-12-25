@@ -149,8 +149,8 @@ PRODUCT_PROPERTY_OVERRIDES += \
         ro.hwui.text_cache_height=256
 
 # Power
-#PRODUCT_PACKAGES += \
-#        power.endeavoru
+PRODUCT_PACKAGES += \
+        power.endeavoru
 		
 # Permissions
 PRODUCT_COPY_FILES += \
