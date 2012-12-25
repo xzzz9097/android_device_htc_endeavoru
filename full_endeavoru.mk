@@ -77,10 +77,6 @@ PRODUCT_COPY_FILES += \
 PRODUCT_COPY_FILES += \
 	$(LOCAL_PATH)/vold.fstab:system/etc/vold.fstab
 
-# Overlay script
-PRODUCT_COPY_FILES += \
-	$(LOCAL_PATH)/prebuilt/setup/overlay:system/setup/overlay
-
 # Lights
 PRODUCT_PACKAGES += \
 	lights.endeavoru
