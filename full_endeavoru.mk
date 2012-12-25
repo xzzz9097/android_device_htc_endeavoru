@@ -125,10 +125,6 @@ PRODUCT_PACKAGES += \
 	libbt-vendor \
 	hox-uim-sysfs
 
-# Camera
-PRODUCT_PACKAGES += \
-        camera.tegra
-
 # NFC firmware
 PRODUCT_COPY_FILES += \
 	$(LOCAL_PATH)/prebuilt/lib/libpn544_fw.so:system/vendor/firmware/libpn544_fw.so
