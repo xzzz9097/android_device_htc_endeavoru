@@ -32,7 +32,7 @@
 #define MAX_BUF_SZ  10
 
 /* initialize to something safe */
-static char screen_off_max_freq[MAX_BUF_SZ] = "700000";
+static char screen_off_max_freq[MAX_BUF_SZ] = "475000";
 static char scaling_max_freq[MAX_BUF_SZ] = "1200000";
 
 static int boost_fd = -1;
