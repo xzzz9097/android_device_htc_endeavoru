@@ -24,7 +24,7 @@
     <storage
         android:storageDescription="@string/storage_internal"
         android:emulated="true"
-        android:mtpReserve="0" />
+        android:mtpReserve="50" />
 
     <storage android:mountPoint="/storage/usbdisk0"
         android:storageDescription="@string/storage_usb"
