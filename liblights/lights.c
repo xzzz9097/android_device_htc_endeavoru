@@ -41,6 +41,7 @@ char const*const AMBER_LED_FILE = "/sys/class/leds/amber/brightness";
 char const*const GREEN_LED_FILE = "/sys/class/leds/green/brightness";
 
 char const*const BUTTON_FILE = "/sys/class/leds/button-backlight/brightness";
+char const*const BUTTON_CURRENTS_FILE = "/sys/class/leds/button-backlight/currents";
 
 char const*const AMBER_BLINK_FILE = "/sys/class/leds/amber/blink";
 char const*const GREEN_BLINK_FILE = "/sys/class/leds/green/blink";
@@ -228,7 +229,8 @@ static int set_light_buttons(struct light_device_t* dev,
     int err = 0;
     int on = is_lit(state);
     pthread_mutex_lock(&g_lock);
-    err = write_int(BUTTON_FILE, on ? 255 : 0);
+    err = write_int(BUTTON_CURRENTS_FILE, on ? 1 : 0);
+    err = write_int(BUTTON_FILE, on ? 1 : 0);
     pthread_mutex_unlock(&g_lock);
 
     return 0;
