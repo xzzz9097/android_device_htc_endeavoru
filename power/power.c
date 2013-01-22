@@ -101,13 +101,6 @@ static void endeavoru_power_set_interactive(struct power_module *module, int on)
 
     char buf[MAX_BUF_SZ];
 
-    /*
-     * Lower maximum frequency when screen is off.  CPU 0 and 1 share a
-     * cpufreq policy.
-     */
-
-    sysfs_write(SCREENOFFMAXFREQ_PATH,screen_off_max_freq);
-
     sysfs_write("/sys/devices/system/cpu/cpufreq/interactive/input_boost",
                 on ? "1" : "0");
 
