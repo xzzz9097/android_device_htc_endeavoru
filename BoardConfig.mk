@@ -29,8 +29,11 @@ TARGET_ARCH_VARIANT_CPU := cortex-a9
 ARCH_ARM_HAVE_NEON := true
 ARCH_ARM_HAVE_TLS_REGISTER := true
 ARCH_ARM_HAVE_32_BYTE_CACHE_LINES := true
-USE_NEW_MEMCPY := true
+
+# Linaro fixes
+USE_OLD_MEMCPY := true
 USE_MORE_OPT_FLAGS := yes
+DEBUG_NO_STDCXX11 : yes
 
 # use endeavor init script
 TARGET_PROVIDES_INIT_TARGET_RC := true
