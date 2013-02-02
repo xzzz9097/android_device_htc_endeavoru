@@ -129,7 +129,8 @@ PRODUCT_PACKAGES += \
 # Custom Packages
 PRODUCT_PACKAGES += \
         Music \
-        CMFileManager
+        CMFileManager \
+        CellBroadcastReceiver
 
 # Increase the HWUI font cache
 PRODUCT_PROPERTY_OVERRIDES += \
