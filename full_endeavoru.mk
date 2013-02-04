@@ -77,6 +77,10 @@ PRODUCT_COPY_FILES += \
 PRODUCT_COPY_FILES += \
 	$(LOCAL_PATH)/vold.fstab:system/etc/vold.fstab
 
+# video
+PRODUCT_PACKAGES += \
+        libstagefrighthw
+
 # Lights
 PRODUCT_PACKAGES += \
 	lights.endeavoru
