@@ -17,6 +17,9 @@
 # Skip droiddoc build to save build time
 BOARD_SKIP_ANDROID_DOC_BUILD := true
 
+TARGET_GLOBAL_CFLAGS += $(call-cc-option,-mfpu=neon) $(call-cc-option,-mfloat-abi=softfp)
+TARGET_GLOBAL_CPPFLAGS += $(call-cc-option,-mfpu=neon) $(call-cc-option,-mfloat-abi=softfp)
+
 # cpu info
 BOARD_HAS_LOCKED_BOOTLOADER := true
 TARGET_NO_BOOTLOADER := true
@@ -31,7 +34,7 @@ ARCH_ARM_HAVE_TLS_REGISTER := true
 ARCH_ARM_HAVE_32_BYTE_CACHE_LINES := true
 
 # Linaro fixes
-USE_OLD_MEMCPY := true
+# USE_OLD_MEMCPY := true
 USE_MORE_OPT_FLAGS := yes
 DEBUG_NO_STDCXX11 : yes
 
@@ -60,11 +63,25 @@ TARGET_NO_RADIOIMAGE := true
 TARGET_BOOTLOADER_BOARD_NAME := endeavoru
 TARGET_BOARD_PLATFORM := tegra
 TARGET_TEGRA_VERSION := t30
+
 ifneq ($(USE_MORE_OPT_FLAGS),yes)
 # Extra CFLAGS
-BASE_CFLAGS := -mfpu=neon -mfloat-abi=softfp
-TARGET_GLOBAL_CFLAGS += $(BASE_CFLAGS)
-TARGET_GLOBAL_CPPFLAGS += $(BASE_CFLAGS)
+TARGET_EXTRA_CFLAGS :=	$(call-cc-option,-fsanitize=address) \
+$(call-cc-option,-fsanitize=thread) \
+$(call-cc-option,-mcpu=cortex-a9) \
+$(call-cc-option,-mfpu=neon) \
+$(call-cc-option,-mtune=cortex-a9) \
+-fgcse-after-reload \
+-finline-functions \
+-fipa-cp-clone \
+-fpredictive-commoning \
+-fvect-cost-model
+# Extra CPPFLAGS
+  TARGET_EXTRA_CPPFLAGS :=	$(call-cpp-option,-fsanitize=address) \
+$(call-cpp-option,-fsanitize=thread) \
+$(call-cpp-option,-mcpu=cortex-a9) \
+$(call-cpp-option,-mfpu=neon) \
+$(call-cpp-option,-mtune=cortex-a9)
 endif
 
 # Assert
