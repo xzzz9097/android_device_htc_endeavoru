@@ -490,7 +490,7 @@
     <integer name="config_lowBatteryCloseWarningLevel">15</integer>
 
     <!-- Default color for notification LED. -->
-    <color name="config_defaultNotificationColor">#ffffffff</color>
+    <color name="config_defaultNotificationColor">#00FF00</color>
 
     <!-- Default LED on time for notification LED in milliseconds. -->
     <integer name="config_defaultNotificationLedOn">500</integer>
@@ -520,9 +520,9 @@
     <bool name="config_disableMenuKeyInLockScreen">false</bool>
 
     <!-- Don't show lock screen before unlock screen (PIN/pattern/password) -->
-    <bool name="config_enableLockBeforeUnlockScreen">false</bool>
+    <bool name="config_enableLockBeforeUnlockScreen">true</bool>
 
-    <!-- Diable lockscreen rotation by default -->
+    <!-- Disable lockscreen rotation by default -->
     <bool name="config_enableLockScreenRotation">false</bool>
 
     <!-- Enable puk unlockscreen by default.
