@@ -139,5 +139,8 @@ ro.device.front_cam=1.3MP, 720p
 ro.device.rear_cam=8MP, 1080p
 ro.device.screen_res=720 x 1280 pixels, 4.7"
 
+#ICJ final build number
+ro.icj.version=V1.6
+
 # RC: cahrging LED always ON
 persist.sys.enable-charging-led=1
