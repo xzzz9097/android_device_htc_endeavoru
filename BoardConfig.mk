@@ -35,9 +35,9 @@ ARCH_ARM_HAVE_32_BYTE_CACHE_LINES := true
 
 # Linaro fixes
 # USE_OLD_MEMCPY := true
-USE_MORE_OPT_FLAGS := no
+USE_MORE_OPT_FLAGS := yes
 DEBUG_NO_STDCXX11 := yes
-DEBUG_NO_STRICT_ALIASING := yes
+# DEBUG_NO_STRICT_ALIASING := yes
 
 # use endeavor init script
 TARGET_PROVIDES_INIT_TARGET_RC := true
