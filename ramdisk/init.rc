@@ -21,6 +21,9 @@ on early-init
 
 # create mountpoints
     mkdir /mnt 0775 root system
+    mkdir /storage 0050 root sdcard_r
+    # Create mountpoint so Dalvik can mark as slave in zygotes.
+    mount tmpfs tmpfs /storage mode=0050,uid=0,gid=1028
 
 on init
 
@@ -55,7 +58,7 @@ loglevel 3
 
     mkdir /system
     mkdir /data 0771 system system
-    mkdir /cache 0770 system cache
+    mkdir /cache 0771 system cache
     mkdir /config 0500 root root
 
     # See storage config details at http://source.android.com/tech/storage/
@@ -100,6 +103,7 @@ loglevel 3
     mkdir /dev/cpuctl
     mount cgroup none /dev/cpuctl cpu
     chown system system /dev/cpuctl
+    chmod 0660 /dev/cpuctl
     chown system system /dev/cpuctl/tasks
     chmod 0660 /dev/cpuctl/tasks
     write /dev/cpuctl/cpu.shares 1024
@@ -125,7 +129,6 @@ loglevel 3
 # This is needed by any process that uses socket tagging.
     chmod 0644 /dev/xt_qtaguid
 
-
 on post-fs
     # once everything is setup, no need to modify /
     mount rootfs rootfs / ro remount
@@ -135,7 +138,7 @@ on post-fs
 
     # We chown/chmod /cache again so because mount is run as root + defaults
     chown system cache /cache
-    chmod 0770 /cache
+    chmod 0771 /cache
     # We restorecon /cache in case the cache partition has been reset.
     restorecon /cache
 
@@ -212,9 +215,12 @@ on post-fs-data
     mkdir /data/property 0700 root root
     mkdir /data/ssh 0750 root shell
     mkdir /data/ssh/empty 0700 root root
+    mkdir /data/radio 0770 radio radio
 
-    # create dalvik-cache, so as to enforce our permissions
+    # create dalvik-cache and double-check the perms, so as to enforce our permissions
     mkdir /data/dalvik-cache 0771 system system
+    chown system system /data/dalvik-cache
+    chmod 0771 /data/dalvik-cache
 
     # create resource-cache and double-check the perms
     mkdir /data/resource-cache 0771 system system
@@ -233,6 +239,9 @@ on post-fs-data
     # won't work.
     # Set indication (checked by vold) that we have finished this action
     #setprop vold.post_fs_data_done 1
+
+# Include extra init file
+    import /init.aokp.rc
 
 on boot
 # basic network init
@@ -288,7 +297,7 @@ on boot
     chown system system /sys/devices/system/cpu/cpufreq/interactive/input_boost
     chmod 0660 /sys/devices/system/cpu/cpufreq/interactive/input_boost
 
-# Assume SMP uses shared cpufreq policy for all CPUs
+    # Assume SMP uses shared cpufreq policy for all CPUs
     chown system system /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
     chmod 0664 /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
     chown system system /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq
@@ -325,17 +334,19 @@ on boot
 
 # Define TCP buffer sizes for various networks
 #   ReadMin, ReadInitial, ReadMax, WriteMin, WriteInitial, WriteMax,
-    setprop net.tcp.buffersize.default 4096,87380,110208,4096,16384,110208
-    setprop net.tcp.buffersize.wifi    524288,1048576,2097152,262144,524288,1048576
-    setprop net.tcp.buffersize.lte     524288,1048576,2097152,262144,524288,1048576
-    setprop net.tcp.buffersize.umts    4094,87380,110208,4096,16384,110208
-    setprop net.tcp.buffersize.hspa    4094,87380,262144,4096,16384,262144
-    setprop net.tcp.buffersize.hsupa   4094,87380,262144,4096,16384,262144
-    setprop net.tcp.buffersize.hsdpa   4094,87380,262144,4096,16384,262144
-    setprop net.tcp.buffersize.hspap   4094,87380,1220608,4096,16384,1220608
-    setprop net.tcp.buffersize.edge    4093,26280,35040,4096,16384,35040
-    setprop net.tcp.buffersize.gprs    4092,8760,11680,4096,8760,11680
-    setprop net.tcp.buffersize.evdo    4094,87380,262144,4096,16384,262144
+    setprop net.tcp.buffersize.default 4096,87380,704512,4096,16384,110208
+#   setprop net.tcp.buffersize.wifi    524288,1048576,2097152,262144,524288,1048576
+    setprop net.tcp.buffersize.wifi    4094,87380,110208,4096,16384,110208
+    setprop net.tcp.buffersize.lte     4096,87380,1220608,4096,16384,563200
+    setprop net.tcp.buffersize.umts    4096,87380,563200,4096,16384,110208
+    setprop net.tcp.buffersize.hspa    4096,87380,704512,4096,16384,110208
+    setprop net.tcp.buffersize.hsupa   4096,87380,704512,4096,16384,262144
+    setprop net.tcp.buffersize.hsdpa   4096,87380,704512,4096,16384,262144
+    setprop net.tcp.buffersize.hspap   4096,87380,1220608,4096,16384,393216
+    setprop net.tcp.buffersize.edge    4096,26280,35040,4096,16384,35040
+    setprop net.tcp.buffersize.gprs    4096,8760,11680,4096,8760,11680
+    setprop net.tcp.buffersize.evdo    4096,87380,563200,4096,16384,262144
+    setprop net.tcp.buffersize.evdo_b  4096,87380,704512,4096,16384,262144
 
 # allow system to modify ksm control files
     chown root system /sys/kernel/mm/ksm/pages_to_scan
@@ -449,7 +460,6 @@ service nvm-server /system/bin/nvm_server
     group root
     oneshot
 
-
 service ril-daemon /system/bin/rild
     class main
     socket rild stream 660 root radio
@@ -497,6 +507,10 @@ service installd /system/bin/installd
     socket installd stream 600 system system
 
 service flash_recovery /system/etc/install-recovery.sh
+    class main
+    oneshot
+
+service post_boot /system/etc/post-boot.sh
     class main
     oneshot
 

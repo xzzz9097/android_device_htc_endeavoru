@@ -22,10 +22,11 @@ on init
     symlink /storage/usbdisk0 /mnt/usbdisk0
 
 on early-boot
-    write /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor interactive
-    write /sys/devices/system/cpu/cpu1/cpufreq/scaling_governor interactive
-    write /sys/devices/system/cpu/cpu2/cpufreq/scaling_governor interactive
-    write /sys/devices/system/cpu/cpu3/cpufreq/scaling_governor interactive
+
+#   write /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor interactive
+#   write /sys/devices/system/cpu/cpu1/cpufreq/scaling_governor interactive
+#   write /sys/devices/system/cpu/cpu2/cpufreq/scaling_governor interactive
+#   write /sys/devices/system/cpu/cpu3/cpufreq/scaling_governor interactive
 
 on fs
     setprop ro.crypto.umount_sd false
@@ -69,8 +70,9 @@ on boot
     chown system /sys/kernel/debug/tegra_hotplug/max_cpus
     chown system /sys/kernel/tegra_cap/core_cap_level
     chown system /sys/kernel/tegra_cap/core_cap_state
-    chown media /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq
+    chown media.system /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq
     chown system /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq
+    chown system /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
     chown system /sys/module/cpu_tegra3/parameters/auto_hotplug
     chown system /sys/devices/system/cpu/cpu1/online
     chown system /sys/devices/system/cpu/cpu2/online
@@ -247,6 +249,28 @@ on boot
     copy /etc/DxDrmConfig_Server.txt /data/DxDrm/DxDrmConfig_Server.txt
     # Discretix DRM change end
 
+# Power management settings
+    write /sys/module/cpu_tegra3/parameters/no_lp 0
+    write /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor ondemand
+    write /sys/devices/system/cpu/cpu1/cpufreq/scaling_governor ondemand
+    write /sys/devices/system/cpu/cpu2/cpufreq/scaling_governor ondemand
+    write /sys/devices/system/cpu/cpu3/cpufreq/scaling_governor ondemand
+    chown system /sys/devices/system/cpu/cpufreq/ondemand/sampling_rate_min
+    chown system /sys/devices/system/cpu/cpufreq/ondemand/sampling_rate
+    chown system /sys/devices/system/cpu/cpufreq/ondemand/sampling_rate_max
+    chown system /sys/devices/system/cpu/cpufreq/ondemand/sampling_down_factor
+    chown system /sys/devices/system/cpu/cpufreq/ondemand/io_is_busy
+    chown system /sys/devices/system/cpu/cpufreq/ondemand/up_threshold
+    chown system /sys/devices/system/cpu/cpufreq/ondemand/touch_poke
+    chown system /sys/htc/power_save
+    write /sys/devices/system/cpu/cpufreq/ondemand/sampling_rate_min 10000
+    write /sys/devices/system/cpu/cpufreq/ondemand/sampling_rate 50000
+    write /sys/devices/system/cpu/cpufreq/ondemand/sampling_down_factor 4
+    write /sys/devices/system/cpu/cpufreq/ondemand/io_is_busy 1
+    write /sys/devices/system/cpu/cpufreq/ondemand/up_threshold 90
+    write /sys/module/cpu_tegra3/parameters/auto_hotplug 1
+    write /sys/module/cpuidle/parameters/lp2_in_idle 1
+
 #AUD
     mkdir /data/audio
     chmod 755 /data/audio
@@ -394,13 +418,6 @@ service sdcard /system/bin/sdcard /data/media /mnt/shell/emulated 1023 1023
     class main
     user root
     group root
-
-# bugreport is triggered by the VOLUME-DOWN and VOLUME-UP keys
-#service bugreport /system/bin/bugmailer.sh -b /system/media/audio/ui/Dock.ogg -e /system/media/audio/ui/Undock.ogg
-#    class main
-#    disabled
-#    oneshot
-#    keycodes 115 114
 
 service hostapd_bin /system/bin/logwrapper /system/bin/hostapd -dd /data/misc/wifi/hostapd.conf
     class main

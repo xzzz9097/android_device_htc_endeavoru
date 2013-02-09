@@ -144,6 +144,11 @@ PRODUCT_PROPERTY_OVERRIDES += \
 # Power
 PRODUCT_PACKAGES += \
         power.endeavoru
+
+# init.d support
++PRODUCT_COPY_FILES += \
+        $(LOCAL_PATH)/prebuilt/etc/post-boot.sh:system/etc/post-boot.sh \
+        $(LOCAL_PATH)/ramdisk/bin/sysinit:system/bin/sysinit
 		
 # Permissions
 PRODUCT_COPY_FILES += \
