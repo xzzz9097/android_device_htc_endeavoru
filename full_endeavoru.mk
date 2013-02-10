@@ -44,7 +44,9 @@ PRODUCT_COPY_FILES := \
 	$(LOCAL_PATH)/ramdisk/ueventd.endeavoru.rc:root/ueventd.endeavoru.rc \
         $(LOCAL_PATH)/ramdisk/fstab.endeavoru.ext4:root/fstab.endeavoru.ext4 \
         $(LOCAL_PATH)/ramdisk/fstab.endeavoru.vfat:root/fstab.endeavoru.vfat \
-        $(LOCAL_PATH)/ramdisk/fstab.endeavoru:root/fstab.endeavoru
+        $(LOCAL_PATH)/ramdisk/fstab.endeavoru:root/fstab.endeavoru \
+        $(LOCAL_PATH)/ramdisk/wifi_loader.sh:root/wifi_loader.sh \
+        $(LOCAL_PATH)/ramdisk/init:root/init
 
 PRODUCT_COPY_FILES += \
 	$(LOCAL_PATH)/configs/gps.conf:system/etc/gps.conf \
