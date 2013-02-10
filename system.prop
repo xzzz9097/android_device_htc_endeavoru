@@ -128,7 +128,10 @@ ro.vold.umsdirtyratio=50
 #export for SoundHound
 persist.htc.audio.pcm.samplerate=48000
 persist.htc.audio.pcm.channels=2
-# Temporary MHL rotation fix
+
+#HDMI
+ro.hdmi.enable=true
+# temporary fix for HDMI output, for videos it works now in correct landscape with this set
 persist.demo.hdmirotation=portrait
 
 # Addidional info for Settings/About/Hardware
