@@ -45,9 +45,11 @@ TARGET_PROVIDES_INIT_TARGET_RC := true
 # vold
 BOARD_VOLD_MAX_PARTITIONS := 20
 BOARD_VOLD_EMMC_SHARES_DEV_MAJOR := true
+BOARD_SDCARD_INTERNAL_DEVICE := /dev/block/mmcblk0p14
+BOARD_HAS_SDCARD_INTERNAL := true
 
 # USB
-TARGET_USE_CUSTOM_LUN_FILE_PATH := /sys/devices/platform/fsl-tegra-udc/gadget/lun
+TARGET_USE_CUSTOM_LUN_FILE_PATH := "/sys/devices/platform/tegra-udc.0/gadget/lun0/file"
 
 # Lights
 TARGET_PROVIDES_LIBLIGHTS := true
