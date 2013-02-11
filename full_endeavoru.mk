@@ -137,7 +137,11 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
         Music \
         CMFileManager \
-        CellBroadcastReceiver
+        CellBroadcastReceiver \
+        Apollo \
+        DSPManager \
+        libcyanogen-dsp \
+        audio_effects.conf
 
 # Increase the HWUI font cache
 PRODUCT_PROPERTY_OVERRIDES += \
