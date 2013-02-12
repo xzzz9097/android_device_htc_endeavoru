@@ -1053,9 +1053,6 @@
         <item>250</item>
     </integer-array>
 
-    <!--  Maximum number of supported users -->
-    <integer name="config_multiuserMaximumUsers">8</integer>
-
     <!-- The restoring is handled by modem if it is true-->
     <bool name="skip_restoring_network_selection">false</bool>
 
