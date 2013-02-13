@@ -278,9 +278,9 @@ on boot
     chown system /sys/htc/power_save
     write /sys/devices/system/cpu/cpufreq/ondemand/sampling_rate_min 10000
     write /sys/devices/system/cpu/cpufreq/ondemand/sampling_rate 50000
-    write /sys/devices/system/cpu/cpufreq/ondemand/sampling_down_factor 4
+    write /sys/devices/system/cpu/cpufreq/ondemand/sampling_down_factor 10
     write /sys/devices/system/cpu/cpufreq/ondemand/io_is_busy 1
-    write /sys/devices/system/cpu/cpufreq/ondemand/up_threshold 90
+    write /sys/devices/system/cpu/cpufreq/ondemand/up_threshold 40
     write /sys/module/cpu_tegra3/parameters/auto_hotplug 1
     write /sys/module/cpuidle/parameters/lp2_in_idle 1
 
