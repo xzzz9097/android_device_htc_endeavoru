@@ -116,8 +116,11 @@ debug.sf.hw=1
 ro.media.dec.jpeg.memcap=8000000
 ro.media.enc.jpeg.quality=100
 dalvik.vm.execution-mode=int:jit
-persist.sys.use_dithering=1
 dalvik.vm.dexopt-flags=m=y
+windowsmgr.max_events_per_sec = 240
+
+# force gpu rendering(2d drawing) [Nvidia setting - libhtc-opt2.so]
+persist.sys.ui.hw=true
 
 #Certain apps like chrome in play store check and need this
 ro.opengles.version = 131072
