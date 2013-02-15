@@ -21,15 +21,6 @@ endif
 
 DEVICE_PACKAGE_OVERLAYS := $(LOCAL_PATH)/overlay
 
-# Set secure on user builds
-ifeq ($(TARGET_BUILT_VARIANT),user)
-ADDITIONAL_DEFAULT_PROPERTIES += \
-	ro.secure=1
-else
-ADDITIONAL_DEFAULT_PROPERTIES += \
-	ro.secure=0
-endif
-
 # This device is xhdpi.
 PRODUCT_AAPT_CONFIG := normal hdpi xhdpi
 PRODUCT_AAPT_PREF_CONFIG := xhdpi
@@ -191,7 +182,7 @@ PRODUCT_COPY_FILES += \
 PRODUCT_PROPERTY_OVERRIDES += \
 	ro.sf.lcd_density=320 \
 	persist.sys.usb.config=mtp,adb \
-	ro.telephony.ril_class=QualcommSharedRIL \
+	ro.adb.secure=1 \
         ro.product.manufacturer=HTC
 
 $(call inherit-product-if-exists, hardware/ti/wan/mac80211/Android.mk)
