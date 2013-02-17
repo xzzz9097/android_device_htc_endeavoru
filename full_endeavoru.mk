@@ -190,7 +190,7 @@ PRODUCT_COPY_FILES += \
 
 PRODUCT_PROPERTY_OVERRIDES += \
 	ro.sf.lcd_density=320 \
-	persist.sys.usb.config=mass_storage,adb \
+	persist.sys.usb.config=mtp,adb \
 	ro.telephony.ril_class=QualcommSharedRIL \
         ro.product.manufacturer=HTC
 
