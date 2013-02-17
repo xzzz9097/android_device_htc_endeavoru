@@ -86,7 +86,7 @@ PRODUCT_PACKAGES += \
 
 # Lights
 PRODUCT_PACKAGES += \
-	lights.endeavoru
+	lights.tegra
 
 # Keyboard
 PRODUCT_COPY_FILES += \
