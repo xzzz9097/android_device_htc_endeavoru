@@ -166,3 +166,6 @@ TARGET_OTA_ASSERT_DEVICE := endeavoru
 
 # Kernel building
 TARGET_USE_PREBUILT_KERNEL := true
+
+# Releasetools
+TARGET_RELEASETOOLS_EXTENSIONS := device/htc/endeavoru
