@@ -136,6 +136,13 @@ PRODUCT_COPY_FILES += \
 PRODUCT_COPY_FILES += \
         $(foreach f,$(wildcard $(LOCAL_PATH)/prebuilt/modules/*),$(f):system/lib/modules/$(notdir $(f)))
 
+# ICJ settings scripts
+PRODUCT_COPY_FILES += \
+        $(LOCAL_PATH)/prebuilt/etc/gpu_oc_on:system/etc/gpu_oc_on \
+        $(LOCAL_PATH)/prebuilt/etc/gpu_oc_off:system/etc/gpu_oc_off \
+        $(LOCAL_PATH)/prebuilt/etc/90zram:system/etc/90zram \
+        $(LOCAL_PATH)/prebuilt/etc/90zramSH:system/etc/90zramSH
+
 # misc
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/model_frontal.xml:system/etc/model_frontal.xml

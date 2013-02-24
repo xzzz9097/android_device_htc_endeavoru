@@ -1,0 +1,8 @@
+echo "[90ZRAM]: Firing up /system/etc/init.d/90zram";
+echo "[90ZRAM]: Setting ZRAM disksize.";
+echo $((100*1024*1024)) > /sys/block/zram0/disksize
+echo "[90ZRAM]: Starting ZRAM...";
+cd /system/xbin
+./busybox mkswap /dev/block/zram0
+./busybox swapon /dev/block/zram0
+echo "[90ZRAM]: ZRAM activated.";
