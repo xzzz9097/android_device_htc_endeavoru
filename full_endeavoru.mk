@@ -144,9 +144,14 @@ PRODUCT_PACKAGES += \
         power.endeavoru
 
 # init.d support
-+PRODUCT_COPY_FILES += \
+PRODUCT_COPY_FILES += \
         $(LOCAL_PATH)/prebuilt/etc/post-boot.sh:system/etc/post-boot.sh \
         $(LOCAL_PATH)/ramdisk/bin/sysinit:system/bin/sysinit
+
+# GPU OC scripts
+PRODUCT_COPY_FILES += \
+        $(LOCAL_PATH)/prebuilt/etc/gpu_oc_on:system/etc/gpu_oc_on \
+        $(LOCAL_PATH)/prebuilt/etc/gpu_oc_off:system/etc/gpu_oc_off
 		
 # Permissions
 PRODUCT_COPY_FILES += \
