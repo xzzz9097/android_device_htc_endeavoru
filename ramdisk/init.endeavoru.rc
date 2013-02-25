@@ -90,6 +90,7 @@ on boot
     chown system /sys/module/cpu_tegra3/parameters/NwNs
     chown system /sys/module/cpu_tegra3/parameters/TwTs
     chown system /sys/module/cpu_tegra/parameters/cpu_user_cap
+    chown radio radio /sys/module/cpu_tegra/parameters/ril_boost
     chown system /sys/kernel/debug/tegra_hotplug/min_cpus
     chmod 0660 /sys/kernel/debug/tegra_hotplug/min_cpus
     chown system /sys/htc/power_save
@@ -359,11 +360,15 @@ service rxn_intapp /system/bin/RXN_IntApp /system/etc/gps/RXN/MSLConfig.txt
 
 service rilPos-daemon /system/bin/rilposd -l /system/lib/librilpos.so -- -c agps_v_channel
     class main
+    user system
+    group system radio
     disabled
     oneshot
 
 service cplc_main /system/bin/cplc_main
     class main
+    user system
+    group system radio
     disabled
     oneshot
 
