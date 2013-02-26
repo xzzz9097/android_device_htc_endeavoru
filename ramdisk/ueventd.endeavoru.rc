@@ -65,8 +65,3 @@
 /dev/rfkill                 0660   root       wifi
 # for Bluetooth
 /dev/tihci                  0666   bluetooth bluetooth
-
-# sysfs properties
-/sys/devices/virtual/input/input*   enable      0660  root   input
-/sys/devices/virtual/input/input*   poll_delay  0660  root   input
-/sys/devices/virtual/usb_composite/*   enable      0664  root   system

@@ -1,5 +1,4 @@
-#
-# Copyright (C) 2012 The Android Open-Source Project
+# Copyright 2010 The Android Open Source Project
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -12,26 +11,35 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+
+#
+# This file sets variables that control the way modules are built
+# thorughout the system. It should not be used to conditionally
+# disable makefiles (the proper mechanism to control what gets
+# included in a build is to use PRODUCT_PACKAGES in a product
+# definition file).
 #
 
-# Skip droiddoc build to save build time
-BOARD_SKIP_ANDROID_DOC_BUILD := true
+# inherit from the proprietary version
+-include vendor/htc/endeavoru/BoardConfigVendor.mk
 
-TARGET_GLOBAL_CFLAGS += $(call-cc-option,-mfpu=neon) $(call-cc-option,-mfloat-abi=softfp)
-TARGET_GLOBAL_CPPFLAGS += $(call-cc-option,-mfpu=neon) $(call-cc-option,-mfloat-abi=softfp)
+TARGET_BOARD_PLATFORM := tegra
 
-# cpu info
-BOARD_HAS_LOCKED_BOOTLOADER := true
-TARGET_NO_BOOTLOADER := true
+#custom init rc
+TARGET_PROVIDES_INIT_RC := true
+
 TARGET_CPU_ABI := armeabi-v7a
 TARGET_CPU_ABI2 := armeabi
 TARGET_CPU_SMP := true
 TARGET_ARCH := arm
 TARGET_ARCH_VARIANT := armv7-a-neon
 TARGET_ARCH_VARIANT_CPU := cortex-a9
-ARCH_ARM_HAVE_NEON := true
-ARCH_ARM_HAVE_TLS_REGISTER := true
 ARCH_ARM_HAVE_32_BYTE_CACHE_LINES := true
+ARCH_ARM_HAVE_TLS_REGISTER := true
+ARCH_ARM_USE_NON_NEON_MEMCPY := true
+
+TARGET_NO_BOOTLOADER := true
+TARGET_BOOTLOADER_BOARD_NAME := 
 
 # Linaro fixes
 # USE_OLD_MEMCPY := true
@@ -39,133 +47,93 @@ USE_MORE_OPT_FLAGS := yes
 DEBUG_NO_STDCXX11 := yes
 # DEBUG_NO_STRICT_ALIASING := yes
 
-# use endeavor init script
-TARGET_PROVIDES_INIT_TARGET_RC := true
+USE_OPENGL_RENDERER := true
+BOARD_EGL_CFG := device/htc/endeavoru/config/egl.cfg
+BOARD_EGL_NEEDS_LEGACY_FB := true
 
-# vold
-BOARD_VOLD_MAX_PARTITIONS := 20
-BOARD_VOLD_EMMC_SHARES_DEV_MAJOR := true
-BOARD_SDCARD_INTERNAL_DEVICE := /dev/block/mmcblk0p14
-BOARD_HAS_SDCARD_INTERNAL := true
+BOARD_KERNEL_CMDLINE := 
+BOARD_KERNEL_PAGESIZE := 2048
 
-# USB
-TARGET_USE_CUSTOM_LUN_FILE_PATH := "/sys/devices/platform/tegra-udc.0/gadget/lun0/file"
-
-# Lights
-TARGET_PROVIDES_LIBLIGHTS := true
-
-# partitions
 TARGET_USERIMAGES_USE_EXT4 := true
+
+# Partitions Info
+#cat /proc/emmc
+#dev:        size     erasesize name
+#mmcblk0p5: 00800000 00001000 "recovery"
+#mmcblk0p4: 00800000 00001000 "boot"
+#mmcblk0p12: 50000000 00001000 "system"
+#mmcblk0p13: 14000000 00001000 "cache"
+#mmcblk0p17: 00200000 00001000 "misc"
+#mmcblk0p1: 00600000 00001000 "wlan"
+#mmcblk0p2: 00200000 00001000 "WDM"
+#mmcblk0p20: 00200000 00001000 "pdata"
+#mmcblk0p3: 00600000 00001000 "radiocab"
+#mmcblk0p14: 650000000 00001000 "internalsd"
+#mmcblk0p15: 89400000 00001000 "userdata"
+#mmcblk0p19: 01600000 00001000 "devlog"
+#mmcblk0p16: 00200000 00001000 "extra"
+
 BOARD_BOOTIMAGE_PARTITION_SIZE := 8388608
+BOARD_RECOVERYIMAGE_PARTITION_SIZE := 8388608
 BOARD_SYSTEMIMAGE_PARTITION_SIZE := 1342177280
 BOARD_USERDATAIMAGE_PARTITION_SIZE := 2302672896
 BOARD_FLASH_BLOCK_SIZE := 4096
 
-# Board nameing
-TARGET_NO_RADIOIMAGE := true
-TARGET_BOOTLOADER_BOARD_NAME := endeavoru
-TARGET_BOARD_PLATFORM := tegra
-TARGET_TEGRA_VERSION := t30
+BOARD_VOLD_MAX_PARTITIONS := 20
+BOARD_VOLD_EMMC_SHARES_DEV_MAJOR := true
+TARGET_USE_CUSTOM_LUN_FILE_PATH := "/sys/devices/platform/tegra-udc.0/gadget/lun0/file"
 
-ifneq ($(USE_MORE_OPT_FLAGS),yes)
-# Extra CFLAGS
-TARGET_EXTRA_CFLAGS :=	$(call-cc-option,-fsanitize=address) \
-$(call-cc-option,-fsanitize=thread) \
-$(call-cc-option,-mcpu=cortex-a9) \
-$(call-cc-option,-mfpu=neon) \
-$(call-cc-option,-mtune=cortex-a9) \
--fgcse-after-reload \
--finline-functions \
--fipa-cp-clone \
--fpredictive-commoning \
--fvect-cost-model
-# Extra CPPFLAGS
-  TARGET_EXTRA_CPPFLAGS :=	$(call-cpp-option,-fsanitize=address) \
-$(call-cpp-option,-fsanitize=thread) \
-$(call-cpp-option,-mcpu=cortex-a9) \
-$(call-cpp-option,-mfpu=neon) \
-$(call-cpp-option,-mtune=cortex-a9)
+# Wifi related defines
+USES_TI_MAC80211 := true
+ifdef USES_TI_MAC80211
+BOARD_WPA_SUPPLICANT_DRIVER      := NL80211
+WPA_SUPPLICANT_VERSION           := VER_0_8_X_TI
+BOARD_HOSTAPD_DRIVER             := NL80211
+BOARD_WLAN_DEVICE                := wl12xx_mac80211
+BOARD_SOFTAP_DEVICE              := wl12xx_mac80211
+WIFI_DRIVER_MODULE_PATH          := "/system/lib/modules/wl12xx_sdio.ko"
+WIFI_DRIVER_MODULE_NAME          := "wl12xx_sdio"
+WIFI_FIRMWARE_LOADER             := ""
+COMMON_GLOBAL_CFLAGS             += -DUSES_TI_MAC80211
 endif
 
-# Assert
-TARGET_OTA_ASSERT_DEVICE := endeavoru
+# Kernel
+# TARGET_KERNEL_SOURCE := kernel/htc/endeavoru
+# TARGET_KERNEL_CONFIG := cyanogenmod_endeavoru_defconfig
 
-# Suspend while charging
-BOARD_ALLOW_SUSPEND_IN_CHARGER := true
+# Kernel building
+TARGET_USE_PREBUILT_KERNEL := true
 
 # Avoid the generation of ldrcc instructions
 NEED_WORKAROUND_CORTEX_A9_745320 := true
 
-# Media
-BOARD_USES_HW_MEDIARECORDER := true
-BOARD_USES_HW_MEDIAPLUGINS := true
+# Audio(prebuilt)
+COMMON_GLOBAL_CFLAGS += -DICS_AUDIO_BLOB
 
-# Enable WEBGL in WebKit
-ENABLE_WEBGL := true
-WEBCORE_ACCELERATED_SCROLLING := true
+# HTC specific
+BOARD_USE_NEW_LIBRIL_HTC := true
+COMMON_GLOBAL_CFLAGS += -DHTCLOG
 
-# Graphics
-BOARD_EGL_CFG := device/htc/endeavoru/configs/egl.cfg
-USE_OPENGL_RENDERER := true
-BOARD_USES_OVERLAY := true
-BOARD_USES_HWCOMPOSER := true
-BOARD_NO_ALLOW_DEQUEUE_CURRENT_BUFFER := true
-TARGET_HAS_WAITFORVSYNC := true
-TARGET_HAVE_HDMI_OUT := true
-TARGET_USES_GL_VENDOR_EXTENSIONS := true
-USE_OPENGL_RENDERER := true
-BOARD_EGL_NEEDS_LEGACY_FB := true
+# Sensors invensense
+BOARD_USES_GENERIC_INVENSENSE := false
 
-# Graphics - Skia
-BOARD_USE_SKIA_LCDTEXT := true
-BOARD_USES_SKIAHWJPEG := true
+# Camera
+USE_CAMERA_STUB := false
+BOARD_CAMERA_HAVE_ISO := true
+COMMON_GLOBAL_CFLAGS += -DHAVE_ISO
+COMMON_GLOBAL_CFLAGS += -DMR0_CAMERA_BLOB -DICS_CAMERA_BLOB
+COMMON_GLOBAL_CFLAGS += -DDISABLE_HW_ID_MATCH_CHECK
+BOARD_NEEDS_MEMORYHEAPPMEM := true
 
 # Bluetooth
 BOARD_HAVE_BLUETOOTH := true
 BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := device/htc/endeavoru/bluetooth
 
-# HTC ril compatability
-BOARD_FORCE_RILD_AS_ROOT := true
-TARGET_PROVIDES_LIBRIL := vendor/htc/endeavoru/proprietary/lib/libhtc-ril.so
-BOARD_USE_NEW_LIBRIL_HTC := true
-
-# HTCLOG
-COMMON_GLOBAL_CFLAGS += -DHTCLOG
-
-# Camera
-USE_CAMERA_STUB := false
-BOARD_NEEDS_MEMORYHEAPPMEM := true
-COMMON_GLOBAL_CFLAGS += -DICS_CAMERA_BLOB
-
-# camera wrapper needs this
-COMMON_GLOBAL_CFLAGS += -DDISABLE_HW_ID_MATCH_CHECK -D__ARM_CACHE_LINE_SIZE=32
-COMMON_GLOBAL_CPPFLAGS += -DDISABLE_HW_ID_MATCH_CHECK
-
-
-# Audio
-BOARD_USES_GENERIC_AUDIO := false
-BOARD_USES_ALSA_AUDIO := false
-COMMON_GLOBAL_CFLAGS += -DICS_AUDIO_BLOB
-
-# Connectivity - Wi-Fi
-USES_TI_MAC80211 := true
-ifdef USES_TI_MAC80211
-BOARD_WPA_SUPPLICANT_DRIVER := NL80211
-WPA_SUPPLICANT_VERSION := VER_0_8_X_TI
-BOARD_HOSTAPD_DRIVER := NL80211
-BOARD_WLAN_DEVICE := wl12xx_mac80211
-BOARD_SOFTAP_DEVICE := wl12xx_mac80211
-WIFI_DRIVER_MODULE_PATH := "/system/lib/modules/wl12xx_sdio.ko"
-WIFI_DRIVER_MODULE_NAME := "wl12xx_sdio"
-WIFI_FIRMWARE_LOADER := ""
-COMMON_GLOBAL_CFLAGS += -DUSES_TI_MAC80211
-endif
-
-# Assert
-TARGET_OTA_ASSERT_DEVICE := endeavoru
-
-# Kernel building
-TARGET_USE_PREBUILT_KERNEL := true
+# Recovery
+# TARGET_PREBUILT_RECOVERY_KERNEL := device/htc/endeavoru/prebuilt/recovery_kernel
+# BOARD_USE_CUSTOM_RECOVERY_FONT := \"roboto_15x24.h\"
+BOARD_UMS_LUNFILE := "/sys/devices/platform/fsl-tegra-udc/gadget/lun0/file"
+BOARD_HAS_NO_SELECT_BUTTON := true
 
 # Releasetools
 TARGET_RELEASETOOLS_EXTENSIONS := device/htc/endeavoru
