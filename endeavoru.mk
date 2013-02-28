@@ -156,8 +156,8 @@ PRODUCT_PACKAGES += \
     lights.tegra
 
 # Camera wrapper
-PRODUCT_PACKAGES += \
-    camera.tegra
+# PRODUCT_PACKAGES += \
+#     camera.tegra
 
 # Bluetooth tools
 PRODUCT_PACKAGES += \
