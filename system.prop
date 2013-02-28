@@ -172,8 +172,6 @@ ro.hdmi.enable=true
 # force gpu rendering(2d drawing) [Nvidia setting - libhtc-opt2.so]
 persist.sys.ui.hw=true
 
-windowsmgr.max_events_per_sec = 240
-
 # Addidional info for Settings/About/Hardware
 ro.device.chipset=Nvidia Tegra 3
 ro.device.cpu=1.5GHz quad-core Cortex-A9
