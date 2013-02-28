@@ -188,8 +188,8 @@ PRODUCT_PACKAGES += \
     pollyd \
     Polly
 
-# PRODUCT_PACKAGES += \
-#     EndeavoruParts
+PRODUCT_PACKAGES += \
+    EndeavoruParts
 
 
 # Wi-Fi
