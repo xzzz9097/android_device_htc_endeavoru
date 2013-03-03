@@ -195,7 +195,7 @@
     <bool translatable="false" name="skip_restoring_network_selection">false</bool>
 
     <!-- Set to true to add links to Cell Broadcast app from Settings and MMS app. -->
-    <bool name="config_cellBroadcastAppLinks">false</bool>
+    <bool name="config_cellBroadcastAppLinks">true</bool>
 
     <!-- Enables or disables fading edges when marquee is enabled in TextView. -->
     <bool name="config_ui_enableFadingMarquee">true</bool>
