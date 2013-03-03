@@ -172,6 +172,10 @@ ro.hdmi.enable=true
 # force gpu rendering(2d drawing) [Nvidia setting - libhtc-opt2.so]
 persist.sys.ui.hw=true
 
+# Non secure ROM
+ro.secure=0
+ro.adb.secure=0
+
 # Addidional info for Settings/About/Hardware
 ro.device.chipset=Nvidia Tegra 3
 ro.device.cpu=1.5GHz quad-core Cortex-A9
