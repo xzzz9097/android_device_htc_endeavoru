@@ -17,14 +17,12 @@ public class DeviceSettings extends PreferenceActivity  {
     public static final String KEY_S2WSWITCH = "s2w_switch";
     public static final String KEY_S2WSTROKE = "s2w_stroke";
     public static final String KEY_S2WLENGTH = "s2w_length";
-    public static final String KEY_FASTCHARGE = "fastcharge";
     public static final String KEY_BACKLIGHTDISABLE = "backlight_disable";
     public static final String KEY_SMARTDIMMERSWITCH = "smartdimmer_switch";
 
     private TwoStatePreference mS2WSwitch;
     private ListPreference mS2WStroke;
     private ListPreference mS2WLength;
-    private TwoStatePreference mFastcharge;
     private TwoStatePreference mBacklightDisable;
     private TwoStatePreference mSmartDimmerSwitch;
 
@@ -45,10 +43,6 @@ public class DeviceSettings extends PreferenceActivity  {
         mS2WLength = (ListPreference) findPreference(KEY_S2WLENGTH);
         mS2WLength.setEnabled(Sweep2WakeMinLength.isSupported());
         mS2WLength.setOnPreferenceChangeListener(new Sweep2WakeMinLength());
-
-        mFastcharge = (TwoStatePreference) findPreference(KEY_FASTCHARGE);
-        mFastcharge.setEnabled(Fastcharge.isSupported());
-        mFastcharge.setOnPreferenceChangeListener(new Fastcharge());
 
         mBacklightDisable = (TwoStatePreference) findPreference(KEY_BACKLIGHTDISABLE);
         mBacklightDisable.setEnabled(BacklightDisable.isSupported());
