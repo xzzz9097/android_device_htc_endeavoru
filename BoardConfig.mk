@@ -47,6 +47,10 @@ USE_MORE_OPT_FLAGS := yes
 DEBUG_NO_STDCXX11 := yes
 # DEBUG_NO_STRICT_ALIASING := yes
 
+# Optimization build flags
+TARGET_GLOBAL_CFLAGS += -mtune=cortex-a9 -mfpu=neon -mfloat-abi=softfp
+TARGET_GLOBAL_CPPFLAGS += -mtune=cortex-a9 -mfpu=neon -mfloat-abi=softfp
+
 USE_OPENGL_RENDERER := true
 BOARD_EGL_CFG := device/htc/endeavoru/config/egl.cfg
 BOARD_EGL_NEEDS_LEGACY_FB := true
@@ -106,6 +110,9 @@ TARGET_USE_PREBUILT_KERNEL := true
 
 # Avoid the generation of ldrcc instructions
 NEED_WORKAROUND_CORTEX_A9_745320 := true
+
+# Enable WEBGL in WebKit
+ENABLE_WEBGL := true
 
 # Audio(prebuilt)
 COMMON_GLOBAL_CFLAGS += -DICS_AUDIO_BLOB
