@@ -31,16 +31,6 @@
 	</PreferenceCategory>
 
 	<PreferenceCategory
-    	android:title="@string/category_usb_title">
-	    <!-- Fastcharge Options -->
-	    <CheckBoxPreference
-	        android:key="fastcharge"
-	        android:title="@string/fastcharge_title_head"
-	        android:summary="@string/fastcharge_summary_head"
-	        android:defaultValue="0" />
-	</PreferenceCategory>
-
-	<PreferenceCategory
 	android:title="@string/category_backlightdisable_title">
 	    <!-- Backlight Disable Options -->
 	    <CheckBoxPreference
