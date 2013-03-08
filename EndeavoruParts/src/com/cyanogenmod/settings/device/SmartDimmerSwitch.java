@@ -12,9 +12,15 @@ public class SmartDimmerSwitch implements OnPreferenceChangeListener {
     private static final String FILE = "/sys/devices/tegradc.0/smartdimmer/enable";
 
     public static boolean isSupported() {
-        return Utils.fileExists(FILE);
+        return Utils.fileWritable(FILE);
     }
 
+	public static boolean isEnabled(Context context) {
+        boolean enabled = Utils.getFileValueAsBoolean(FILE, true);        
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+        return sharedPrefs.getBoolean(DeviceSettings.KEY_SMARTDIMMERSWITCH, enabled);
+	}
+	
     /**
      * Restore smartdimmer switch setting from SharedPreferences. (Write to kernel.)
      * @param context       The context to read the SharedPreferences from
@@ -24,8 +30,7 @@ public class SmartDimmerSwitch implements OnPreferenceChangeListener {
             return;
         }
 
-        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
-        boolean enabled = sharedPrefs.getBoolean(DeviceSettings.KEY_SMARTDIMMERSWITCH, true);
+        boolean enabled = isEnabled(context);        
         File blFile = new File(FILE);
         if(enabled) {
             Utils.writeValue(FILE, "1");

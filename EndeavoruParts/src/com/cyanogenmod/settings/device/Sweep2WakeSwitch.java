@@ -11,8 +11,14 @@ public class Sweep2WakeSwitch implements OnPreferenceChangeListener {
     private static final String FILE = "/sys/android_touch/sweep2wake";
 
     public static boolean isSupported() {
-        return Utils.fileExists(FILE);
+        return Utils.fileWritable(FILE);
     }
+
+	public static boolean isEnabled(Context context) {
+        boolean enabled = Utils.getFileValueAsBoolean(FILE, true);        
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+        return sharedPrefs.getBoolean(DeviceSettings.KEY_S2WSWITCH, enabled);     
+	}
 
     /**
      * Restore Sweep2Wake setting from SharedPreferences. (Write to kernel.)
@@ -22,9 +28,8 @@ public class Sweep2WakeSwitch implements OnPreferenceChangeListener {
         if (!isSupported()) {
             return;
         }
-
-        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
-        boolean enabled = sharedPrefs.getBoolean(DeviceSettings.KEY_S2WSWITCH, true);
+        
+        boolean enabled = isEnabled(context);      
         if(enabled)
             Utils.writeValue(FILE, "1");
         else

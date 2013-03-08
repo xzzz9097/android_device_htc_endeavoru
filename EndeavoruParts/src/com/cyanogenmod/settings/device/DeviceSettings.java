@@ -36,26 +36,32 @@ public class DeviceSettings extends PreferenceActivity  {
 
         mS2WSwitch = (TwoStatePreference) findPreference(KEY_S2WSWITCH);
         mS2WSwitch.setEnabled(Sweep2WakeSwitch.isSupported());
+        mS2WSwitch.setChecked(Sweep2WakeSwitch.isEnabled(this));
         mS2WSwitch.setOnPreferenceChangeListener(new Sweep2WakeSwitch());
 
         mS2WStroke = (ListPreference) findPreference(KEY_S2WSTROKE);
         mS2WStroke.setEnabled(Sweep2WakeStroke.isSupported());
+        mS2WStroke.setValue(Sweep2WakeStroke.getValue(this));
         mS2WStroke.setOnPreferenceChangeListener(new Sweep2WakeStroke());
 
         mS2WLength = (ListPreference) findPreference(KEY_S2WLENGTH);
         mS2WLength.setEnabled(Sweep2WakeMinLength.isSupported());
+        mS2WLength.setValue(squashLengthValue(Sweep2WakeMinLength.getValue(this)));
         mS2WLength.setOnPreferenceChangeListener(new Sweep2WakeMinLength());
 
         mBacklightDisable = (TwoStatePreference) findPreference(KEY_BACKLIGHTDISABLE);
         mBacklightDisable.setEnabled(BacklightDisable.isSupported());
-        mBacklightDisable.setOnPreferenceChangeListener(new BacklightDisable());
+        mBacklightDisable.setChecked(BacklightDisable.isEnabled(this)); 
+       	mBacklightDisable.setOnPreferenceChangeListener(new BacklightDisable());
 
         mBacklightNotification = (TwoStatePreference) findPreference(KEY_BACKLIGHTNOTIFICATION);
         mBacklightNotification.setEnabled(BacklightNotificationSwitch.isSupported());
+        mBacklightNotification.setChecked(BacklightNotificationSwitch.isEnabled(this));
         mBacklightNotification.setOnPreferenceChangeListener(new BacklightNotificationSwitch());
 
         mSmartDimmerSwitch = (TwoStatePreference) findPreference(KEY_SMARTDIMMERSWITCH);
         mSmartDimmerSwitch.setEnabled(SmartDimmerSwitch.isSupported());
+        mSmartDimmerSwitch.setChecked(SmartDimmerSwitch.isEnabled(this));
         mSmartDimmerSwitch.setOnPreferenceChangeListener(new SmartDimmerSwitch());
 
 
@@ -76,5 +82,29 @@ public class DeviceSettings extends PreferenceActivity  {
     protected void onDestroy() {
         super.onDestroy();
     }
-
+    
+    private String squashLengthValue(String value) {
+        // map it to 325, 500, 850 if not exact value
+        int intValue=new Integer(value).intValue();
+        if(intValue==325 || intValue==500 || intValue==850){
+            return value;
+        }
+        // we found a different value in sysfs
+        // map it to our 3 possible length
+        if(intValue<325)
+            return "325";
+        if(intValue>850)
+            return "850";
+        if(intValue>325 && intValue <500){
+            int diff1=intValue-325;
+            int diff2=500-intValue;
+            return (diff1<diff2)?"325":"500";
+        }
+        if(intValue>500 && intValue <850){
+            int diff1=intValue-500;
+            int diff2=850-intValue;
+            return (diff1<diff2)?"500":"850";
+        }
+        return value;
+    } 
 }

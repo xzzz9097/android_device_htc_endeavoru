@@ -11,9 +11,15 @@ public class Sweep2WakeMinLength implements OnPreferenceChangeListener {
     private static final String FILE = "/sys/android_touch/s2w_min_distance";
 
     public static boolean isSupported() {
-        return Utils.fileExists(FILE);
+        return Utils.fileWritable(FILE);
     }
 
+	public static String getValue(Context context) {
+		String value = Utils.getFileValue(FILE, "325");
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+        return sharedPrefs.getString(DeviceSettings.KEY_S2WLENGTH, value);
+	}
+	
     /**
      * Restore Sweep2Wake stroke setting from SharedPreferences. (Write to kernel.)
      * @param context       The context to read the SharedPreferences from
@@ -23,8 +29,8 @@ public class Sweep2WakeMinLength implements OnPreferenceChangeListener {
             return;
         }
 
-        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
-        Utils.writeValue(FILE, sharedPrefs.getString(DeviceSettings.KEY_S2WLENGTH, "325"));
+		String value = getValue(context);
+        Utils.writeValue(FILE, value);
     }
 
     @Override

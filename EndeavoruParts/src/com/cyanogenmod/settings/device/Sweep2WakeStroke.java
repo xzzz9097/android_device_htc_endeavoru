@@ -11,9 +11,15 @@ public class Sweep2WakeStroke implements OnPreferenceChangeListener {
     private static final String FILE = "/sys/android_touch/s2w_allow_stroke";
 
     public static boolean isSupported() {
-        return Utils.fileExists(FILE);
+        return Utils.fileWritable(FILE);
     }
 
+	public static String getValue(Context context) {
+		String value = Utils.getFileValue(FILE, "1");
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+        return sharedPrefs.getString(DeviceSettings.KEY_S2WSTROKE, value);
+	}
+	
     /**
      * Restore Sweep2Wake stroke setting from SharedPreferences. (Write to kernel.)
      * @param context       The context to read the SharedPreferences from
@@ -23,8 +29,8 @@ public class Sweep2WakeStroke implements OnPreferenceChangeListener {
             return;
         }
 
-        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
-        Utils.writeValue(FILE, sharedPrefs.getString(DeviceSettings.KEY_S2WSTROKE, "1"));
+		String value = getValue(context);
+        Utils.writeValue(FILE, value);
     }
 
     @Override

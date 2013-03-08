@@ -15,6 +15,11 @@ public class BacklightNotificationSwitch implements OnPreferenceChangeListener {
         return Utils.fileExists(FILE);
     }
 
+	public static boolean isEnabled(Context context) {
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+        return sharedPrefs.getBoolean(DeviceSettings.KEY_BACKLIGHTNOTIFICATION, true);
+	}
+	
     /**
      * Restore button backlight notification blink setting from SharedPreferences. (Write to kernel.)
      * @param context       The context to read the SharedPreferences from
@@ -24,16 +29,13 @@ public class BacklightNotificationSwitch implements OnPreferenceChangeListener {
             return;
         }
 
-        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
-        boolean enabled = sharedPrefs.getBoolean(DeviceSettings.KEY_BACKLIGHTNOTIFICATION, false);
+        boolean enabled = isEnabled(context);      
         File blFile = new File(FILE);
         blFile.setWritable(true);
         if(!enabled) {
-            //Utils.writeValue(FILE, "0");
+        	// make sure blincking stops first before making it r/o
+            Utils.writeValue(FILE, "0");
             blFile.setWritable(false);
-        }
-        else {
-            //Utils.writeValue(FILE, "1");
         }
     }
 
@@ -43,11 +45,9 @@ public class BacklightNotificationSwitch implements OnPreferenceChangeListener {
         File blFile = new File(FILE);
         blFile.setWritable(true);
         if(!enabled) {
-            //Utils.writeValue(FILE, "0");
+        	// make sure blincking stops first before making it r/o
+            Utils.writeValue(FILE, "0");
             blFile.setWritable(false);
-        }
-        else {
-            //Utils.writeValue(FILE, "1");
         }
         return true;
     }
