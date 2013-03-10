@@ -207,7 +207,7 @@
              channels="1" />
     </EncoderProfile>
 
-    <ImageEncoding quality="99" />
+    <ImageEncoding quality="100" />
     <ImageEncoding quality="90" />
     <ImageEncoding quality="80" />
     <ImageDecoding memCap="25000000" />
@@ -290,7 +290,7 @@
              channels="1" />
     </EncoderProfile>
 
-    <ImageEncoding quality="99" />
+    <ImageEncoding quality="100" />
     <ImageEncoding quality="90" />
     <ImageEncoding quality="80" />
     <ImageDecoding memCap="25000000" />
@@ -415,7 +415,7 @@
              channels="1" />
     </EncoderProfile>
 
-    <ImageEncoding quality="99" />
+    <ImageEncoding quality="100" />
     <ImageEncoding quality="90" />
     <ImageEncoding quality="80" />
     <ImageDecoding memCap="25000000" />
@@ -540,7 +540,7 @@
              channels="1" />
     </EncoderProfile>
 
-    <ImageEncoding quality="99" />
+    <ImageEncoding quality="100" />
     <ImageEncoding quality="90" />
     <ImageEncoding quality="80" />
     <ImageDecoding memCap="25000000" />
