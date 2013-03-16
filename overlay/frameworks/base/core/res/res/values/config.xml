@@ -266,4 +266,7 @@
          it is disabled by default so devices need to add an overlay to enable-->
     <string name="config_fastChargePath" translatable="false">/sys/devices/platform/htc_battery/fast_charge</string>
 
+    <!-- Is the notification LED intrusive? Used to decide if there should be a disable option -->
+    <bool name="config_intrusiveNotificationLed">true</bool>
+
 </resources>
