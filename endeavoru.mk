@@ -141,7 +141,10 @@ PRODUCT_COPY_FILES += \
         $(LOCAL_PATH)/prebuilt/etc/gpu_oc_on:system/etc/gpu_oc_on \
         $(LOCAL_PATH)/prebuilt/etc/gpu_oc_off:system/etc/gpu_oc_off \
         $(LOCAL_PATH)/prebuilt/etc/90zram:system/etc/90zram \
-        $(LOCAL_PATH)/prebuilt/etc/90zramSH:system/etc/90zramSH
+        $(LOCAL_PATH)/prebuilt/etc/90zramSH:system/etc/90zramSH \
+        $(LOCAL_PATH)/prebuilt/etc/50tetherhack:system/etc/50tetherhack \
+        $(LOCAL_PATH)/prebuilt/etc/50tetherhackSH:system/etc/50tetherhackSH \
+        $(LOCAL_PATH)/prebuilt/etc/50tetherhackSH_OFF:system/etc/50tetherhackSH_OFF
 
 # misc
 PRODUCT_COPY_FILES += \

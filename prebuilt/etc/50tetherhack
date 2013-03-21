@@ -1,0 +1,11 @@
+#!/system/bin/sh
+sleep 30
+
+# USB
+iptables -tnat -A natctrl_nat_POSTROUTING -s 192.168.42.0/24 -o rmnet0 -j MASQUERADE
+
+# WLAN
+iptables -tnat -A natctrl_nat_POSTROUTING -s 192.168.43.0/24 -o rmnet0 -j MASQUERADE
+
+# BT
+iptables -tnat -A natctrl_nat_POSTROUTING -s 192.168.44.0/24 -o rmnet0 -j MASQUERADE
