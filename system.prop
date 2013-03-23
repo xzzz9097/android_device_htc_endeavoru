@@ -188,7 +188,7 @@ ro.device.rear_cam=8MP, 1080p
 ro.device.screen_res=720 x 1280 pixels, 4.7"
 
 #ICJ rom info
-ro.icj.version=V2.8 Test Edition
+ro.icj.version=V2.7.1 Fixed Edition
 ro.icj.dev=LorD ClockaN
 ro.icj.kernel=n3ocort3x
 ro.icj.themer=TUN_SD
