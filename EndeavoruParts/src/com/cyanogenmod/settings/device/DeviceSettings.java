@@ -20,6 +20,7 @@ public class DeviceSettings extends PreferenceActivity  {
     public static final String KEY_BACKLIGHTDISABLE = "backlight_disable";
     public static final String KEY_BACKLIGHTNOTIFICATION = "backlight_notification";
     public static final String KEY_SMARTDIMMERSWITCH = "smartdimmer_switch";
+    public static final String KEY_BACKLIGHTBRIGHTNESS = "backlight_brightness";
 
     private TwoStatePreference mS2WSwitch;
     private ListPreference mS2WStroke;
@@ -27,7 +28,7 @@ public class DeviceSettings extends PreferenceActivity  {
     private TwoStatePreference mBacklightDisable;
     private TwoStatePreference mBacklightNotification;
     private TwoStatePreference mSmartDimmerSwitch;
-
+    private ListPreference mBacklightBrightness;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -64,7 +65,10 @@ public class DeviceSettings extends PreferenceActivity  {
         mSmartDimmerSwitch.setChecked(SmartDimmerSwitch.isEnabled(this));
         mSmartDimmerSwitch.setOnPreferenceChangeListener(new SmartDimmerSwitch());
 
-
+		mBacklightBrightness= (ListPreference) findPreference(KEY_BACKLIGHTBRIGHTNESS);
+        mBacklightBrightness.setEnabled(BacklightBrightness.isSupported());
+        mBacklightBrightness.setValue(squashBrightnessValue(BacklightBrightness.getValue(this)));
+        mBacklightBrightness.setOnPreferenceChangeListener(new BacklightBrightness());
     }
 
     @Override
@@ -107,4 +111,15 @@ public class DeviceSettings extends PreferenceActivity  {
         }
         return value;
     } 
+    
+    private String squashBrightnessValue(String value) {
+        int intValue=new Integer(value).intValue();
+        if(intValue < 10){
+        	return "10";
+        }
+        if(intValue == 255){
+        	return "255";
+        }
+        return new Integer((intValue/10)*10).toString();
+    }
 }
