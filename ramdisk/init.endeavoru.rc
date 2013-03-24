@@ -211,6 +211,9 @@ on boot
     chown system system /sys/bus/iio/devices/device0/als_ir_mode
     chown system system /sys/bus/iio/devices/device0/proximity_enable
 
+# BLN
+    chown system system /sys/class/leds/button-backlight/button_brightness
+
 # BB remote file system
     mkdir /data/rfs
     mkdir /data/rfs/data
