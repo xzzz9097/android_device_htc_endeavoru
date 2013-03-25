@@ -25,6 +25,8 @@
 
 TARGET_BOARD_PLATFORM := tegra
 
+DISABLE_DROIDDOC := true
+
 #custom init rc
 TARGET_PROVIDES_INIT_RC := true
 
