@@ -39,4 +39,14 @@
     <dimen name="navring_radius_tablet_landscape">250dp</dimen>
     <!--  Radius of NavRing in Tablet Mode Landscape -->
     <dimen name="navring_radius_tablet_portrait">200dp</dimen>
+
+    <!-- Scrollable toggles -->
+    <!-- The fixed width of traditional toggles -->
+    <dimen name="toggle_traditional_width">60dp</dimen>
+
+    <!-- The fixed height of traditional toggles -->
+    <dimen name="toggle_traditional_height">60dp</dimen>
+
+    <!-- The fixed height of traditional toggles -->
+    <dimen name="toggle_traditional_padding">2dp</dimen>
 </resources>
