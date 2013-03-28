@@ -30,6 +30,9 @@ DISABLE_DROIDDOC := true
 #custom init rc
 TARGET_PROVIDES_INIT_RC := true
 
+# assert
+TARGET_OTA_ASSERT_DEVICE := endeavoru
+
 TARGET_CPU_ABI := armeabi-v7a
 TARGET_CPU_ABI2 := armeabi
 TARGET_CPU_SMP := true
