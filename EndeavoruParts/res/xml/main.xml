@@ -46,6 +46,11 @@
 	        android:summary="@string/backlightbrightness_summary_head"
 	        android:entries="@array/backlightbrightness_entries"
 	        android:entryValues="@array/backlightbrightness_entries_values" />
+	    <!-- Slow Blinking Light limiter Options -->
+	    <CheckBoxPreference
+	        android:key="slow_blink_brightness_limit"
+	        android:title="@string/slowblinkbrightnesslimit_title_head"
+	        android:summary="@string/slowblinkbrightnesslimit_summary_head" />
 
 	</PreferenceCategory>
 

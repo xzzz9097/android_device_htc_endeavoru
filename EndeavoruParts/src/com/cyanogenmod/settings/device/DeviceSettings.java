@@ -21,6 +21,7 @@ public class DeviceSettings extends PreferenceActivity  {
     public static final String KEY_BACKLIGHTNOTIFICATION = "backlight_notification";
     public static final String KEY_SMARTDIMMERSWITCH = "smartdimmer_switch";
     public static final String KEY_BACKLIGHTBRIGHTNESS = "backlight_brightness";
+    public static final String KEY_SLOWBLINKBRIGHTNESSLIMIT = "slow_blink_brightness_limit";
 
     private TwoStatePreference mS2WSwitch;
     private ListPreference mS2WStroke;
@@ -29,6 +30,7 @@ public class DeviceSettings extends PreferenceActivity  {
     private TwoStatePreference mBacklightNotification;
     private TwoStatePreference mSmartDimmerSwitch;
     private ListPreference mBacklightBrightness;
+    private TwoStatePreference mSlowBlinkBrightnessLimit;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -65,10 +67,15 @@ public class DeviceSettings extends PreferenceActivity  {
         mSmartDimmerSwitch.setChecked(SmartDimmerSwitch.isEnabled(this));
         mSmartDimmerSwitch.setOnPreferenceChangeListener(new SmartDimmerSwitch());
 
-		mBacklightBrightness= (ListPreference) findPreference(KEY_BACKLIGHTBRIGHTNESS);
+        mBacklightBrightness= (ListPreference) findPreference(KEY_BACKLIGHTBRIGHTNESS);
         mBacklightBrightness.setEnabled(BacklightBrightness.isSupported());
         mBacklightBrightness.setValue(squashBrightnessValue(BacklightBrightness.getValue(this)));
         mBacklightBrightness.setOnPreferenceChangeListener(new BacklightBrightness());
+
+        mSlowBlinkBrightnessLimit = (TwoStatePreference) findPreference(KEY_SLOWBLINKBRIGHTNESSLIMIT);
+        mSlowBlinkBrightnessLimit.setEnabled(SlowBlinkBrightnessLimit.isSupported());
+        mSlowBlinkBrightnessLimit.setChecked(SlowBlinkBrightnessLimit.isEnabled(this));
+        mSlowBlinkBrightnessLimit.setOnPreferenceChangeListener(new SlowBlinkBrightnessLimit());
     }
 
     @Override
