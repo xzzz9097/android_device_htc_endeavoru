@@ -16,12 +16,13 @@ public class SlowBlinkBrightnessLimit implements OnPreferenceChangeListener {
     }
 
 	public static boolean isEnabled(Context context) {
+        boolean enabled = Utils.getFileValueAsBoolean(FILE, true);        
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
-        return sharedPrefs.getBoolean(DeviceSettings.KEY_SLOWBLINKBRIGHTNESSLIMIT, false);
+        return sharedPrefs.getBoolean(DeviceSettings.KEY_SLOWBLINKBRIGHTNESSLIMIT, enabled);
 	}
 	
     /**
-     * Restore button backlight setting from SharedPreferences. (Write to kernel.)
+     * Restore setting from SharedPreferences. (Write to kernel.)
      * @param context       The context to read the SharedPreferences from
      */
     public static void restore(Context context) {
@@ -32,11 +33,10 @@ public class SlowBlinkBrightnessLimit implements OnPreferenceChangeListener {
         boolean enabled = isEnabled(context);        
         File blFile = new File(FILE);
         if(enabled) {
-            Utils.writeValue(FILE, "0");
-            blFile.setWritable(false);
+            Utils.writeValue(FILE, "1");
         }
         else {
-            Utils.writeValue(FILE, "1");
+            Utils.writeValue(FILE, "0");
         }
     }
 
@@ -45,11 +45,10 @@ public class SlowBlinkBrightnessLimit implements OnPreferenceChangeListener {
         Boolean enabled = (Boolean) newValue;
         File blFile = new File(FILE);
         if(enabled) {
-            Utils.writeValue(FILE, "0");
-            blFile.setWritable(false);
+            Utils.writeValue(FILE, "1");
         }
         else {
-            Utils.writeValue(FILE, "1");
+            Utils.writeValue(FILE, "0");
         }
         return true;
     }

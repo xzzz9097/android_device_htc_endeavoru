@@ -18,13 +18,13 @@
     <string name="backlightdisable_title_head">Disable Button Backlight</string>
     <string name="backlightdisable_summary_head">Select to disable the capacitive button backlight</string>
     <string name="backlightnotification_title_head">Button Backlight Notification</string>
-    <string name="backlightnotification_summary_head">Select to enable the capacitive button backlight for Notification events</string>
+    <string name="backlightnotification_summary_head">Select to enable the capacitive button backlight for notification events</string>
 
     <string name="backlightbrightness_title_head">Button Backlight Brightness</string>
     <string name="backlightbrightness_summary_head">Set the brightness for the capacitive button</string>
 
-    <string name="slowblinkbrightnesslimit_title_head">Slow Blinking light limiter</string>
-    <string name="slowblinkbrightnesslimit_summary_head">Select to disable the slow blinking lights obeying button brightness value</string>
+    <string name="slowblinkbrightnesslimit_title_head">Notification Brightness</string>
+    <string name="slowblinkbrightnesslimit_summary_head">Select to limit notification brightness to button brightness</string> 
     
     <string name="category_smartdimmer_title">nVidia SmartDimmer</string>
     <string name="smartdimmer_switch_title_head">Enable</string>

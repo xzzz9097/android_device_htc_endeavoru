@@ -34,11 +34,6 @@
 	        android:key="backlight_disable"
 	        android:title="@string/backlightdisable_title_head"
 	        android:summary="@string/backlightdisable_summary_head" />
-	    <!-- Backlight Notification Option -->
-	    <CheckBoxPreference
-	        android:key="backlight_notification"
-	        android:title="@string/backlightnotification_title_head"
-	        android:summary="@string/backlightnotification_summary_head" />
 	    <!-- Backlight Brightness Option -->
 	    <ListPreference
 	        android:key="backlight_brightness"
@@ -46,11 +41,17 @@
 	        android:summary="@string/backlightbrightness_summary_head"
 	        android:entries="@array/backlightbrightness_entries"
 	        android:entryValues="@array/backlightbrightness_entries_values" />
-	    <!-- Slow Blinking Light limiter Options -->
-	    <CheckBoxPreference
-	        android:key="slow_blink_brightness_limit"
-	        android:title="@string/slowblinkbrightnesslimit_title_head"
-	        android:summary="@string/slowblinkbrightnesslimit_summary_head" />
+	    <!-- Backlight Notification Option -->
+            <CheckBoxPreference
+                android:key="backlight_notification"
+                android:title="@string/backlightnotification_title_head"
+                android:summary="@string/backlightnotification_summary_head" />
+            <!-- Slow Blinking Light limiter Options -->
+            <CheckBoxPreference
+                android:key="slow_blink_brightness_limit"
+                android:dependency="backlight_notification"
+                android:title="@string/slowblinkbrightnesslimit_title_head"
+                android:summary="@string/slowblinkbrightnesslimit_summary_head" /> 
 
 	</PreferenceCategory>
 
