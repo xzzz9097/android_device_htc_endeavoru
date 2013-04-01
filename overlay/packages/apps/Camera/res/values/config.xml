@@ -25,6 +25,8 @@
     <bool name="needsSamsungCamMode">false</bool>
     <!-- HTC Camcorder Mode -->
     <bool name="needsHTCCamMode">true</bool>
+    <!-- HTC Compat -->
+    <bool name="config_htcCompat">true</bool>
     <!-- Disable rear camera face detection -->
     <bool name="config_noFaceDetect">true</bool>
     <!-- Force use of profile video size -->
