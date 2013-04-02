@@ -154,6 +154,10 @@ PRODUCT_COPY_FILES += \
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/nfcee_access.xml:system/etc/nfcee_access.xml
 
+#ICJ wallpaper
+PRODUCT_COPY_FILES += \
+    $(LOCAL_PATH)/overlay/frameworks/base/core/res/res/drawable-nodpi/default_wallpaper.jpg:system/media/default_wallpaper.jpg
+
 # Other extra packages
 PRODUCT_PACKAGES += \
     librs_jni \
