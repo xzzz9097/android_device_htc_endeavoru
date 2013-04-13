@@ -158,6 +158,12 @@ PRODUCT_COPY_FILES += \
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/overlay/frameworks/base/core/res/res/drawable-nodpi/default_wallpaper.jpg:system/media/default_wallpaper.jpg
 
+#BlackIce overlay script
+PRODUCT_COPY_FILES += \
+    $(LOCAL_PATH)/prebuilt/etc/overlay_device.conf:system/etc/overlay_device.conf \
+    $(LOCAL_PATH)/prebuilt/bin/overlay.sh:system/bin/overlay.sh \
+    $(LOCAL_PATH)/prebuilt/addon.d/99-overlay.sh:system/addon.d/99-overlay.sh
+
 # Other extra packages
 PRODUCT_PACKAGES += \
     librs_jni \
