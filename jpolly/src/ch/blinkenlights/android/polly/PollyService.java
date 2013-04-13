@@ -161,12 +161,12 @@ public class PollyService extends Service {
 		private void updateIncallVolume() {
 			
 			/* android volumes go from 0-5
-			** but the modem expects 44-94
+			** but the modem expects 32-82
 			*/
 			int curvol    = aMgr.getStreamVolume(aMgr.STREAM_VOICE_CALL);
 			
 			if(lastvol != curvol) {
-			    String vparam = "@volo,40,8,3,"+(44+curvol*10);
+			    String vparam = "@volo,40,8,3,"+(32+curvol*10);
 				xlog("updating incall volume: "+vparam);
 				sendToPollySocket(vparam);
 				lastvol = curvol;
