@@ -54,7 +54,6 @@ public class PollyService extends Service {
 	private int lastvol = -1;
     private boolean inCall = false;
     private static String TAG = "PollyService";
-    private static boolean boothackDone = false;
 	
 	@Override
 	public IBinder onBind(Intent i) {
@@ -74,66 +73,10 @@ public class PollyService extends Service {
         // initial value
     	lastvol = aMgr.getStreamVolume(aMgr.STREAM_VOICE_CALL);
 
-		// maxwen: service can be restarted and will send headset insert then
-		// which will cause troubles with apps listening to it
-        //if(isAudioVolumeHackRequired()){
-        //    applyAudioVolumeHack(); 
-        //}
-
 		registerReceiver(ply_receiver, new IntentFilter(INTENT_VOLUME));    /* undocumented */
 		registerReceiver(ply_receiver, new IntentFilter(INTENT_AIRPLANE));
 		registerReceiver(ply_receiver, new IntentFilter(INTENT_PHONESTATE));
-
 	}
-
-        private boolean isAudioVolumeHackRequired() {
-        	if(!boothackDone){
-                String value = fileReadOneLine("/sys/class/switch/h2w/state");
-                return value!=null && value.equals("0");
-            }
-            return false;
-        }
-
-        private void applyAudioVolumeHack() {
-                Log.d(TAG, "apply volume hack");
-                try {       
-                        Class paramString = String.class;
-	                Class paramInt = Integer.TYPE;
-
-                        Class c = Class.forName(aMgr.getClass().getName());  
-                        Method f = c.getDeclaredMethod("setWiredDeviceConnectionState", paramInt, paramInt, paramString); 
-                        f.setAccessible(true);  
-
-                        f.invoke(aMgr, 8, 1, new String("Headset"));
-                        f.invoke(aMgr, 8, 0, new String("Headset"));
-
-                        f.setAccessible(false);  
-                        boothackDone = true;
-
-                        Log.d(TAG,"apply volume hack success");
-                } catch (InvocationTargetException e) {
-                        Log.d(TAG,"apply volume hack failed - exception " + e.getTargetException());
-                } catch (Exception e) {
-                        Log.d(TAG,"apply volume hack - exception " + e);
-                } 
-        }
-
-        private String fileReadOneLine(String fname) {
-                BufferedReader br;
-                String line = null;
-
-                try {
-                        br = new BufferedReader(new FileReader(fname), 512);
-                        try {
-                                line = br.readLine();
-                        } finally {
-                                br.close();
-                        }
-                } catch (Exception e) {
-                        Log.e(TAG, "IO Exception when reading file "  + fname + " " + e);
-                }
-                return line;
-        }
 	
 	public void onDestroy() {
 		unregisterReceiver(ply_receiver);
@@ -143,7 +86,6 @@ public class PollyService extends Service {
 	private final BroadcastReceiver ply_receiver = new BroadcastReceiver() {
 		@Override
 		public void onReceive(Context ctx, Intent intent) {
-			
 			String ia = intent.getAction();
 			
 			xlog("intent "+ia+" received");
@@ -161,12 +103,12 @@ public class PollyService extends Service {
 		private void updateIncallVolume() {
 			
 			/* android volumes go from 0-5
-			** but the modem expects 32-82
+			** but the modem expects 32-92
 			*/
 			int curvol    = aMgr.getStreamVolume(aMgr.STREAM_VOICE_CALL);
 			
 			if(lastvol != curvol) {
-			    String vparam = "@volo,40,8,3,"+(32+curvol*10);
+			    String vparam = "@volo,40,8,3,"+(32+curvol*13);
 				xlog("updating incall volume: "+vparam);
 				sendToPollySocket(vparam);
 				lastvol = curvol;
@@ -175,8 +117,7 @@ public class PollyService extends Service {
 
 		private void resetIncallVolume() {
 			String vparam = "@@";
-			
-                        xlog("reset incall volume: "+vparam);
+        	xlog("reset incall volume: "+vparam);
 			sendToPollySocket(vparam);
 		}
 		
@@ -190,11 +131,11 @@ public class PollyService extends Service {
 				xlog("we are IN_CALL - forcing audio setting");
 				lastvol = -1;
 				updateIncallVolume();
-                                inCall = true;
+				inCall = true;
 			} else if(inCall && tMgr.getCallState() == tMgr.CALL_STATE_IDLE) {
 				xlog("we are END_CALL - reset audio setting");
 				resetIncallVolume();
-                                inCall = false;
+				inCall = false;
 			}
 		}
 		
@@ -210,7 +151,6 @@ public class PollyService extends Service {
 				xlog("exiting airplane state, restarting pollyd");
 				sendToPollySocket("kill,DEAD_PARROT"); // from pollyd.h kill, -> dummy space (volo,)
 			}
-			
 		}
 		
 		

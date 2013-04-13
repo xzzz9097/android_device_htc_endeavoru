@@ -83,30 +83,30 @@ int main() {
 		  and overwrite the rest afterwards
 		*/
 		memset(&buf, 0, GBUFFSIZE);
-                cnt=read(cfd, &buf, GBUFFSIZE-3-2);
-                bufStart = buf;
-                // this message comes from Polly for setting volume
-                if(buf[0] == '@'){
-                        if(buf[1] == '@'){
-                                setVolumeFromPolly=0;
-                                pollyVolumeLevel=0;
-                                continue;
-                        }
-                        cnt--;
-                        setVolumeFromPolly=1;
-                        // remove leading @
-                        bufStart++;
+		cnt=read(cfd, &buf, GBUFFSIZE-3-2);
+		bufStart = buf;
+		// this message comes from Polly for setting volume
+		if(buf[0] == '@'){
+			if(buf[1] == '@'){
+            	setVolumeFromPolly=0;
+				pollyVolumeLevel=0;
+				continue;
+			}
+			cnt--;
+			setVolumeFromPolly=1;
+			// remove leading @
+			bufStart++;
 
-                        // get volume Polly sets
-                        volumeStart=bufStart+strlen("volo,40,8,3,");
-                        strncpy(volumeBuf, volumeStart, 2);
-                        pollyVolumeLevel=atoi(volumeBuf);
-                        ALOGD("Volume %d set from Polly", pollyVolumeLevel);
-                }
+			// get volume Polly sets
+			volumeStart=bufStart+strlen("volo,40,8,3,");
+			strncpy(volumeBuf, volumeStart, 2);
+			pollyVolumeLevel=atoi(volumeBuf);
+			ALOGD("Volume %d set from Polly", pollyVolumeLevel);
+		}
 
 		memset(&rbuff, 0, GBUFFSIZE);
 		memcpy(&rbuff[3], bufStart, cnt);
-                buff_len = 3+cnt;
+		buff_len = 3+cnt;
 
 		memcpy(&rbuff, AT_PREFIX, atlen);                 /* add AT+XDRV=           */
 		memcpy(&rbuff[buff_len], "\r\0", 2);              /* terminate string       */
@@ -120,18 +120,17 @@ int main() {
 		}
 		else if(buff_len >= CALLVOLUME_CMDLEN &&
 		       at_args_sane(&rbuff[atlen], buff_len-atlen) == 1) {
-			
-                        if(!strncmp(rbuff, VOLUME_SET_CMD, strlen(VOLUME_SET_CMD))){
-                                if(setVolumeFromPolly){
-                                        volumeStart=rbuff+strlen(VOLUME_SET_CMD);
-                                        strncpy(volumeBuf, volumeStart, 2);
-                                        volumeLevel = atoi(volumeBuf);
-                                        if (volumeLevel != pollyVolumeLevel) {
-                                                ALOGD("Ignoring volume %d that comes not from Polly", volumeLevel);
-                                                continue;
-                                        }
-                                }
-                        }
+			if(!strncmp(rbuff, VOLUME_SET_CMD, strlen(VOLUME_SET_CMD))){
+				if(setVolumeFromPolly){
+					volumeStart=rbuff+strlen(VOLUME_SET_CMD);
+					strncpy(volumeBuf, volumeStart, 2);
+					volumeLevel = atoi(volumeBuf);
+					if (volumeLevel != pollyVolumeLevel) {
+						ALOGD("Ignoring volume %d that comes not from Polly", volumeLevel);
+						continue;
+					}
+				}
+			}
 			alarm(AT_TIMEOUT);
 			send_xdrv_command(rbuff, pfd);
 			alarm(0);
