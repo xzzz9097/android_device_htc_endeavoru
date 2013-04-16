@@ -1,4 +1,4 @@
-#!/system/xbin/sh
+#!/system/bin/sh
 set -x
 #
 # overlay script - by AlienMind
