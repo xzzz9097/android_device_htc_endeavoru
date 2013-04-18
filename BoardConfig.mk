@@ -32,7 +32,7 @@ TARGET_PROVIDES_INIT_RC := true
 
 # assert
 TARGET_OTA_ASSERT_DEVICE := endeavoru
-TARGET_EXTRA_CFLAGS := -mtune=cortex-a9 -mcpu=cortex-a9 -fno-inline-functions -fno-ipa-cp-clone -fno-unswitch-loops -fno-tree-vectorize
+TARGET_EXTRA_CFLAGS := -mtune=cortex-a9 -mcpu=cortex-a9 -mfpu=neon -mfloat-abi=hard -fno-inline-functions -fno-ipa-cp-clone -fno-unswitch-loops -fno-tree-vectorize
 TARGET_CPU_ABI := armeabi-v7a
 TARGET_CPU_ABI2 := armeabi
 TARGET_CPU_SMP := true
@@ -43,7 +43,6 @@ TARGET_ARCH_VARIANT_FPU := neon
 ARCH_ARM_HAVE_32_BYTE_CACHE_LINES := true
 ARCH_ARM_HAVE_TLS_REGISTER := true
 #ARCH_ARM_USE_NON_NEON_MEMCPY := true
-
 TARGET_GCC_VERSION := 4.7
 TARGET_USE_O3 := true
 #TARGET_USE_GRAPHITE := true
@@ -54,13 +53,13 @@ TARGET_BOOTLOADER_BOARD_NAME :=
 
 # Linaro fixes
 # USE_OLD_MEMCPY := true
-USE_MORE_OPT_FLAGS := yes
-DEBUG_NO_STDCXX11 := yes
+#USE_MORE_OPT_FLAGS := yes
+#DEBUG_NO_STDCXX11 := yes
 # DEBUG_NO_STRICT_ALIASING := yes
 
 # Optimization build flags
-TARGET_GLOBAL_CFLAGS += -mtune=cortex-a9 -mcpu=cortex-a9 -fno-inline-functions -fno-ipa-cp-clone -fno-unswitch-loops -fno-tree-vectorize
-TARGET_GLOBAL_CPPFLAGS += -mtune=cortex-a9 -mcpu=cortex-a9 -fno-inline-functions -fno-ipa-cp-clone -fno-unswitch-loops -fno-tree-vectorize
+#TARGET_GLOBAL_CFLAGS += -mtune=cortex-a9 -mfpu=neon -mfloat-abi=softfp
+#TARGET_GLOBAL_CPPFLAGS += -mtune=cortex-a9 -mfpu=neon -mfloat-abi=softfp
 
 USE_OPENGL_RENDERER := true
 BOARD_EGL_CFG := device/htc/endeavoru/config/egl.cfg
