@@ -16,6 +16,9 @@
 **
 **
 */
+#define LOG_TAG "pollyd"
+
+#include <cutils/log.h>
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -32,15 +35,21 @@
 
 #include "pollyd.h"
 
-
-
 int main() {
+	ALOGD("startup");
 	int afd, pfd, cfd;
 	char rbuff[GBUFFSIZE];
 	size_t buff_len;
 	int atlen  = strlen(AT_PREFIX);
 	gid_t jgid;
-	
+        int setVolumeFromPolly = 0;
+        int pollyVolumeLevel = 0, volumeLevel;
+	char buf[GBUFFSIZE];
+	char* bufStart;
+        char* volumeStart;
+        char volumeBuf[2];
+        int cnt=0;
+
 	/* make socket unreadable */
 	umask( 0777 );
 
@@ -49,7 +58,7 @@ int main() {
 	pfd = get_pts_socket();
 	jgid= get_jpolly_gid();
 	
-	/* only allow write access to the media user */
+	/* only allow write access to the radio  user */
 	chown(SOCKET_PATH, USER_MEDIA, jgid);
 	chmod(SOCKET_PATH, S_IWUSR | S_IRUSR | S_IWGRP | S_IRGRP );
 	
@@ -62,7 +71,7 @@ int main() {
 	/* terminates process if modem is stuck */
 	signal(SIGALRM, suicide);
 	
-	DMSG("socket setup finished. afd=%d, pfd=%d", afd, pfd);
+	ALOGD("socket setup finished. afd=%d, pfd=%d", afd, pfd);
 	
 	while( (cfd = accept(afd, NULL, NULL)) ) {
 		
@@ -73,34 +82,68 @@ int main() {
 		  the AT command string is 3 bytes longer, so we read to rbuff[3]
 		  and overwrite the rest afterwards
 		*/
+		memset(&buf, 0, GBUFFSIZE);
+		cnt=read(cfd, &buf, GBUFFSIZE-3-2);
+		bufStart = buf;
+		// this message comes from Polly for setting volume
+		if(buf[0] == '@'){
+			if(buf[1] == '@'){
+            	setVolumeFromPolly=0;
+				pollyVolumeLevel=0;
+				continue;
+			}
+			cnt--;
+			setVolumeFromPolly=1;
+			// remove leading @
+			bufStart++;
+
+			// get volume Polly sets
+			volumeStart=bufStart+strlen("volo,40,8,3,");
+			strncpy(volumeBuf, volumeStart, 2);
+			pollyVolumeLevel=atoi(volumeBuf);
+			ALOGD("Volume %d set from Polly", pollyVolumeLevel);
+		}
+
 		memset(&rbuff, 0, GBUFFSIZE);
-		buff_len = 3+read(cfd, &rbuff[3], GBUFFSIZE-3-2); /* -3 = offset, -2 = \r\0 */
+		memcpy(&rbuff[3], bufStart, cnt);
+		buff_len = 3+cnt;
+
 		memcpy(&rbuff, AT_PREFIX, atlen);                 /* add AT+XDRV=           */
 		memcpy(&rbuff[buff_len], "\r\0", 2);              /* terminate string       */
 		
 		/* send command to modem if it looks ok */
 		if(buff_len == TERM_LEN &&
                        memcmp(&rbuff, TERM_MAGIC, TERM_LEN) == 0) {
-			DMSG("Poison cracker received, commiting suicide in %d seconds", TERM_DELAY);
+			ALOGD("Poison cracker received, commiting suicide in %d seconds", TERM_DELAY);
 			sleep(TERM_DELAY);
 			xdie("terminating");
 		}
 		else if(buff_len >= CALLVOLUME_CMDLEN &&
 		       at_args_sane(&rbuff[atlen], buff_len-atlen) == 1) {
-			
+			if(!strncmp(rbuff, VOLUME_SET_CMD, strlen(VOLUME_SET_CMD))){
+				if(setVolumeFromPolly){
+					volumeStart=rbuff+strlen(VOLUME_SET_CMD);
+					strncpy(volumeBuf, volumeStart, 2);
+					volumeLevel = atoi(volumeBuf);
+					if (volumeLevel != pollyVolumeLevel) {
+						ALOGD("Ignoring volume %d that comes not from Polly", volumeLevel);
+						continue;
+					}
+				}
+			}
 			alarm(AT_TIMEOUT);
 			send_xdrv_command(rbuff, pfd);
 			alarm(0);
 			
 		}
 		else {
-			DMSG("silently dropping invalid command with %d bytes len", buff_len);
+			ALOGD("silently dropping invalid command with %d bytes len", buff_len);
 		}
 		
 		close(cfd);
 	}
 	
-	DMSG("exiting, accept returned false on fd %d", afd);
+	ALOGD("exiting, accept returned false on fd %d", afd);
 	
 	close(afd);
 	close(pfd);
@@ -168,7 +211,7 @@ void send_xdrv_command(const char *cmd, int fd) {
 	tx.tv_sec = 0;
 	tx.tv_nsec = 75000000;
 	
-	DMSG(">>> %s", cmd);
+	ALOGD(">>> %s", cmd);
 	
 	if( write(fd, cmd, strlen(cmd)) == -1 )
 		xdie("mux error: write failed");
@@ -177,12 +220,9 @@ void send_xdrv_command(const char *cmd, int fd) {
 	
 	bread = read(fd, &atbuff, GBUFFSIZE);
 	
-	DMSG("<<< %d bytes", bread);
+	ALOGD("<<< %d bytes", bread);
 	/* fixme: this should probably search for \r\nOK\r\n */
 }
-
-
-
 
 /*
 ** Try to grab a new pty
@@ -198,10 +238,10 @@ int get_pts_socket() {
 		snprintf(pts_path, GBUFFSIZE,"/dev/pts/%d", i);
 		snprintf(fuser_cmd, GBUFFSIZE, "/system/xbin/fuser %s", pts_path);
 		
-		DMSG("Searching for %s, executing %s", pts_path, fuser_cmd);
+		ALOGD("Searching for %s, executing %s", pts_path, fuser_cmd);
 		
 		if( (system(fuser_cmd) != 0) && (pts_fd = open(pts_path, O_RDWR)) != -1 ) {
-			DMSG("Free pty is at %s, opened as fd %d", pts_path, pts_fd);
+			ALOGD("Free pty is at %s, opened as fd %d", pts_path, pts_fd);
 			break;
 		}
 	}
@@ -245,7 +285,7 @@ void suicide(int sig) {
 ** Die with a fatal error
 */
 void xdie(char *msg) {
-	fprintf(stderr, "FATAL: %s - exiting in %d seconds\n", msg, SEC_SLEEP);
+	ALOGD("FATAL: %s - exiting in %d seconds\n", msg, SEC_SLEEP);
 	sleep(SEC_SLEEP); /* we get respawn by init - sleep */
 	exit(1);
 }

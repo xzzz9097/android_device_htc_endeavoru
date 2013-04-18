@@ -26,7 +26,7 @@
 #define SOCKET_PATH "/dev/socket/rild-audio-gsm"    /* socket to use                             */
 #define AT_PREFIX "AT+XDRV="                        /* Prefix for the AT-Commands we are sending */
 
-#define USER_MEDIA  1013                            /* owner of audio socket and our UID         */
+#define USER_MEDIA  1013                              /* owner of audio socket and our UID         */
 #define JPOLLY_PATH \
       "/data/data/ch.blinkenlights.android.polly"   /* We will inherit our GID from the owner    */
 
@@ -40,11 +40,7 @@
 #define TERM_LEN   strlen(TERM_MAGIC)
 #define TERM_DELAY 10-SEC_SLEEP                     /* sleep X second after receiving TERM_MAGIC */
 
-/* for debugging */
-#define DEBUG 1
-#define DMSG(fmt, ...) \
-        do { if (DEBUG) { fprintf(stderr, "DEBUG(%-20s): ", __func__); fprintf(stderr, fmt, __VA_ARGS__); fprintf(stderr, "\n"); }} while (0)
-
+#define VOLUME_SET_CMD "AT+XDRV=40,8,3,"
 
 void xdie(char *msg);
 void send_xdrv_command(const char *cmd, int fd);

@@ -31,6 +31,17 @@ import android.media.AudioManager;
 import android.net.LocalSocket;
 import android.net.LocalSocketAddress;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.IllegalAccessException;
+import java.lang.IllegalArgumentException;
+import java.lang.ClassNotFoundException;
+import java.lang.NoSuchMethodException;
+import java.lang.reflect.Method;
+import java.lang.Exception;
+import java.io.IOException;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
 
 public class PollyService extends Service {
 	private final IBinder ply_binder        = new LocalBinder();
@@ -41,6 +52,8 @@ public class PollyService extends Service {
 	private AudioManager aMgr;
 	private TelephonyManager tMgr;
 	private int lastvol = -1;
+    private boolean inCall = false;
+    private static String TAG = "PollyService";
 	
 	@Override
 	public IBinder onBind(Intent i) {
@@ -52,12 +65,14 @@ public class PollyService extends Service {
 			return PollyService.this;
 		}
 	}
-	
+
 	@Override
 	public void onCreate() {
 		aMgr = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
 		tMgr = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
-		
+        // initial value
+    	lastvol = aMgr.getStreamVolume(aMgr.STREAM_VOICE_CALL);
+
 		registerReceiver(ply_receiver, new IntentFilter(INTENT_VOLUME));    /* undocumented */
 		registerReceiver(ply_receiver, new IntentFilter(INTENT_AIRPLANE));
 		registerReceiver(ply_receiver, new IntentFilter(INTENT_PHONESTATE));
@@ -71,10 +86,9 @@ public class PollyService extends Service {
 	private final BroadcastReceiver ply_receiver = new BroadcastReceiver() {
 		@Override
 		public void onReceive(Context ctx, Intent intent) {
-			
 			String ia = intent.getAction();
 			
-			// xlog("intent "+ia+" received");
+			xlog("intent "+ia+" received");
 			
 			if(ia == INTENT_VOLUME)     { updateIncallVolume();       }
 			if(ia == INTENT_PHONESTATE) { checkPhoneState();          }
@@ -89,16 +103,22 @@ public class PollyService extends Service {
 		private void updateIncallVolume() {
 			
 			/* android volumes go from 0-5
-			** but the modem expects 44-94
+			** but the modem expects 32-92
 			*/
 			int curvol    = aMgr.getStreamVolume(aMgr.STREAM_VOICE_CALL);
-			String vparam = "volo,40,8,3,"+(44+curvol*10);
 			
 			if(lastvol != curvol) {
+			    String vparam = "@volo,40,8,3,"+(32+curvol*13);
 				xlog("updating incall volume: "+vparam);
 				sendToPollySocket(vparam);
 				lastvol = curvol;
 			}
+		}
+
+		private void resetIncallVolume() {
+			String vparam = "@@";
+        	xlog("reset incall volume: "+vparam);
+			sendToPollySocket(vparam);
 		}
 		
 		/**************************************************************
@@ -108,21 +128,14 @@ public class PollyService extends Service {
 		**************************************************************/
 		private void checkPhoneState() {
 			if(tMgr.getCallState() == tMgr.CALL_STATE_OFFHOOK) {
-				xlog("switched to INCALL mode - setting initial volume");
+				xlog("we are IN_CALL - forcing audio setting");
 				lastvol = -1;
 				updateIncallVolume();
-				
-				/* the modem may suffer from alzheimer's, a hacky
-				** solution is to sleep 1 second and send it again.
-				** I don't like this, but we have NO IDEA when the
-				** modem is ready. Thank you HTC.
-				*/
-				try {Thread.sleep(1000);}
-					catch (InterruptedException e) { xlog("Sleep was interrupted"); }
-				
-				xlog("sent incall volume a 2nd time");
-				lastvol = -1;
-				updateIncallVolume();
+				inCall = true;
+			} else if(inCall && tMgr.getCallState() == tMgr.CALL_STATE_IDLE) {
+				xlog("we are END_CALL - reset audio setting");
+				resetIncallVolume();
+				inCall = false;
 			}
 		}
 		
@@ -138,7 +151,6 @@ public class PollyService extends Service {
 				xlog("exiting airplane state, restarting pollyd");
 				sendToPollySocket("kill,DEAD_PARROT"); // from pollyd.h kill, -> dummy space (volo,)
 			}
-			
 		}
 		
 		
@@ -151,7 +163,9 @@ public class PollyService extends Service {
 				lsock.connect(new LocalSocketAddress(rild_socket, LocalSocketAddress.Namespace.FILESYSTEM));
 				lsock.getOutputStream().write(whatever.getBytes());
 			}
-			catch (Exception e) {}
+			catch (Exception e) {
+				xlog("sendToPollySocket "+e);
+            }
 			
 			try {
 				lsock.close();
@@ -163,9 +177,7 @@ public class PollyService extends Service {
 		** Send given string to android log                          **
 		**************************************************************/
 		private void xlog(String msg) {
-			Log.d("PollyService", msg);
+			Log.d(TAG, msg);
 		}
-		
-		
 	};
 }
