@@ -32,6 +32,10 @@ PRODUCT_PROPERTY_OVERRIDES += \
 PRODUCT_PROPERTY_OVERRIDES += \
     dalvik.vm.dexopt-data-only=1
 
+# Cell Broadcasts
+PRODUCT_PROPERTY_OVERRIDES += \
+    ro.cellbroadcast.emergencyids=0-65534
+
 # EndeavorU is similar to Galaxy Nexus in terms of RAM
 include frameworks/native/build/phone-xhdpi-1024-dalvik-heap.mk
 
