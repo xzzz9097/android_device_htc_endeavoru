@@ -17,5 +17,6 @@ public class Startup extends BroadcastReceiver {
         BacklightBrightness.restore(context);
         SlowBlinkBrightnessLimit.restore(context);
         DoubleTap2WakeSwitch.restore(context);
+        DoubleTap2WakeDuration.restore(context);
     }
 }

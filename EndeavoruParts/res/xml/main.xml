@@ -14,7 +14,7 @@
 	        android:key="s2w_stroke"
 	        android:title="@string/s2w_stroke_title_head"
 	        android:summary="@string/s2w_stroke_summary_head"
-                android:dependency="s2w_switch"
+            android:dependency="s2w_switch"
 	        android:entries="@array/s2w_stroke_entries"
 	        android:entryValues="@array/s2w_stroke_entries_values" />
 `		<!-- s2w min length -->
@@ -22,7 +22,7 @@
 	        android:key="s2w_length"
 	        android:title="@string/s2w_length_title_head"
 	        android:summary="@string/s2w_length_summary_head"
-                android:dependency="s2w_switch"
+            android:dependency="s2w_switch"
 	        android:entries="@array/s2w_length_entries"
 	        android:entryValues="@array/s2w_length_entries_values" />
 	</PreferenceCategory>
@@ -34,6 +34,14 @@
 	        android:key="s2w_double_tap_wake"
 	        android:title="@string/s2w_double_tap_wake_title_head"
 	        android:summary="@string/s2w_double_tap_wake_summary_head" />
+`		<!-- s2w min length -->
+	    <ListPreference
+	        android:key="s2w_double_tap_duration"
+	        android:title="@string/s2w_double_tap_duration_title_head"
+	        android:summary="@string/s2w_double_tap_duration_summary_head"
+            android:dependency="s2w_double_tap_wake"
+	        android:entries="@array/s2w_double_tap_duration_entries"
+	        android:entryValues="@array/s2w_double_tap_duration_values" />
 	</PreferenceCategory>
 
 	<PreferenceCategory
