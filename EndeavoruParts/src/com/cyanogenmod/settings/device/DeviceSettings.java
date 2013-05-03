@@ -22,6 +22,7 @@ public class DeviceSettings extends PreferenceActivity  {
     public static final String KEY_SMARTDIMMERSWITCH = "smartdimmer_switch";
     public static final String KEY_BACKLIGHTBRIGHTNESS = "backlight_brightness";
     public static final String KEY_SLOWBLINKBRIGHTNESSLIMIT = "slow_blink_brightness_limit";
+    public static final String KEY_DOUBLETAB2WAKE_SWITCH = "s2w_double_tap_wake";
 
     private TwoStatePreference mS2WSwitch;
     private ListPreference mS2WStroke;
@@ -31,6 +32,7 @@ public class DeviceSettings extends PreferenceActivity  {
     private TwoStatePreference mSmartDimmerSwitch;
     private ListPreference mBacklightBrightness;
     private TwoStatePreference mSlowBlinkBrightnessLimit;
+    private TwoStatePreference mDoubleTap2WakeSwitch;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -51,6 +53,11 @@ public class DeviceSettings extends PreferenceActivity  {
         mS2WLength.setEnabled(Sweep2WakeMinLength.isSupported());
         mS2WLength.setValue(squashLengthValue(Sweep2WakeMinLength.getValue(this)));
         mS2WLength.setOnPreferenceChangeListener(new Sweep2WakeMinLength());
+
+        mDoubleTap2WakeSwitch = (TwoStatePreference) findPreference(KEY_DOUBLETAB2WAKE_SWITCH);
+        mDoubleTap2WakeSwitch.setEnabled(DoubleTap2WakeSwitch.isSupported());
+        mDoubleTap2WakeSwitch.setChecked(DoubleTap2WakeSwitch.isEnabled(this));
+        mDoubleTap2WakeSwitch.setOnPreferenceChangeListener(new DoubleTap2WakeSwitch());
 
         mBacklightDisable = (TwoStatePreference) findPreference(KEY_BACKLIGHTDISABLE);
         mBacklightDisable.setEnabled(BacklightDisable.isSupported());

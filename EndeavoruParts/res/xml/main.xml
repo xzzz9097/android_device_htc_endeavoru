@@ -26,6 +26,15 @@
 	        android:entries="@array/s2w_length_entries"
 	        android:entryValues="@array/s2w_length_entries_values" />
 	</PreferenceCategory>
+	
+	<PreferenceCategory
+    	android:title="@string/category_s2w_double_tap_title">
+	    <!-- s2w dopuble tap Options -->
+	    <CheckBoxPreference
+	        android:key="s2w_double_tap_wake"
+	        android:title="@string/s2w_double_tap_wake_title_head"
+	        android:summary="@string/s2w_double_tap_wake_summary_head" />
+	</PreferenceCategory>
 
 	<PreferenceCategory
 	android:title="@string/category_backlightdisable_title">
