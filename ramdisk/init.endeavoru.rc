@@ -131,6 +131,11 @@ on boot
     chmod 0666 /sys/android_touch/s2w_min_distance
     chmod 0666 /sys/android_touch/s2w_register_threshold
 
+    chown system system /sys/android_touch/s2w_allow_double_tap
+    chown system system /sys/android_touch/s2w_double_tap_duration
+    chown system system /sys/android_touch/s2w_double_tap_threshold
+    chown system system /sys/android_touch/s2w_double_tap_barrier_y
+
     # Preload app folder
     mkdir /data/preload 0771 system system
 
