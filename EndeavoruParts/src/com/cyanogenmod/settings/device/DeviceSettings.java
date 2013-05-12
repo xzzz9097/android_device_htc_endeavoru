@@ -24,7 +24,6 @@ public class DeviceSettings extends PreferenceActivity  {
     public static final String KEY_SLOWBLINKBRIGHTNESSLIMIT = "slow_blink_brightness_limit";
     public static final String KEY_DOUBLETAB2WAKE_SWITCH = "s2w_double_tap_wake";
     public static final String KEY_DOUBLETAP2WAKE_DURATION = "s2w_double_tap_duration";
-    public static final String KEY_CALIBRATIONCONTROL_SWITCH = "calibration_control";
 
     private TwoStatePreference mS2WSwitch;
     private ListPreference mS2WStroke;
@@ -36,7 +35,6 @@ public class DeviceSettings extends PreferenceActivity  {
     private TwoStatePreference mSlowBlinkBrightnessLimit;
     private TwoStatePreference mDoubleTap2WakeSwitch;
     private ListPreference mDoubleTap2WakeDuration;
-    private TwoStatePreference mCalibrationControl;
     
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -63,15 +61,10 @@ public class DeviceSettings extends PreferenceActivity  {
         mDoubleTap2WakeSwitch.setChecked(DoubleTap2WakeSwitch.isEnabled(this));
         mDoubleTap2WakeSwitch.setOnPreferenceChangeListener(new DoubleTap2WakeSwitch());
 
-        mDoubleTap2WakeDuration = (ListPreference) findPreference(KEY_DOUBLETAP2WAKE_DURATION);
+		mDoubleTap2WakeDuration = (ListPreference) findPreference(KEY_DOUBLETAP2WAKE_DURATION);
         mDoubleTap2WakeDuration.setEnabled(DoubleTap2WakeDuration.isSupported());
         mDoubleTap2WakeDuration.setValue(squashDurationValue(DoubleTap2WakeDuration.getValue(this)));
         mDoubleTap2WakeDuration.setOnPreferenceChangeListener(new DoubleTap2WakeDuration());
-
-        mCalibrationControl = (TwoStatePreference) findPreference(KEY_CALIBRATIONCONTROL_SWITCH);
-        mCalibrationControl.setEnabled(CalibrationControl.isSupported());
-        mCalibrationControl.setChecked(CalibrationControl.isEnabled(this));
-        mCalibrationControl.setOnPreferenceChangeListener(new CalibrationControl());
         
         mBacklightDisable = (TwoStatePreference) findPreference(KEY_BACKLIGHTDISABLE);
         mBacklightDisable.setEnabled(BacklightDisable.isSupported());
