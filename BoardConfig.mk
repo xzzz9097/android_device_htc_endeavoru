@@ -57,8 +57,6 @@ USE_MORE_OPT_FLAGS := yes
 DEBUG_NO_STDCXX11 := yes
 DEBUG_NO_STRICT_ALIASING := yes
 
-TARGET_ARM_OPTIMIZATIONS := true
-
 # Optimization build flags
 TARGET_GLOBAL_CFLAGS += -mtune=cortex-a9 -mcpu=cortex-a9 -mfpu=neon -mfloat-abi=softfp -fno-inline-functions -fno-ipa-cp-clone -fno-unswitch-loops -fno-tree-vectorize
 TARGET_GLOBAL_CPPFLAGS += -mtune=cortex-a9 -mcpu=cortex-a9 -mfpu=neon -mfloat-abi=softfp -fno-inline-functions -fno-ipa-cp-clone -fno-unswitch-loops -fno-tree-vectorize
