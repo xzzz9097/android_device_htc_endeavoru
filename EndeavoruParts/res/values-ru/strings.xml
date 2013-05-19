@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Дополнительные настройки</string>
+    <string name="category_s2w_title">Sweep2Wake</string>
+    <string name="s2w_switch_title_head">Включить</string>
+    <string name="s2w_switch_summary_head">Включение/Выключение Экрана проведя пальцем по кнопкам</string>
+    <string name="s2w_stroke_title_head">Направление</string>
+    <string name="s2w_stroke_summary_head">Установить направление, чтобы слева-вправо включение и право-налево выключение</string>
+    <string name="s2w_length_title_head">Минимальная длина</string>
+    <string name="s2w_length_summary_head">Установить количество кнопок для включения Включения/Выключение экрана</string>
+    <string name="category_s2w_double_tap_title">ДвойнойТап2Wake</string>
+    <string name="s2w_double_tap_wake_title_head">Дважды нажать, что бы разбудить</string>
+    <string name="s2w_double_tap_wake_summary_head">Switch phone screen on with a double tap on the lower screen area</string>
+    <string name="s2w_double_tap_duration_title_head">Double tap duration</string>
+    <string name="s2w_double_tap_duration_summary_head">Минимальная продолжительность в мс между двумя нажатиями, чтобы включить экран</string>
+    <string name="calibration_control_title_head">Контроль Калибровки</string>
+    <string name="calibration_control_summary_head">Отключить решение multi-touch, DT2W включена</string>
+    <string name="category_usb_title">USB</string>
+    <string name="fastcharge_title_head">Быстрая зарядка</string>
+    <string name="fastcharge_summary_head">Позволяют сделать больше мощности при подключении к USB порту ПК</string>
+    <string name="category_backlightdisable_title">Подсветка</string>
+    <string name="backlightdisable_title_head">Отключение подсветки кнопок</string>
+    <string name="backlightdisable_summary_head">Выберите для отключения емкостных кнопки подсветки</string>
+    <string name="backlightnotification_title_head">Уведомления подсветкой кнопок</string>
+    <string name="backlightnotification_summary_head">Выберите, чтобы включить емкостные кнопки подсветки для уведомлений о событиях</string>
+    <string name="backlightbrightness_title_head">Кнопка яркости подсветки</string>
+    <string name="backlightbrightness_summary_head">Установка яркости для емкостных кнопок</string>
+    <string name="slowblinkbrightnesslimit_title_head">Яркость Уведомлений</string>
+    <string name="slowblinkbrightnesslimit_summary_head">Вкл/Выкл заданную яркость на Уведомления</string>
+    <string name="category_smartdimmer_title">nVidia SmartDimmer</string>
+    <string name="smartdimmer_switch_title_head">Включить</string>
+    <string name="smartdimmer_switch_summary_head">Коммутатор NVIDIA SmartDimmer Вкл/Выкл (включение экономит батареи с меньшим подсветки и контрастнее / цвета, отключение должно дать яркий ЖКД)</string>
+    <string name="gpu_oc_summary">Изменить GPU 416MHz Freqs (OFF) - 520МГц (ON).</string>
+    <string name="audiofreq">Увеличение частоты Аудио Мин</string>
+    <string name="audiofreq_summary">Установите минимальную частоту от 51 на 204MHz для прослушивания музики в Блок.Экране.</string>
+</resources>

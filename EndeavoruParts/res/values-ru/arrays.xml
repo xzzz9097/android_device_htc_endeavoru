@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="s2w_stroke_entries">
+        <item>Все направления</item>
+        <item>Зависит от направления</item>
+    </string-array>
+    <string-array name="s2w_length_entries">
+        <item>1 кнопка</item>
+        <item>2 кнопки</item>
+        <item>3 кнопки</item>
+    </string-array>
+    <string-array name="s2w_stroke_entries_values">
+        <item>1</item>
+        <item>0</item>
+    </string-array>
+    <string-array name="s2w_length_entries_values">
+        <item>325</item>
+        <item>500</item>
+        <item>850</item>
+    </string-array>
+</resources>
