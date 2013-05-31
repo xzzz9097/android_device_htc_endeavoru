@@ -166,8 +166,10 @@ ro.product.hwreset=1
 ro.product.hwreset.timer1=5
 ro.product.hwreset.timer2=8
 
-# HDMI
-ro.hdmi.enable=true
+#HDMI
+#ro.hdmi.enable=true
+# temporary fix for HDMI output, for videos it works now in correct landscape with this set
+#persist.demo.hdmirotation=portrait
 
 # force gpu rendering(2d drawing) [Nvidia setting - libhtc-opt2.so]
 persist.sys.ui.hw=true
