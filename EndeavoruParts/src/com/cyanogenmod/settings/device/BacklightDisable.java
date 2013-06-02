@@ -33,11 +33,9 @@ public class BacklightDisable implements OnPreferenceChangeListener {
         File blFile = new File(FILE);
         blFile.setWritable(true);
         if(enabled) {
+        	// make sure its off before making it r/o
             Utils.writeValue(FILE, "0");
             blFile.setWritable(false);
-        }
-        else {
-            Utils.writeValue(FILE, "1");
         }
     }
 
@@ -47,11 +45,9 @@ public class BacklightDisable implements OnPreferenceChangeListener {
         File blFile = new File(FILE);
         blFile.setWritable(true);
         if(enabled) {
+            // make sure its off before making it r/o
             Utils.writeValue(FILE, "0");
             blFile.setWritable(false);
-        }
-        else {
-            Utils.writeValue(FILE, "1");
         }
         return true;
     }
