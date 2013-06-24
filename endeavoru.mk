@@ -226,6 +226,5 @@ PRODUCT_PACKAGES += \
         DSPManager \
         libcyanogen-dsp \
         audio_effects.conf \
-        JellyBlue_X
 
 $(call inherit-product-if-exists, vendor/htc/endeavoru/endeavoru-vendor.mk)
