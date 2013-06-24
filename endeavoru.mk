@@ -114,6 +114,10 @@ PRODUCT_COPY_FILES += \
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/media_codecs.xml:system/etc/media_codecs.xml
 
+# bluetooth config
+PRODUCT_COPY_FILES += \
+    system/bluetooth/data/main.conf:system/etc/bluetooth/main.conf
+
 # configs
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/config/enctune.conf:system/etc/enctune.conf \
@@ -201,6 +205,7 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
     EndeavoruParts
 
+
 # Wi-Fi
 PRODUCT_PACKAGES += \
     dhcpcd.conf \
@@ -211,5 +216,16 @@ PRODUCT_PACKAGES += \
     regulatory.bin \
     calibrator \
     wlconf
+
+# Custom Packages
+PRODUCT_PACKAGES += \
+        Music \
+        CMFileManager \
+        CellBroadcastReceiver \
+        Apollo \
+        DSPManager \
+        libcyanogen-dsp \
+        audio_effects.conf \
+        JellyBlue_X
 
 $(call inherit-product-if-exists, vendor/htc/endeavoru/endeavoru-vendor.mk)
