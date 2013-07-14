@@ -32,7 +32,6 @@ TARGET_PROVIDES_INIT_RC := true
 
 # assert
 TARGET_OTA_ASSERT_DEVICE := endeavoru
-TARGET_EXTRA_CFLAGS := -mtune=cortex-a9 -mcpu=cortex-a9 -mfpu=neon -mfloat-abi=hard -fno-inline-functions -fno-ipa-cp-clone -fno-unswitch-loops -fno-tree-vectorize
 TARGET_CPU_ABI := armeabi-v7a
 TARGET_CPU_ABI2 := armeabi
 TARGET_CPU_SMP := true
@@ -44,9 +43,11 @@ ARCH_ARM_HAVE_32_BYTE_CACHE_LINES := true
 ARCH_ARM_HAVE_TLS_REGISTER := true
 #ARCH_ARM_USE_NON_NEON_MEMCPY := true
 TARGET_GCC_VERSION := 4.7
+#TARGET_TOOLS_PREFIX := /home/marco/Pubblici/Android/PA/android/system/prebuilts/gcc/linux-x86/arm/arm-linux-androideabi-4.7/bin/arm-linux-androideabi-
 TARGET_USE_O3 := true
 TARGET_USE_GRAPHITE := true
 TARGET_USE_LINARO_STRING_ROUTINES := true
+TARGET_EXTRA_CFLAGS := -O3 -fstrict-aliasing -mtune=cortex-a9 -mcpu=cortex-a9 -mfpu=neon -mfloat-abi=softfp -fno-inline-functions -fno-ipa-cp-clone -fno-unswitch-loops -fno-tree-vectorize
 
 TARGET_NO_BOOTLOADER := true
 TARGET_BOOTLOADER_BOARD_NAME := 
@@ -54,12 +55,12 @@ TARGET_BOOTLOADER_BOARD_NAME :=
 # Linaro fixes
 # USE_OLD_MEMCPY := true
 USE_MORE_OPT_FLAGS := yes
-DEBUG_NO_STDCXX11 := yes
-DEBUG_NO_STRICT_ALIASING := yes
+#DEBUG_NO_STDCXX11 := yes
+#DEBUG_NO_STRICT_ALIASING := yes
 
 # Optimization build flags
-TARGET_GLOBAL_CFLAGS += -mtune=cortex-a9 -mcpu=cortex-a9 -mfpu=neon -mfloat-abi=softfp -fno-inline-functions -fno-ipa-cp-clone -fno-unswitch-loops -fno-tree-vectorize
-TARGET_GLOBAL_CPPFLAGS += -mtune=cortex-a9 -mcpu=cortex-a9 -mfpu=neon -mfloat-abi=softfp -fno-inline-functions -fno-ipa-cp-clone -fno-unswitch-loops -fno-tree-vectorize
+#TARGET_GLOBAL_CFLAGS += -mtune=cortex-a9 -mcpu=cortex-a9 -mfpu=neon -mfloat-abi=softfp -fno-inline-functions -fno-ipa-cp-clone -fno-unswitch-loops -fno-tree-vectorize
+#TARGET_GLOBAL_CPPFLAGS += -mtune=cortex-a9 -mcpu=cortex-a9 -mfpu=neon -mfloat-abi=softfp -fno-inline-functions -fno-ipa-cp-clone -fno-unswitch-loops -fno-tree-vectorize
 
 USE_OPENGL_RENDERER := true
 BOARD_EGL_CFG := device/htc/endeavoru/config/egl.cfg
@@ -112,8 +113,26 @@ COMMON_GLOBAL_CFLAGS             += -DUSES_TI_MAC80211
 endif
 
 # Kernel
-# TARGET_KERNEL_SOURCE := kernel/htc/endeavoru
-# TARGET_KERNEL_CONFIG := cyanogenmod_endeavoru_defconfig
+#TARGET_KERNEL_SOURCE := kernel/htc/endeavoru
+#TARGET_KERNEL_CONFIG := ap33_android_defconfig
+#TARGET_KERNEL_CUSTOM_TOOLCHAIN := arm-eabi-4.7-linarokernel
+
+# Building wifi modules
+#TARGET_MODULES_SOURCE := "kernel/htc/endeavoru/drivers/net/wireless/compat-wireless_R5.SP2.03"
+#TARGET_MODULES_SOURCE_DIR := "compat-wireless_R5.SP2.03"
+
+#WIFI_MODULES:
+#	rm -rf $(KERNEL_OUT)/COMPAT
+#	mkdir $(KERNEL_OUT)/COMPAT
+#	cp -rf $(TARGET_MODULES_SOURCE) $(KERNEL_OUT)/COMPAT
+#	make -C $(KERNEL_OUT)/COMPAT/$(TARGET_MODULES_SOURCE_DIR) O=$(KERNEL_OUT)/COMPAT KERNEL_DIR=$(KERNEL_OUT) KLIB=$(KERNEL_OUT) KLIB_BUILD=$(KERNEL_OUT) ARCH=$(TARGET_ARCH) $(ARM_CROSS_COMPILE)
+#	mv $(KERNEL_OUT)/COMPAT/$(TARGET_MODULES_SOURCE_DIR)/compat/compat.ko $(KERNEL_MODULES_OUT)
+#	mv $(KERNEL_OUT)/COMPAT/$(TARGET_MODULES_SOURCE_DIR)/net/mac80211/mac80211.ko $(KERNEL_MODULES_OUT)
+#	mv $(KERNEL_OUT)/COMPAT/$(TARGET_MODULES_SOURCE_DIR)/net/wireless/cfg80211.ko $(KERNEL_MODULES_OUT)
+#	mv $(KERNEL_OUT)/COMPAT/$(TARGET_MODULES_SOURCE_DIR)/drivers/net/wireless/wl12xx/wl12xx.ko $(KERNEL_MODULES_OUT)
+#	mv $(KERNEL_OUT)/COMPAT/$(TARGET_MODULES_SOURCE_DIR)/drivers/net/wireless/wl12xx/wl12xx_sdio.ko $(KERNEL_MODULES_OUT)
+#
+#TARGET_KERNEL_MODULES := WIFI_MODULES
 
 # Kernel building
 TARGET_USE_PREBUILT_KERNEL := true
