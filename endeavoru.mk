@@ -209,8 +209,9 @@ PRODUCT_PACKAGES += \
     TQS_D_1.7.ini \
     crda \
     regulatory.bin \
-    calibrator \
-    wlconf
+    calibrator
+
+#    wlconf
 
 # Custom Packages
 PRODUCT_PACKAGES += \

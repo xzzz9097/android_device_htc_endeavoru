@@ -199,3 +199,6 @@ ro.icj.tester=icke
 
 # RC: cahrging LED always ON
 persist.sys.enable-charging-led=1
+
+# Enable legacy screenshot code for older Tegra 3 EGL libs
+ro.bq.gpu_to_cpu_unsupported=1
