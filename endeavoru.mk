@@ -202,6 +202,7 @@ PRODUCT_PACKAGES += \
 
 
 # Wi-Fi
+PRODUCT_COPY_FILES += $(LOCAL_PATH)/prebuilt/bin/wifi_calibration.sh:system/bin/wifi_calibration.sh
 PRODUCT_PACKAGES += \
     dhcpcd.conf \
     hostapd.conf \
