@@ -43,7 +43,7 @@ TARGET_CPU_VARIANT := cortex-a9
 ARCH_ARM_HAVE_32_BYTE_CACHE_LINES := true
 ARCH_ARM_HAVE_TLS_REGISTER := true
 #ARCH_ARM_USE_NON_NEON_MEMCPY := true
-TARGET_GCC_VERSION := 4.7
+TARGET_GCC_VERSION := 4.9
 #TARGET_TOOLS_PREFIX := /home/marco/Pubblici/Android/PA/android/system/prebuilts/gcc/linux-x86/arm/arm-linux-androideabi-4.7/bin/arm-linux-androideabi-
 TARGET_USE_O3 := true
 TARGET_USE_GRAPHITE := true
@@ -115,7 +115,7 @@ endif
 
 # Kernel
 #TARGET_KERNEL_SOURCE := kernel/htc/endeavoru
-#TARGET_KERNEL_CONFIG := ap33_android_defconfig
+#TARGET_KERNEL_CONFIG := cyanogenmod_endeavoru_defconfig
 #TARGET_KERNEL_CUSTOM_TOOLCHAIN := arm-eabi-4.7-linarokernel
 
 # Building wifi modules

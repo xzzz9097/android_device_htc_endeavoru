@@ -219,6 +219,7 @@ PRODUCT_PACKAGES += \
         CMFileManager \
         CellBroadcastReceiver \
         Apollo \
+				Torch \
         DSPManager \
         libcyanogen-dsp \
         audio_effects.conf \
