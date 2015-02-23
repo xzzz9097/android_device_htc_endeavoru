@@ -243,3 +243,6 @@ persist.preload.common=0
 #net.bt.name=Android
 #dalvik.vm.stack-trace-file=/data/anr/traces.txt
 tf.enable=y
+
+# Enable USB OTG (CAF commit to Settings)
+persist.sys.isUsbOtgEnabled=true
